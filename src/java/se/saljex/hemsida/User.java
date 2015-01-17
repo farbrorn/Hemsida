@@ -16,7 +16,9 @@ public class User {
 	String kontaktMail;
 	String kundnr;
 	String kundNamn;
-
+	String kundSaljare;
+	Integer lagernr;
+	
 	public Integer getKontaktId() {
 		return kontaktId;
 	}
@@ -55,6 +57,22 @@ public class User {
 
 	public void setKundNamn(String kundNamn) {
 		this.kundNamn = kundNamn;
+	}
+
+	public String getKundSaljare() {
+		return kundSaljare;
+	}
+
+	public void setKundSaljare(String kundSaljare) {
+		this.kundSaljare = kundSaljare;
+	}
+
+	public Integer getLagernr() {
+		return lagernr==null ? 0 : lagernr;
+	}
+
+	public void setLagernr(Integer lagernr) {
+		this.lagernr = lagernr;
 	}
 	
 		

@@ -39,7 +39,9 @@
                 var e = document.getElementById(variantid);
                 var antal = document.getElementById(antalid).value;
                 if (antal == null || isNaN(antal)) antal=1;
-                var variant = e.options[e.selectedIndex];
+                var variant=null;
+                if (e.options in e) variant = e.options[e.selectedIndex]; 
+                if (variant==null) variant=e;
                 var artnr = variant.getAttribute("aid");
                 ajaxRequest("<%= request.getContextPath() + "/varukorg" %>" + "?<%= Const.PARAM_VARUKORG_AC + "=" + Const.PARAM_VARUKORG_AC_ADD + "&" + Const.PARAM_VARUKORG_GET + "=" + Const.PARAM_VARUKORG_GET_AJAX + "&" + Const.PARAM_KLASID + "=" %>" + klasid +"<%= "&" + Const.PARAM_ARTNR +"=" %>" + encodeURIComponent(artnr) + "<%= "&" + Const.PARAM_ANTAL + "=" %>" + antal,"vk-content");
             }
@@ -77,6 +79,37 @@ function callback(serverData, serverStatus, id) {
 		//document.getElementById(id).innerHTML = 'Laddar...'; 
 	}
 }
+ 
+ 
+ function supports_history_api() {
+  return !!(window.history && history.pushState);
+}
+window.onload = function() {
+  if (!supports_history_api()) { return; }
+  window.setTimeout(function() {
+    window.addEventListener("popstate", function(e) {
+      ajaxRequest(addAjxToUrl(location.pathname),"content");
+    }, false);
+  }, 1);
+}
+
+function addAjxToUrl(url) {
+        var o;
+        if (url.indexOf("?") > 0) o = url + "&g=c"; else o = url + "?g=c";
+        return o;
+    }
+    
+function ajxCont(e,element) {
+    if (supports_history_api()) {
+        e.preventDefault();
+        var o;
+        var openThis = document.getElementById(element).href;
+        o = addAjxToUrl(openThis);
+        ajaxRequest(o,"content");
+        history.pushState({state:1}, "", openThis);
+        return false;
+    }
+   }
  
 function ajaxRequest(openThis, id) {
  
@@ -124,11 +157,11 @@ function ajaxRequest(openThis, id) {
                 </div>
                 <div class="site-header-vk-btn" onclick="vkShow()">Varukorg &#812;
                 </div>
-                    <div class="site-header-vk-btn" onclick="vkShow()">
+                    <div class="site-header-userinfo" onclick="vkShow()">
                         <% if (Const.getSessionData(request).getInloggadKontaktId()==null) {
-                            %> <a href="<%= request.getContextPath() %>/login">Logga in</a><%
+                            %> <div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/login">Logga in</a></div><%
                         } else {
-                            %> <a href="<%= request.getContextPath() %>/loout">Logga ut</a><%                            
+                            %> <div class="site-header-userinfo-namn"><%= Const.toHtml(Const.getSessionData(request).getInloggadKontaktNamn()) %></div><div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/logout">Logga ut</a></div><%                            
                         } %>
                     </div>
                 <div class="site-header-kassa-btn a-btn" onclick="vkShow()">

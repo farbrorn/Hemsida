@@ -9,7 +9,7 @@
 <%@page import="se.saljex.hemsida.SessionData"%>
 <%
     SessionData sd = Const.getSessionData(request);
-    Varukorg vk = sd.getVarukorg();
+    //Varukorg vk = sd.getVarukorg();
 %>
 <div class="vk" id="vk">
     <h2>Varukorg</h2>

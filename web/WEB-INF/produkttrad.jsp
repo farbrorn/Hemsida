@@ -24,7 +24,8 @@
                     <% if(requestedGrupp!=null && !requestedGrupp.getAvdelning().equals(kg.getAvdelning())) continue ; %>
                         <% if (kg.getDepth() <= Const.getKatalogTradMaxDisplayDepthLevel()) { %>
                             <li class="<%= kg.getDepth() > 0 ? (kg.getDepth() > 1 ? "trad-ind2" : "trad-ind1") : "trad-ind0" %>">
-                                <a href="<%= request.getContextPath() +"/katalog/" + kg.getGrpId() %>"><%= Const.toHtml(kg.getRubrik()) %></a>
+                                <% long id=Const.getInitData(request).getNewUniktID(); %>
+                                <a id="trada<%= id %>" href="<%= request.getContextPath() +"/katalog/" + kg.getGrpId() %>" onclick="ajxCont(event, 'trada<%= id %>')"><%= Const.toHtml(kg.getRubrik()) %></a>
                             </li>
                         <% } %>
                     <% } %>

@@ -43,7 +43,7 @@ public class VarukorgArtikel {
 		return Const.getFormatEnhet(art.getEnhet());
 	}
 	public String getAnpassatPris() {
-		return Const.getAnpassatPrisFormat(art.getPris());
+		return Const.getAnpassatPrisFormat(art.getBruttoPris());
 	}
 	
 }

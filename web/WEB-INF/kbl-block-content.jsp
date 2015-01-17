@@ -23,7 +23,7 @@
                                     <% 
                                     boolean firstRun=true;
                                     for (Artikel pv : p.getVarianter()) { %>
-                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getPris() %>" frp="<%= pv.getAntalSaljpack() %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
+                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris() %>" frp="<%= pv.getAntalSaljpack() %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
                                         
                                     <%
                                         firstRun = false;
@@ -31,7 +31,7 @@
                                 </select>
                             </div>
                             <div class="kbl-t-pris">
-                                <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getPris()) %></span><span class="kbl-t-pris-per">/m</span>
+                                <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris()) %></span><span class="kbl-t-pris-per">/m</span>
                             </div>
                             <div class="kbl-t-antal-kop">
                                 <div class="kbl-t-antal">Antal:

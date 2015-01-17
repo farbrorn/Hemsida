@@ -199,6 +199,15 @@
                 width: 90px;
                 display: inline-block;
             }
+            .site-header-userinfo {
+                width: 90px;
+                display: inline-block;
+            }
+            .site-header-userinfo-namn {
+                font-size: 8px;
+            }
+            .site-header-userinfo-login {
+            }
             .site-header-kassa-btn {
                 width: 120px;
                 display: inline-block;
@@ -286,6 +295,10 @@
                 margin: 40px 0px 0px 2px;
                 clear: both;
             }
+            .kid-variant-lagerfor {
+                display: inline-block;
+                font-size: 10px;
+            }
             .kid-pris {
                 font-size: 30px;
                 font-weight: bold;
@@ -312,7 +325,7 @@
                 border-top: 1px solid black;
             }
             .t-variant-namn {
-                width: 480px;
+                width: 380px;
                 vertical-align: top;
                 display:inline-block;
             }
@@ -321,11 +334,19 @@
                 width:120px;
                 display:inline-block;
             }
-            .t-variant-pris-kop {
+            .t-variant-pris-kop-hold {
                 display:inline-block;
                 vertical-align: top;
                 text-align: right;
                 padding: 0px 2px 0px 0px;
+            }
+            .t-variant-pris-kop-hold input:disabled {
+                border: none;
+                background: inherit;
+            }            
+            .t-variant-pris-kop {
+                display:block;
+                padding: 0px 0px 2x 0px;
             }
             .t-variant-pris-kop input {
                 font-size: 10px;
@@ -336,6 +357,12 @@
                 width:100px;
                 display:inline-block;
                 font-size: 10px;
+            }
+            .t-variant-saldo {
+                vertical-align: center;
+                width:100px;
+                display:inline-block;
+                font-size: 8px;
             }
             
             .t-variant-kop {

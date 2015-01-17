@@ -35,12 +35,14 @@ public class ProduktServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
 
+			boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
+
 			Integer klasid = null;
 			Produkt p = null;
 			String[] pathArr = request.getPathInfo().split("/");
 			if (pathArr!=null) {
 				try { klasid = new Integer(pathArr[1]); } catch (Exception e) {} 
-				if (klasid!=null) p = SQLHandler.getProdukt(Const.getConnection(request), klasid);
+				if (klasid!=null) p = SQLHandler.getProdukt(Const.getConnection(request), klasid, Const.getSessionData(request).getAvtalsKundnr());
 			}
 			KatalogGruppLista kgl = Const.getSessionData(request).getKatalogGruppLista(Const.getConnection(request));
 //			request.setAttribute(Const.ATTRIB_KATALOGGRUPPLISTA, kgl);
@@ -50,7 +52,7 @@ public class ProduktServlet extends HttpServlet {
 				request.setAttribute(Const.ATTRIB_LIKNANDE_PRODUKTER, SQLHandler.getLiknandeProdukterInGrp(Const.getConnection(request), klasid));
 			}
 		
-			request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
+			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 			
 			if (p!=null) {
 				request.getRequestDispatcher("/WEB-INF/produkt-content.jsp").include(request, response);
@@ -66,10 +68,10 @@ public class ProduktServlet extends HttpServlet {
 					request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 			}
 			
-			request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
+			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
 		
 		}
-		catch (SQLException e) { throw new ServletException("SQL-Fel");}
+		catch (SQLException e) { e.printStackTrace(); throw new ServletException("SQL-Fel"); }
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
