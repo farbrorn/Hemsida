@@ -7,6 +7,7 @@
 package se.saljex.hemsida;
 
 import java.sql.Connection;
+import javax.servlet.ServletRequest;
 
 /**
  *
@@ -15,8 +16,9 @@ import java.sql.Connection;
 public class InitData {
 
 	private long uniktID=0;
-	
-    public InitData() {
+	private ServletRequest request;
+    public InitData(ServletRequest request) {
+		this.request=request;
     }
     
     java.sql.Connection con = null;
@@ -33,5 +35,8 @@ public class InitData {
 		return uniktID++;
 	}
 
+	public boolean isContentOnlyCall() {
+		return "c".equals(request.getParameter("g"));
+	}
 
 }

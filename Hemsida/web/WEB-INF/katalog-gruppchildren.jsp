@@ -8,21 +8,25 @@ KatalogGruppLista kgl = Const.getSessionData(request).getKatalogGruppLista(Const
 KatalogHeaderInfo khInfo = (KatalogHeaderInfo)request.getAttribute(Const.ATTRIB_KATALOGHEADERINFO);
 List<KatalogGrupp> kglChildren = khInfo.getChildren();
 
+long id=0;
 %>
 <div class="katalog-head">
     <div class="katalog-head-nav">
         <div class="katalog-head-nav-prev">
             <% if (khInfo.getPrevGrp() != null) { %>
-                <a href="<%= request.getContextPath() + "/katalog/" + khInfo.getPrevGrp().getGrpId() %>"><%= Const.toHtml("<< Föregåene sida") %></a>
+            <% id=Const.getInitData(request).getNewUniktID(); %>
+                <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() + "/katalog/" + khInfo.getPrevGrp().getGrpId() %>"><%= Const.toHtml("<< Föregåene sida") %></a>
             <% } %>
         </div>
         <div class="katalog-head-nav-index">
-            <a href="<%= request.getContextPath()+"/katalog/index/" + khInfo.getKatalogGrupp().getAvdelning() %>">Index</a>
+            <% id=Const.getInitData(request).getNewUniktID(); %>
+            <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath()+"/katalog/index/" + khInfo.getKatalogGrupp().getAvdelning() %>">Index</a>
         </div>
         
         <div class="katalog-head-nav-next">
             <% if (khInfo.getNextGrp() != null) { %>
-                <a href="<%= request.getContextPath() + "/katalog/" + khInfo.getNextGrp().getGrpId()%>"><%= Const.toHtml("Nästa sida >>") %></a>
+                <% id=Const.getInitData(request).getNewUniktID(); %>
+                <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() + "/katalog/" + khInfo.getNextGrp().getGrpId()%>"><%= Const.toHtml("Nästa sida >>") %></a>
             <% } %>
         </div>
     </div>
@@ -30,7 +34,9 @@ List<KatalogGrupp> kglChildren = khInfo.getChildren();
     <div class="katalog-head-sokvag">
             <h2><%= Const.toHtml(khInfo.getKatalogGrupp().getRubrik()) %></h2>
         <% for (KatalogGrupp g : khInfo.getSokvag()) { %>
-            <div class="katalog-head-sokvag-grp"><a href="<%= request.getContextPath() + "/katalog/" + g.getGrpId() %>"><%= Const.toHtml(g.getRubrik() + "->") %></a></div>
+            <div class="katalog-head-sokvag-grp">
+                <% id=Const.getInitData(request).getNewUniktID(); %>                
+                <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() + "/katalog/" + g.getGrpId() %>"><%= Const.toHtml(g.getRubrik() + "->") %></a></div>
         <% } %>
     </div>
     
@@ -52,7 +58,9 @@ List<KatalogGrupp> kglChildren = khInfo.getChildren();
                         rootPrinted=true;
                         %><div class="katalog-index-root"><%
                     }
-                    %><div class="katalog-index-row"><a href="<%= request.getContextPath() +"/katalog/" + kg.getGrpId() %>">
+                    %><div class="katalog-index-row">
+                        <% id=Const.getInitData(request).getNewUniktID(); %>                
+                        <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() +"/katalog/" + kg.getGrpId() %>">
                         <%= (kg.getDepth()==startLevel+1 ? "<h3>":"") + (kg.getDepth() > startLevel+2 ? "&nbsp;&nbsp;" :"") +  Const.toHtml(kg.getRubrik()) + (kg.getDepth()==startLevel+1 ? "</h3>":"") %></div>
                       </a>  <%
                 }

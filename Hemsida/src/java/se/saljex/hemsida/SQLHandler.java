@@ -55,7 +55,7 @@ public class SQLHandler {
 		return kgl;
 	}
 
-	public static Produkt getProdukt(Connection con, Integer klasId) throws SQLException {
+	public static Produkt getProdukt2(Connection con, Integer klasId) throws SQLException {
 		if (klasId == null) {
 			return null;
 		}
@@ -86,8 +86,8 @@ public class SQLHandler {
 			klasId = 1;
 		}
 		ArrayList<Produkt> produkter = new ArrayList<>();
-		String q = "select * from (SELECT klasid, rubrik, text, infourl, fraktvillkor, html FROM ARTKLASE where klasid > ? order by klasid limit 4) a  union "
-				+ " select * from (SELECT klasid, rubrik, text, infourl, fraktvillkor, html FROM ARTKLASE where klasid < ? order by klasid desc limit 4) b  order by klasid";
+		String q = "select * from (SELECT klasid, rubrik, text, infourl, fraktvillkor, html FROM ARTKLASE where klasid > ? order by klasid limit 2) a  union "
+				+ " select * from (SELECT klasid, rubrik, text, infourl, fraktvillkor, html FROM ARTKLASE where klasid < ? order by klasid desc limit 2) b  order by klasid";
 		PreparedStatement ps = con.prepareStatement(q);
 		ps.setInt(1, klasId);
 		ps.setInt(2, klasId);
@@ -109,7 +109,7 @@ public class SQLHandler {
 		return produkter;
 	}
 
-	public static ArrayList<Produkt> getProdukterInGrupp(Connection con, Integer grpId) throws SQLException {
+	public static ArrayList<Produkt> getProdukterInGrupp3(Connection con, Integer grpId) throws SQLException {
 		ArrayList<Produkt> produkter = new ArrayList<>();
 		String q = "SELECT ak.klasid, ak.rubrik, ak.text, ak.infourl, ak.fraktvillkor, ak.html FROM ARTKLASE ak join artgrplank agl on agl.klasid=ak.klasid where agl.grpid=? order by agl.sortorder, ak.klasid ";
 		PreparedStatement ps = con.prepareStatement(q);
@@ -159,7 +159,7 @@ public class SQLHandler {
 		pv.setAntalSaljpack(antalSaljPack);
 		pv.setEnhet(rs.getString(5+offset));
 		pv.setLevVillkor(rs.getInt(8+offset));
-		pv.setPris(rs.getDouble(4+offset));
+		pv.setBruttoPris(rs.getDouble(4+offset));
 		pv.setKatNamn(rs.getString(3+offset));
 		pv.setNamn(rs.getString(2+offset));
 		pv.setArtnr(rs.getString(1+offset));
@@ -389,7 +389,7 @@ public class SQLHandler {
 		User u = null;
 		if (anvandarnamn!=null && losen!=null) {
 			String q = 
-					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn " +
+					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare " +
 					" from kund k join kundkontakt kk on kk.kundnr=k.nummer join kundlogin kl on kl.kontaktid=kk.kontaktid " +
 					" where kl.loginnamn=? and kl.loginlosen=?";
 			PreparedStatement ps = con.prepareStatement(q);
@@ -403,9 +403,150 @@ public class SQLHandler {
 				u.setKontaktNamn(rs.getString(1));
 				u.setKundNamn(rs.getString(5));
 				u.setKundnr(rs.getString(4));
+				u.setKundSaljare(rs.getString(6));
+				
 			}
 		}
 		return u;
 	}
+	
+	
+//	public static ArrayList<Produkt> getProdukterInGrupp(Connection con, Integer grpId) throws SQLException {
+//		return getProdukterInGrupp(con, grpId, Const.getDefaultKundnr());
+//	}
+	public static ArrayList<Produkt> getProdukterInGrupp(Connection con, Integer grpId, String kundnr) throws SQLException {
+		ArrayList<Produkt> produkter = new ArrayList<>();
+		String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
+				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
+				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
+				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+				+ " from vbutikart v join artgrplank agl on agl.klasid=v.ak_klasid "
+				+ " where agl.grpid=? and v.k_nummer=? "
+				+ " order by agl.sortorder, v.ak_klasid, v.akl_sortorder, v.nummer, v.lid_lagernr";
+
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setInt(1, grpId);
+		ps.setString(2, kundnr);
+		ResultSet rs = ps.executeQuery();
+		Produkt p = null;
+		Integer temp_klasid=null;
+		String temp_artnr=null;
+		Artikel a=null;
+		while (rs.next()) {
+			if (temp_klasid== null || !temp_klasid.equals(rs.getInt("ak_klasid"))) {
+				p = new Produkt();
+				p.setKlasid(rs.getInt("ak_klasid"));
+				p.setRubrik(rs.getString("ak_rubrik"));
+				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
+				p.setBeskrivning(rs.getString("ak_text"));
+				temp_klasid = p.getKlasid();
+				produkter.add(p);
+
+			}
+			if (temp_artnr==null || !temp_artnr.equals(rs.getString("nummer"))) {
+				a = getArtikelFromSQL2(rs);
+				p.addVariant(a);
+				temp_artnr = rs.getString("nummer");
+			}
+			
+			LagerSaldo ls = new LagerSaldo();
+			ls.setBest(rs.getDouble("l_best"));
+			ls.setIlager(rs.getDouble("l_ilager"));
+			ls.setIorder(rs.getDouble("l_iorder"));
+			ls.setLagernamn(rs.getString("lid_bnamn"));
+			ls.setLagernr(rs.getInt("lid_lagernr"));
+			a.addLagerSaldoRow(ls);
+		}
+
+		return produkter;
+	}
+	
+	public static Artikel getArtikelFromSQL2(ResultSet rs) throws SQLException {
+		Double forpack;
+		Double minSaljPack;
+		Double antalSaljPack;
+		Integer antalSaljPackIForpack;
+		Artikel pv = new Artikel();
+		forpack = rs.getDouble("forpack");
+		minSaljPack = rs.getDouble("minsaljpack");
+		if (forpack.compareTo(0.0) == 0) forpack=1.0;
+		antalSaljPack = forpack;
+		if (minSaljPack.compareTo(0.0) > 0) {
+			antalSaljPack = minSaljPack;
+		}
+		if (antalSaljPack.compareTo(0.0) == 0) antalSaljPack = 1.0;
+		if (forpack % antalSaljPack == 0 && forpack.compareTo(antalSaljPack) > 0) { //Om vi har jämt delbart förhållande mellan förpack och minsajpack
+			antalSaljPackIForpack = ((Double)(forpack / antalSaljPack)).intValue();
+		} else {
+			antalSaljPackIForpack = 1;
+		}
+		pv.setAntalSaljpack(antalSaljPack);
+		pv.setEnhet(rs.getString("enhet"));
+		pv.setLevVillkor(rs.getInt("fraktvillkor"));
+		pv.setBruttoPris(rs.getDouble("utpris"));
+		pv.setNettoPris(rs.getDouble("kundnetto_bas"));
+		pv.setNettoPrisStaf1(rs.getDouble("kundnetto_staf1"));
+		pv.setNettoPrisStaf2(rs.getDouble("kundnetto_staf2"));
+		pv.setAntalStaf1(rs.getDouble("staf_antal1"));
+		pv.setAntalStaf2(rs.getDouble("staf_antal2"));
+		pv.setKatNamn(rs.getString("katnamn"));
+		pv.setNamn(rs.getString("namn"));
+		pv.setArtnr(rs.getString("nummer"));
+		pv.setAntalSaljPackIForpack(antalSaljPackIForpack);
+		if (Const.isEmpty(pv.getKatNamn())) pv.setKatNamn(pv.getNamn());
+		
+		return pv;
+	}
+	
+	
+//	public static Produkt getProdukt(Connection con, Integer klasId) throws SQLException {
+//		return getProdukt(con, klasId, Const.getDefaultKundnr());
+//	}
+	public static Produkt getProdukt(Connection con, Integer klasId, String kundnr) throws SQLException {
+		String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
+				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
+				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
+				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+				+ " from vbutikart v  "
+				+ " where v.k_nummer=? and v.ak_klasid=?"
+				+ " order by v.akl_sortorder, v.nummer, v.lid_lagernr ";
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setInt(2, klasId);
+		ps.setString(1, kundnr);
+		ResultSet rs = ps.executeQuery();
+		Produkt p = null;
+		Integer temp_klasid=null;
+		String temp_artnr=null;
+		Artikel a=null;
+		while (rs.next()) {
+			if (temp_klasid== null || !temp_klasid.equals(rs.getInt("ak_klasid"))) {
+				p = new Produkt();
+				p.setKlasid(rs.getInt("ak_klasid"));
+				p.setRubrik(rs.getString("ak_rubrik"));
+				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
+				p.setBeskrivning(rs.getString("ak_text"));
+				temp_klasid = p.getKlasid();
+			}
+			
+			if (temp_artnr==null || !temp_artnr.equals(rs.getString("nummer"))) {
+				a = getArtikelFromSQL2(rs);
+				p.addVariant(a);
+				temp_artnr = rs.getString("nummer");
+			}
+			
+			LagerSaldo ls = new LagerSaldo();
+			ls.setBest(rs.getDouble("l_best"));
+			ls.setIlager(rs.getDouble("l_ilager"));
+			ls.setIorder(rs.getDouble("l_iorder"));
+			ls.setMaxlager(rs.getDouble("l_maxlager"));
+			ls.setLagernamn(rs.getString("lid_bnamn"));
+			ls.setLagernr(rs.getInt("lid_lagernr"));
+			a.addLagerSaldoRow(ls);
+		}
+
+		return p;
+		
+	}
+	
 	
 }

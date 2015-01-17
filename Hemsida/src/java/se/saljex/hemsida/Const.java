@@ -245,11 +245,21 @@ public class Const {
 		return ret;
 	}
 	
-	public static String getArtBildURL(String artnr) {
+	public static String getArtBildURL(String artnr, Integer size) {
+		if (size == null ) size=50;
 		return "http://saljex.se/p/s50/" + artnr + ".png";
 	}
+	public static String getArtBildURL(String artnr) {
+		return getArtBildURL(artnr, 50);
+	}
+	
 	public static String getArtBildURL(Produkt p) {
 		return getArtBildURL(p.getVarianter().get(0).getArtnr());
 	}
+	
+	public static String getDefaultKundnr() {
+		return "1";
+	}
+	public static Integer getDefultLagernr() { return 0; }
 	
 }

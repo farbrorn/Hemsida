@@ -6,6 +6,9 @@
 
 package se.saljex.hemsida;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author Ulf
@@ -14,13 +17,70 @@ public class Artikel {
 	private String artnr;
     private String namn;
     private String katNamn;
-    private Double pris;
+    private Double bruttopris;
+	
+    private Double nettoPris;
+
+    private Double nettoPrisStaf1;
+    private Double nettoPrisStaf2;
+    private Double antalStaf1;
+    private Double antalStaf2;
+	
     private String enhet;
     private Integer levVillkor;
 	private	Double antalSaljpack;
 	private Integer antalSaljPackIForpack;
-	
+	private HashMap<Integer,LagerSaldo> lagerSaldon = new HashMap<>();
 
+	public String getLagerSaldoString(Integer lagernr) {		
+		LagerSaldo ls = lagerSaldon.get(lagernr);
+		String r=null;
+		if (ls==null) return "";
+		Double ilager = ls.getTillgangliga()/getAntalSaljpackForDivision();
+		if (ilager>=1000) r= "1000+ i lager";
+		else if (ilager>=100) r= "100+ i lager";
+		else if (ilager>=10) r= "10+ i lager";
+		else if (ilager>=5) r= "5+ i lager";
+		else if (ilager>=3) r= "3-4 i lager";
+		else if (ilager>=1) r= "1-2 i lager";
+		else if (ls.getMaxlager()<=0.0) r="Beställning";
+		else r="Slut";
+		return r;
+	}
+	
+	public Double getAntalSaljpackForDivision() {
+		Double a;
+		a=getAntalSaljpack();
+		if (a==null || a==0.0) a=1.0;
+		return a;
+	}
+	public LagerSaldo getLagerSaldo(Integer lagernr) {
+		
+		LagerSaldo ls = lagerSaldon.get(lagernr);
+		if (ls==null) {
+			ls = new LagerSaldo();
+			ls.setLagernr(lagernr);
+			ls.setBest(0.0);
+			ls.setIlager(0.0);
+			ls.setIorder(0.0);
+			ls.setLagernamn("");
+			ls.setMaxlager(0.0);
+		}
+		return ls;
+	}
+	
+	public HashMap<Integer, LagerSaldo> getLagerSaldon() {
+		return lagerSaldon;
+	}
+
+	public void setLagerSaldon(HashMap<Integer, LagerSaldo> lagerSaldon) {
+		this.lagerSaldon = lagerSaldon;
+	}
+
+	public void addLagerSaldoRow(LagerSaldo lagerSaldo) {
+		lagerSaldon.put(lagerSaldo.getLagernr(), lagerSaldo);
+	}
+	
 	public String getArtnr() {
 		return artnr;
 	}
@@ -45,12 +105,12 @@ public class Artikel {
 		this.katNamn = namn;
 	}
 
-	public Double getPris() {
-		return pris;
+	public Double getBruttoPris() {
+		return bruttopris;
 	}
 
-	public void setPris(Double pris) {
-		this.pris = pris;
+	public void setBruttoPris(Double pris) {
+		this.bruttopris = pris;
 	}
 
 	public String getEnhet() {
@@ -83,6 +143,45 @@ public class Artikel {
 
 	public void setAntalSaljPackIForpack(Integer antalSaljPackIForpack) {
 		this.antalSaljPackIForpack = antalSaljPackIForpack;
+	}
+	public Double getNettoPris() {
+		return nettoPris;
+	}
+
+	public void setNettoPris(Double nettoPris) {
+		this.nettoPris = nettoPris;
+	}
+
+	public Double getNettoPrisStaf1() {
+		return nettoPrisStaf1;
+	}
+
+	public void setNettoPrisStaf1(Double nettoPrisStaf1) {
+		this.nettoPrisStaf1 = nettoPrisStaf1;
+	}
+
+	public Double getNettoPrisStaf2() {
+		return nettoPrisStaf2;
+	}
+
+	public void setNettoPrisStaf2(Double nettoPrisStaf2) {
+		this.nettoPrisStaf2 = nettoPrisStaf2;
+	}
+
+	public Double getAntalStaf1() {
+		return antalStaf1;
+	}
+
+	public void setAntalStaf1(Double antalStaf1) {
+		this.antalStaf1 = antalStaf1;
+	}
+
+	public Double getAntalStaf2() {
+		return antalStaf2;
+	}
+
+	public void setAntalStaf2(Double antalStaf2) {
+		this.antalStaf2 = antalStaf2;
 	}
 	
 		

@@ -37,6 +37,9 @@ public class KatalogServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
 
+			
+			boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
+			
 			Integer grpid = null;
 			String[] pathArr = request.getPathInfo().split("/");
 
@@ -67,7 +70,7 @@ public class KatalogServlet extends HttpServlet {
 			request.setAttribute(Const.ATTRIB_KATALOGAVDELNING, avdelning);
 			request.setAttribute(Const.ATTRIB_KATALOGREQUESTEDGRUPP, kg);
 		
-			request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
+			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 			if (showIndexPage) {
 				request.getRequestDispatcher("/WEB-INF/katalog-index.jsp").include(request, response);
 				
@@ -80,7 +83,7 @@ public class KatalogServlet extends HttpServlet {
 				request.setAttribute(Const.ATTRIB_KATALOGHEADERINFO, khInfo);
 				request.getRequestDispatcher("/WEB-INF/katalog-gruppchildren.jsp").include(request, response);				
 				
-				ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid);
+				ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr());
 				request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
 				for (Produkt p : prod) {
 					request.setAttribute(Const.ATTRIB_PRODUKT, p);
@@ -89,7 +92,7 @@ public class KatalogServlet extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 			}
 			
-			request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
+			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
 			
 			
 			

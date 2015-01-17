@@ -33,6 +33,11 @@ public class SessionData {
 		varukorg=null;
 		inloggadUser=null;
 	}
+
+	public Integer getLagerNr() {
+		return inloggadUser!=null ? inloggadUser.getLagernr() : Const.getDefultLagernr();
+	}
+
 	
 	public Varukorg getVarukorg(Connection con) {
 		if (varukorg==null) {
@@ -69,6 +74,9 @@ public class SessionData {
 	}
 	public String getInloggadKundNamn() {
 		return inloggadUser==null ? null : inloggadUser.getKundNamn();
+	}
+	public String getAvtalsKundnr() {
+		return inloggadUser==null ? Const.getDefaultKundnr() : inloggadUser.getKundnr();		
 	}
 
 	public KatalogGruppLista getKatalogGruppLista(Connection con) throws SQLException {

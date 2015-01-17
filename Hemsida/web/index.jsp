@@ -9,6 +9,6 @@
 %>
 
                     <jsp:include page="/WEB-INF/site-header.jsp" />
+                    <jsp:include page="/WEB-INF/home.jsp" />
                     
-                    hej!
                     <jsp:include page="/WEB-INF/site-footer.jsp" />

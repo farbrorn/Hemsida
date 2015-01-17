@@ -5,7 +5,7 @@
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     long rowCn = Const.getInitData(request).getNewUniktID();
-
+    long id=0;
  %>
                     <div>
                         <div class="kli-t-row kli-odd">
@@ -25,7 +25,7 @@
                                             <% 
                                             boolean firstRun=true;
                                             for (Artikel pv : p.getVarianter()) { %>
-                                                <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getPris() %>" frp="<%= pv.getAntalSaljpack() %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
+                                                <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris() %>" frp="<%= pv.getAntalSaljpack() %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
 
                                             <%
                                                 firstRun = false;
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="kli-t-pris-kop">
                                         <div class="kli-t-pris">
-                                             <span class="kli-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getPris()) %></span>
+                                             <span class="kli-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris()) %></span>
                                              <span class="kli-t-pris-per">/<%= Const.toHtml(p.getVarianter().get(0).getEnhet()) %></span>
                                         </div>
                                         <div class="kli-t-antal">Antal:

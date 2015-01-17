@@ -47,7 +47,7 @@ public class RootFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         
-        InitData initDat = new InitData();
+        InitData initDat = new InitData(request);
 	Const.setInitdata(request, initDat);
         try {
 	    initDat.setCon(sxadm.getConnection());
