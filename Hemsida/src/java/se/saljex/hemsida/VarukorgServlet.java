@@ -50,14 +50,14 @@ public class VarukorgServlet extends HttpServlet {
 				if (kid != null && artnr != null) {
 					if (antal==null) antal = 1;
 					try {
-						vk.addArtikel(Const.getConnection(request), sd.getInloggadKontaktId(), kid, artnr, antal);
+						vk.addArtikel(Const.getConnection(request), request, sd.getInloggadKontaktId(), kid, artnr, antal);
 					} catch (SQLException e) {e.printStackTrace();}
 				}
 			} else if (Const.PARAM_VARUKORG_AC_REMOVE.equals(action )) {
 			} else if (Const.PARAM_VARUKORG_AC_SET.equals(action )) {
 				if (kid != null && artnr != null && antal != null) {
 					try {
-						vk.setArtikel(Const.getConnection(request), sd.getInloggadKontaktId(), kid, artnr, antal);
+						vk.setArtikel(Const.getConnection(request), Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(),sd.getInloggadKontaktId(), kid, artnr, antal);
 					} catch (SQLException e) {e.printStackTrace();}
 				}
 				

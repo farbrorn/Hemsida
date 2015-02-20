@@ -18,6 +18,8 @@ public class User {
 	String kundNamn;
 	String kundSaljare;
 	Integer lagernr;
+	String loguinNamn;
+	String autoLoginUuid;
 	
 	public Integer getKontaktId() {
 		return kontaktId;
@@ -73,6 +75,22 @@ public class User {
 
 	public void setLagernr(Integer lagernr) {
 		this.lagernr = lagernr;
+	}
+
+	public String getLoguinNamn() {
+		return loguinNamn;
+	}
+
+	public void setLoguinNamn(String loguinNamn) {
+		this.loguinNamn = loguinNamn;
+	}
+
+	public String getAutoLoginUuid() {
+		return autoLoginUuid;
+	}
+
+	public void setAutoLoginUuid(String autoLoginUuid) {
+		this.autoLoginUuid = autoLoginUuid;
 	}
 	
 		

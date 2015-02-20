@@ -46,7 +46,10 @@ public class Const {
 	public static final String PARAM_LOGINNAMN = "loginnamn";
 	public static final String PARAM_LOGINLOSENL = "loginlosen";
 	
-	public static int getDefaultSokLimit() { return 10; }
+		public final static String COOKIEAUTOINLOGID="loginuuid";
+	
+	
+	public static int getDefaultSokLimit() { return 20; }
 	
 	public static SessionData getSessionData(HttpServletRequest request) { 
 		SessionData sd = (SessionData)request.getSession().getAttribute(ATTRIB_SESSIONDATA);
@@ -65,6 +68,27 @@ public class Const {
 	//	return 513; 
 		return 0;
 	}
+	
+	public static int[] getKatalogExcludeGrp() {
+		int[] e = {895};
+		return e;
+	}
+	public static String getKatalogExcludeGrpAsString() {
+		String s="";
+		for (int i : getKatalogExcludeGrp()) {
+			if (!s.isEmpty()) s = s+",";
+			s = s + i;
+		}
+		return s;
+	}
+	
+	public static String getImageServerOriginalAbsolutPath() {
+		return "/dum/imageserver";
+	}
+	public static String getImageServerCacheAbsolutPath() {
+		return "/dum/imageserver/cache";
+	}
+	
 	
 	public static boolean isFirstTradLevelAvdelning() { return true; }
 	

@@ -49,7 +49,7 @@ public class ProduktServlet extends HttpServlet {
 
 			request.setAttribute(Const.ATTRIB_PRODUKT, p);
 			if (p!=null) {
-				request.setAttribute(Const.ATTRIB_LIKNANDE_PRODUKTER, SQLHandler.getLiknandeProdukterInGrp(Const.getConnection(request), klasid));
+				//request.setAttribute(Const.ATTRIB_LIKNANDE_PRODUKTER, SQLHandler.getLiknandeProdukterInGrp(Const.getConnection(request), klasid));
 			}
 		
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
@@ -59,6 +59,7 @@ public class ProduktServlet extends HttpServlet {
 			} else {
 				request.getRequestDispatcher("/WEB-INF/produkt-ej-hittad.jsp").include(request, response);				
 				request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
+				/*
 				ArrayList<Produkt> produkter = SQLHandler.getProdukterCloseToID(Const.getConnection(request), klasid);
 
 					for (Produkt pp : produkter) {
@@ -66,6 +67,7 @@ public class ProduktServlet extends HttpServlet {
 						request.getRequestDispatcher("/WEB-INF/kbl-block-content.jsp").include(request, response);				
 					}
 					request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
+				*/
 			}
 			
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				

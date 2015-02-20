@@ -36,6 +36,10 @@
         <servlet-name>logoutServlet</servlet-name>
         <servlet-class>se.saljex.hemsida.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ImageServerServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.ImageServerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>t1</servlet-name>
         <url-pattern>/t1</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>logoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImageServerServlet</servlet-name>
+        <url-pattern>/p/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -17,6 +17,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 
@@ -51,6 +52,7 @@ public class RootFilter implements Filter {
 	Const.setInitdata(request, initDat);
         try {
 	    initDat.setCon(sxadm.getConnection());
+		Const.getSessionData((HttpServletRequest)request).autoLogin(Const.getConnection(request), (HttpServletRequest)request);
 	    chain.doFilter(request, response);
 	} catch (SQLException e) { e.printStackTrace(); throw  new IOException("SQL-fel");
         } finally {
