@@ -7,12 +7,14 @@
                 var e = document.getElementById("variant-" + id);
                 var variant = e.options[e.selectedIndex];
                 var pris = variant.getAttribute("pris");
+                var ilagerstr = variant.getAttribute("ilager");
                 var frp = variant.getAttribute("frp");
                 var frpPris = pris * frp;
                 var frpPrisStr = "(" + frpPris + " kr/frp)";
                 //            document.getElementById("frp-pris-"+id).style.display="block";
                 //            if (frpPris<=pris) document.getElementById("frp-pris-"+id).style.display="none";
                 document.getElementById("pris-" + id).innerHTML = formatPris(pris);
+                document.getElementById("ilager-" + id).innerHTML = formatPris(ilagerstr);
 //                document.getElementById("frp-pris-" + id).innerHTML = frpPrisStr;
             }
             
@@ -40,7 +42,7 @@
                 var antal = document.getElementById(antalid).value;
                 if (antal == null || isNaN(antal)) antal=1;
                 var variant=null;
-                if (e.options in e) variant = e.options[e.selectedIndex]; 
+                if ("options" in e) variant = e.options[e.selectedIndex]; 
                 if (variant==null) variant=e;
                 var artnr = variant.getAttribute("aid");
                 ajaxRequest("<%= request.getContextPath() + "/varukorg" %>" + "?<%= Const.PARAM_VARUKORG_AC + "=" + Const.PARAM_VARUKORG_AC_ADD + "&" + Const.PARAM_VARUKORG_GET + "=" + Const.PARAM_VARUKORG_GET_AJAX + "&" + Const.PARAM_KLASID + "=" %>" + klasid +"<%= "&" + Const.PARAM_ARTNR +"=" %>" + encodeURIComponent(artnr) + "<%= "&" + Const.PARAM_ANTAL + "=" %>" + antal,"vk-content");
@@ -150,7 +152,7 @@ function ajaxRequest(openThis, id) {
                 <div class="site-header-logo"><img src="http://www.saljex.se/p/s200/logo-saljex.png" alt="saljex"></div>
                 <div class="site-header-menu-btn"  >btn</div>
                 <div class="site-header-sok">
-                    ´<form action="<%= request.getContextPath() + "/s" %>" method="get">
+                    <form action="<%= request.getContextPath() + "/s" %>" method="get">
                     <input name="q" onkeyup="sokare(this.value)">
                     <input value="Sök" type="submit">
                     </form>

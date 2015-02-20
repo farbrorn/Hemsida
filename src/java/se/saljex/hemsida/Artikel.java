@@ -40,10 +40,8 @@ public class Artikel {
 		if (ilager>=1000) r= "1000+ i lager";
 		else if (ilager>=100) r= "100+ i lager";
 		else if (ilager>=10) r= "10+ i lager";
-		else if (ilager>=5) r= "5+ i lager";
-		else if (ilager>=3) r= "3-4 i lager";
-		else if (ilager>=1) r= "1-2 i lager";
-		else if (ls.getMaxlager()<=0.0) r="Beställning";
+		else if (ilager>=1) r= "Fåtal i lager";
+		else if ((ls.getMaxlager()==null ? 0.0 : ls.getMaxlager()) <=0.0) r="Beställning";
 		else r="Slut";
 		return r;
 	}

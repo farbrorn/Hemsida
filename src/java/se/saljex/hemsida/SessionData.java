@@ -7,7 +7,12 @@
 package se.saljex.hemsida;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Random;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -20,18 +25,58 @@ public class SessionData {
 	KatalogGruppLista kgl=null;
 	
 
-	public User login(Connection con, String anvandarnamn, String losen) {
+	public User login(Connection con, HttpServletRequest request, String anvandarnamn, String losen) {
 		inloggadUser=null;
 		try {
 			inloggadUser = SQLHandler.login(con, anvandarnamn, losen);
-			if (inloggadUser!=null && varukorg!=null) varukorg.mergeSQLVarukorg(con, inloggadUser.getKontaktId());
+			if (inloggadUser!=null && varukorg!=null) varukorg.mergeSQLVarukorg(con, request, inloggadUser.getKontaktId());
 		} catch (SQLException e) {}
 		return inloggadUser;
 	}
+	public User autoLogin(Connection con, HttpServletRequest request) {
+		try {
+			if (inloggadUser==null) {
+				Cookie[] cookies = request.getCookies();
+
+				String autoLoginId = null;
+				for(Cookie cookie : cookies){
+					if(Const.COOKIEAUTOINLOGID.equals(cookie.getName()))	autoLoginId = cookie.getValue();
+				}
+				
+				inloggadUser = SQLHandler.autoLogin(con, autoLoginId);
+				if (inloggadUser!=null && varukorg!=null) varukorg.mergeSQLVarukorg(con, request, inloggadUser.getKontaktId());
+			}
+		
+		} catch (SQLException e) { e.printStackTrace(); }
+		return inloggadUser;
+	}
 	
-	public void logout() {
+	public void setAuoLogin(Connection con, HttpServletResponse response) {
+		if (inloggadUser!=null) {
+			try {
+						PreparedStatement u;
+						Random r = new Random();
+						//Slumpmässig sträng med upp till 26 tecken
+						String autoLoginId = (Long.toString(Math.abs(r.nextLong()), 36) + Long.toString(Math.abs(r.nextLong()), 36)).trim();
+
+						
+						u = con.prepareStatement("insert into butikautologin (uuid, kontaktid, expiredate) values (?,?, current_date+30)");
+						u.setString(1, autoLoginId);
+						u.setInt(2, inloggadUser.getKontaktId());
+						u.executeUpdate();
+						
+						Cookie c2 = new Cookie(Const.COOKIEAUTOINLOGID, autoLoginId);
+						c2.setMaxAge(30*24*60*60);
+						response.addCookie(c2);
+			} catch (SQLException e) {e.printStackTrace();}
+		}
+	}
+	
+	public void logout(Connection con ) {
+		try { SQLHandler.logoutAutoLogin(con, inloggadUser); } catch (SQLException e) { e.printStackTrace(); }
 		varukorg=null;
 		inloggadUser=null;
+		
 	}
 
 	public Integer getLagerNr() {

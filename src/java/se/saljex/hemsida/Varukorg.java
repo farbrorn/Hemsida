@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -61,7 +62,7 @@ public class Varukorg {
 		rows.add(vkp);
 	}
 	
-	public void addArtikel(Connection con, Integer kontaktId, Integer kid, String artnr, Integer antal) throws SQLException{
+	public void addArtikel(Connection con, HttpServletRequest request, Integer kontaktId, Integer kid, String artnr, Integer antal) throws SQLException{
 		if (antal==null || kid==null || artnr==null) return;
 
 		if (kontaktId!=null) {
@@ -78,11 +79,11 @@ public class Varukorg {
 			if (vkArtikel!=null) nyttAntal = vkArtikel.getAntal();
 			if (nyttAntal==null) nyttAntal=0;
 			nyttAntal+=antal;
-			setArtikel(con, kontaktId, kid, artnr, nyttAntal);
+			setArtikel(con, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), kontaktId, kid, artnr, nyttAntal);
 		}
 	}	
 	
-	public void setArtikel(Connection con, Integer kontaktId, Integer kid, String artnr, Integer antal) throws SQLException{
+	public void setArtikel(Connection con, String kundnr, Integer lagernr, Integer kontaktId, Integer kid, String artnr, Integer antal) throws SQLException{
 			if (antal==null || kid==null || artnr==null) return;
 			
 			if (kontaktId!=null) {
@@ -100,7 +101,7 @@ public class Varukorg {
 				}
 				if (antal > 0) {
 					if (vkArtikel==null) {
-						VarukorgRow vr = SQLHandler.getArtikelProdukt(con, artnr, kid);
+						VarukorgRow vr = SQLHandler.getArtikelProdukt(con, artnr, kid, kundnr, lagernr);
 						if (vr!=null) {
 							if (vkProdukt==null) { 
 								vkProdukt = new VarukorgProdukt();
@@ -189,13 +190,13 @@ public class Varukorg {
 	}
 	
 	//Läs in SQL-varukorgen och sätt ihop den med aktuell varukorg
-	public void mergeSQLVarukorg(Connection con, Integer kontakid) throws SQLException{
+	public void mergeSQLVarukorg(Connection con, HttpServletRequest request, Integer kontakid) throws SQLException{
 		List<VarukorgProdukt> ny = rows;
 				
 		rows = getSQLVarukorg(con, kontakid);
 		for (VarukorgProdukt p : ny) {
 			for (VarukorgArtikel a : p.getVarukorgArtiklar()) {
-				addArtikel(con, kontakid, p.getProdukt().getKlasid(), a.getArtnr(), a.getAntal());
+				addArtikel(con, request, kontakid, p.getProdukt().getKlasid(), a.getArtnr(), a.getAntal());
 			}
 		}
 	}

@@ -23,7 +23,7 @@
                                     <% 
                                     boolean firstRun=true;
                                     for (Artikel pv : p.getVarianter()) { %>
-                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris()%>" frp="<%= pv.getAntalSaljpack() %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
+                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris()%>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
                                         
                                     <%
                                         firstRun = false;
@@ -32,6 +32,8 @@
                             </div>
                             <div class="kbl-t-pris">
                                 <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris()) %></span><span class="kbl-t-pris-per">/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet()) %></span>
+                                <div class="kbl-t-ilager" id="ilager-<%= rowCn %>"><%= p.getVarianter().get(0).getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %></div>
+
                             </div>
                             <div class="kbl-t-antal-kop">
                                 <div class="kbl-t-antal" style="">Antal:

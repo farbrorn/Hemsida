@@ -37,7 +37,7 @@ public class LogoutServlet extends HttpServlet {
 			KatalogGruppLista kgl = Const.getSessionData(request).getKatalogGruppLista(Const.getConnection(request));
 			request.setAttribute(Const.ATTRIB_KATALOGGRUPPLISTA, kgl);
 
-			sd.logout();
+			sd.logout(Const.getConnection(request));
 			response.sendRedirect(request.getContextPath());
 		} catch (SQLException e) { e.printStackTrace(); throw new ServletException("SQL-Fel");}
 	}

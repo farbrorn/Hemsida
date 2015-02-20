@@ -7,6 +7,9 @@
                 margin: 0px;
                 padding: 0px;
             }
+            form {
+                margin: 0px 0px 0px 0px;
+            }
             .main {
                 max-width: 1344px;
             }
@@ -346,7 +349,7 @@
             }            
             .t-variant-pris-kop {
                 display:block;
-                padding: 0px 0px 2x 0px;
+                padding: 0px 0px 2px 0px;
             }
             .t-variant-pris-kop input {
                 font-size: 10px;
@@ -417,7 +420,14 @@
                 font-size: 14px;
                 border-bottom: 1px solid black;
             }
+            .kli-t-row a {
+                text-decoration: none; 
+                color: inherit;
+            }
             
+            .kli-t-ilager {
+                font-size: 8px;
+            }
             .kli-odd {
                 
             }
@@ -613,6 +623,9 @@
                 text-align: center;
                 font-weight:bold;
                 padding: 4px 0px 4px 0px;
+            }
+            .kbl-t-ilager {
+                font-size: 8px;
             }
             
             

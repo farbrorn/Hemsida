@@ -36,7 +36,7 @@ public class SokServlet extends HttpServlet {
 			/* TODO output your page here. You may use following sample code. */
 			try {
 				String q= request.getParameter("q");
-				SokResult sr = SQLHandler.sok(Const.getConnection(request), q);
+				SokResult sr = SQLHandler.sok(Const.getConnection(request), q, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr());
 				if (sr!=null) {
 					request.getRequestDispatcher("/WEB-INF/kli-header.jsp").include(request, response);				
 					for (Produkt p : sr.getPl().getProdukter()) {
