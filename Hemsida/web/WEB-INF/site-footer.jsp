@@ -1,4 +1,11 @@
-                </div>
+<%@page import="se.saljex.hemsida.InitData"%>
+<%@page import="se.saljex.hemsida.Const"%>
+<%
+  InitData initData = Const.getInitData(request);
+%>
+
+        </div>
+        <% if (!initData.isHideVarukorg()) { %>
             <div class="vk" id="vk">
                 <h2>Varukorg</h2>
                 <div id="vk-content">
@@ -6,6 +13,7 @@
                 </div>
                     <a href="<%= request.getContextPath() + "/varukorg/" %>">Till kassan &raquo;</a>
             </div>
+        <% } %>
             </div>
         </div>
     </body>

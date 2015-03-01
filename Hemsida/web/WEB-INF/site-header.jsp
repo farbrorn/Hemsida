@@ -112,9 +112,43 @@ function ajxCont(e,element) {
         return false;
     }
    }
- 
-function ajaxRequest(openThis, id) {
- 
+   
+   
+   
+function AJAXPost(formId) {
+    AJAXPost2(formId, "content");
+}
+   
+function AJAXPost2(formId, resultId) {
+    var elem   = document.getElementById(formId).elements;
+    var url    = document.getElementById(formId).action;        
+        var params = "";
+    var value;
+
+    for (var i = 0; i < elem.length; i++) {
+        if (elem[i].tagName == "SELECT") {
+            value = elem[i].options[elem[i].selectedIndex].value;
+        } else {
+            value = elem[i].value;                
+        }
+        params += elem[i].name + "=" + encodeURIComponent(value) + "&";
+    }
+    xmlhttp = getHttpRequest();
+    xmlhttp.open("POST",url,false);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    <% if(!Const.redirectToHttps()) { %>
+        xmlhttp.setRequestHeader("Content-length", params.length);
+        xmlhttp.setRequestHeader("Connection", "close");
+    <% } %>
+    xmlhttp.send(params);
+
+    if (xmlhttp.status==200) document.getElementById(resultId).innerHTML = xmlhttp.responseText;
+    else alert("Fel vid kommunikation med server.");
+}   
+   
+   
+   
+function getHttpRequest() {
    var AJAX = null; 
    if (window.XMLHttpRequest) {
       AJAX=new XMLHttpRequest(); 
@@ -125,6 +159,12 @@ function ajaxRequest(openThis, id) {
       alert("Webbläsaren stöde inte AJAX."); 
       return false; 
    }
+   return AJAX;
+  }
+    
+function ajaxRequest(openThis, id) {
+    
+   var AJAX = getHttpRequest(); 
    AJAX.onreadystatechange = function() { 
       if (AJAX.readyState == 4 || AJAX.readyState == "complete") { 
          callback(AJAX.responseText, AJAX.status, id); 
@@ -166,9 +206,11 @@ function ajaxRequest(openThis, id) {
                             %> <div class="site-header-userinfo-namn"><%= Const.toHtml(Const.getSessionData(request).getInloggadKontaktNamn()) %></div><div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/logout">Logga ut</a></div><%                            
                         } %>
                     </div>
-                <div class="site-header-kassa-btn a-btn" onclick="vkShow()">
-                     <span>Till kassan</span>
-                </div>
+                <a href="<%= request.getContextPath() %>/varukorg">
+                    <div class="site-header-kassa-btn a-btn" >
+                         <span>Till kassan</span>
+                    </div>
+                </a>
             </div>
 <% /*
             <div>

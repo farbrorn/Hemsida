@@ -13,6 +13,9 @@ package se.saljex.hemsida;
 public class VarukorgArtikel {
 	Artikel art;
 	Integer antal;
+	
+	String htmlFormValue=null;
+	String htmlFormErrorMessage=null;
 
 	public Artikel getArt() {
 		return art;
@@ -42,8 +45,24 @@ public class VarukorgArtikel {
 	public String getFormatEnhet() {
 		return Const.getFormatEnhet(art.getEnhet());
 	}
-	public String getAnpassatPris() {
+	public String _dep_getAnpassatPris() {
 		return Const.getAnpassatPrisFormat(art.getBruttoPris());
+	}
+
+	public String getHtmlFormValue() {
+		return htmlFormValue;
+	}
+
+	public void setHtmlFormValue(String htmlFormValue) {
+		this.htmlFormValue = htmlFormValue;
+	}
+
+	public String getHtmlFormErrorMessage() {
+		return htmlFormErrorMessage;
+	}
+
+	public void setHtmlFormErrorMessage(String htmlFormErrorMessage) {
+		this.htmlFormErrorMessage = htmlFormErrorMessage;
 	}
 	
 }

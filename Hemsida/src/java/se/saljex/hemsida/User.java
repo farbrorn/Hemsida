@@ -20,6 +20,7 @@ public class User {
 	Integer lagernr;
 	String loguinNamn;
 	String autoLoginUuid;
+	boolean defaultInkMoms=false;
 	
 	public Integer getKontaktId() {
 		return kontaktId;
@@ -69,11 +70,11 @@ public class User {
 		this.kundSaljare = kundSaljare;
 	}
 
-	public Integer getLagernr() {
+	public Integer getDefultLagernr() {
 		return lagernr==null ? 0 : lagernr;
 	}
 
-	public void setLagernr(Integer lagernr) {
+	public void setDefaultLagernr(Integer lagernr) {
 		this.lagernr = lagernr;
 	}
 
@@ -91,6 +92,14 @@ public class User {
 
 	public void setAutoLoginUuid(String autoLoginUuid) {
 		this.autoLoginUuid = autoLoginUuid;
+	}
+
+	public boolean isDefaultInkMoms() {
+		return defaultInkMoms;
+	}
+
+	public void setDefaultInkMoms(boolean defaultInkMoms) {
+		this.defaultInkMoms = defaultInkMoms;
 	}
 	
 		

@@ -547,7 +547,7 @@ public class SQLHandler {
 				u.setKundnr(rs.getString(4));
 				u.setKundSaljare(rs.getString(6));
 				u.setLoguinNamn(rs.getString(7));
-				
+				u.setDefaultInkMoms(false);				
 			}
 		}
 		return u;
@@ -585,6 +585,7 @@ public class SQLHandler {
 				u.setKundSaljare(rs.getString(6));
 				u.setLoguinNamn(rs.getString(7));
 				u.setAutoLoginUuid(autoLoginId);
+				u.setDefaultInkMoms(false);
 							}
 		}
 		return u;
@@ -664,9 +665,9 @@ public class SQLHandler {
 		pv.setEnhet(rs.getString("enhet"));
 		pv.setLevVillkor(rs.getInt("fraktvillkor"));
 		pv.setBruttoPris(rs.getDouble("utpris"));
-		pv.setNettoPris(rs.getDouble("kundnetto_bas"));
-		pv.setNettoPrisStaf1(rs.getDouble("kundnetto_staf1"));
-		pv.setNettoPrisStaf2(rs.getDouble("kundnetto_staf2"));
+		pv.setNettoPrisExMoms(rs.getDouble("kundnetto_bas"));
+		pv.setNettoPrisStaf1ExMoms(rs.getDouble("kundnetto_staf1"));
+		pv.setNettoPrisStaf2ExMoms(rs.getDouble("kundnetto_staf2"));
 		pv.setAntalStaf1(rs.getDouble("staf_antal1"));
 		pv.setAntalStaf2(rs.getDouble("staf_antal2"));
 		pv.setKatNamn(rs.getString("katnamn"));

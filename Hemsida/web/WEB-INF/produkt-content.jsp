@@ -4,6 +4,8 @@
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
+    boolean inkMoms=Const.getSessionData(request).isInkMoms();
+
 %>
                 <div class="kid" itemscope itemtype="http://schema.org/Product">
                     <div class="kid-head">
@@ -16,7 +18,7 @@
                     <div class="kid-order">
                         <div>
                             <div class="pris-stor" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                                <span class="kid-pris" itemprop="price" content="<%= p.getVarianter().get(0).getNettoPris() %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris()) %> kr</span>/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet())%>
+                                <span class="kid-pris" itemprop="price" content="<%= p.getVarianter().get(0).getNettoPris(inkMoms) %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris(inkMoms)) %> kr</span>/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet())%>
                             </div>
                         </div>
                         <div>
@@ -38,20 +40,20 @@
                                 </div>
                                 
                                 <div class="t-variant-pris-kop-hold">
-                                    <% if (pv.getNettoPrisStaf2() > 0.0) { %>
+                                    <% if (pv.getNettoPrisStaf2ExMoms()> 0.0) { %>
                                         <% rowCn++; %>
-                                        <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris()%>" frp="<%= pv.getAntalSaljpack() %>">
-                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPrisStaf2()) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
+                                        <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms)%>" frp="<%= pv.getAntalSaljpack() %>">
+                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPrisStaf2(inkMoms)) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
                                             <div class="t-variant-antal">Antal:
                                                 <input disabled id="antalinput-<%= rowCn %>" size="4" maxlength="4" value="<%= Const.getFormatNumber(Math.ceil(pv.getAntalStaf2()/pv.getAntalSaljpackForDivision()),0) %>">
                                             </div>
                                             <div class="t-variant-kop a-btn" onclick="vk_add(<%= p.getKlasid() %>,'variant-<%= rowCn %>','antalinput-<%= rowCn %>');">Köp</div>
                                         </div>
                                     <% } %>
-                                    <% if (pv.getNettoPrisStaf1() > 0.0) { %>
+                                    <% if (pv.getNettoPrisStaf1ExMoms()> 0.0) { %>
                                         <% rowCn++; %>
-                                        <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris()%>" frp="<%= pv.getAntalSaljpack() %>">
-                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPrisStaf1()) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
+                                        <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms)%>" frp="<%= pv.getAntalSaljpack() %>">
+                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPrisStaf1(inkMoms)) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
                                             <div class="t-variant-antal">Antal:
                                                 <input disabled id="antalinput-<%= rowCn %>" size="4" maxlength="4" value="<%= Const.getFormatNumber(Math.ceil(pv.getAntalStaf1()/pv.getAntalSaljpackForDivision()),0) %>">
                                             </div>
@@ -59,8 +61,8 @@
                                         </div>
                                     <% } %>
                                     <% rowCn++; %>
-                                        <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris()%>" frp="<%= pv.getAntalSaljpack() %>">
-                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPris()) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
+                                        <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms)%>" frp="<%= pv.getAntalSaljpack() %>">
+                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPris(inkMoms)) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
                                             <div class="t-variant-antal">Antal:
                                                 <input id="antalinput-<%= rowCn %>" size="4" maxlength="4" >
                                             </div>
@@ -69,6 +71,14 @@
                                 </div>
                             </div>
                         <% } %>
+                        <div class="momsinfo">
+                            <% if (inkMoms) { %>
+                                Priser inklusive moms.
+                            <% } else { %>
+                                Priser exklusive moms.
+                            <% } %>
+                        </div>
+                        
                     </div>
                     <h3>Tillbehör</h3>
                     <jsp:include page="/WEB-INF/kbl-header.jsp" />

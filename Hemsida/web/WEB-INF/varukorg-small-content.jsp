@@ -11,7 +11,7 @@
 <%@page import="se.saljex.hemsida.SessionData"%>
 <%
     SessionData sd = Const.getSessionData(request);
-    Varukorg vk = sd.getVarukorg(Const.getConnection(request));
+    Varukorg vk = sd.getVarukorg(request);
     long rowCn = Const.getInitData(request).getNewUniktID();
     
 %>

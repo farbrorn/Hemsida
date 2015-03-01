@@ -9,12 +9,19 @@ package se.saljex.hemsida;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,10 +40,11 @@ public class Const {
     public static final String ATTRIB_KATALOGREQUESTEDGRUPP = "katalogrequestedgrupp";
     public static final String ATTRIB_SESSIONDATA = "sessiondata";
 	
-	public static final String PARAM_VARUKORG_AC = "action";
+	public static final String PARAM_VARUKORG_AC = "vkaction";
 	public static final String PARAM_VARUKORG_AC_ADD = "add";
 	public static final String PARAM_VARUKORG_AC_SET = "set";
 	public static final String PARAM_VARUKORG_AC_REMOVE = "remove";
+	public static final String PARAM_VARUKORG_AC_SAVEORDER = "save";
 	public static final String PARAM_VARUKORG_GET = "get";
 	public static final String PARAM_VARUKORG_GET_AJAX = "ax";
 	public static final String PARAM_ARTNR = "aid";
@@ -47,9 +55,12 @@ public class Const {
 	public static final String PARAM_LOGINLOSENL = "loginlosen";
 	
 		public final static String COOKIEAUTOINLOGID="loginuuid";
-	
+		private static final Logger logger = Logger.getLogger("Hemsida");	
 	
 	public static int getDefaultSokLimit() { return 20; }
+	
+	
+	public static void log(String s) { logger.log(Level.WARNING, s); }
 	
 	public static SessionData getSessionData(HttpServletRequest request) { 
 		SessionData sd = (SessionData)request.getSession().getAttribute(ATTRIB_SESSIONDATA);
@@ -269,6 +280,10 @@ public class Const {
 		return ret;
 	}
 	
+	public static String getSaljpackFormaeradEnhet(Artikel a) {
+		return a.getAntalSaljpack().equals(1.0) ? getFormatEnhet(a.getEnhet()) : "x " + getAnpassade2Decimaler(a.getAntalSaljpack()) + getFormatEnhet(a.getEnhet());
+	}
+	
 	public static String getArtBildURL(String artnr, Integer size) {
 		if (size == null ) size=50;
 		return "http://saljex.se/p/s50/" + artnr + ".png";
@@ -280,10 +295,97 @@ public class Const {
 	public static String getArtBildURL(Produkt p) {
 		return getArtBildURL(p.getVarianter().get(0).getArtnr());
 	}
+
+	public static List<Integer> getAktivaLagernr() {
+		List<Integer> ret = new ArrayList<Integer>();
+		ret.add(0);
+		ret.add(1);
+		ret.add(3);
+		ret.add(4);
+		ret.add(10);
+		return ret;
+	}
+	
+	public static boolean isLagernrInAktivList(int lagernr) {
+		List<Integer> list = getAktivaLagernr();
+		for (Integer l : list) {
+			if (l.equals(lagernr)) return true;
+		}
+		return false;
+	}
 	
 	public static String getDefaultKundnr() {
 		return "1";
 	}
 	public static Integer getDefultLagernr() { return 0; }
+	
+	public static boolean redirectToHttps() { return true; }
+	
+	public static String getForetagNamn() { return "Säljex"; }
+	
+	public static String getReCaptchaSiteKey(Connection con) {
+		return getSxreg(con, "Hemsida-ReCaptcha-SiteKey", null);
+	}
+	public static String getReCaptchaSecretKey(Connection con) {
+		return getSxreg(con, "Hemsida-ReCaptcha-SecretKey", null);
+	}
+	
+	public static String getSxServSmtpUser(Connection con) {
+		return getSxreg(con, "SxServSMTPUser", null);
+	}
+	public static String getSxServSmtpPassword(Connection con) {
+		return getSxreg(con, "SxServSMTPPassword", null);
+	}
+	public static String getSxServSmtpServerPort(Connection con) {
+		return getSxreg(con, "SxServSMTPServerPort", "25");
+	}
+	public static String getSxServSmtpTransport(Connection con) {
+		return getSxreg(con, "SxServSMTPTransport", "smtp");
+	}
+
+	public static String getSxServMailFromAddress(Connection con) {
+		return getSxreg(con, "SxServMailFromAddress", "info@saljex.se");
+	}
+	public static String getSxServAdminMail(Connection con) {
+		return getSxreg(con, "SxServAdminMail", "ulf@saljex.se");
+	}
+	public static String getSxServOrderMail(Connection con) {
+		return getSxreg(con, "SxServOrderMail", "order@saljex.se");
+	}
+	public static boolean isHemsidaTestlage(Connection con) {
+		return !"false".equals(getSxreg(con, "Hemsida-Testlage", "true"));
+	}
+	
+
+	
+	
+	public static String getSxreg (Connection con, String id, String defaultValue)  {
+		try {
+			return doGetSxreg(con, id, defaultValue);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	public static String doGetSxreg(Connection con, String id, String defaultValue) throws SQLException {
+		PreparedStatement ps = con.prepareStatement("select varde from sxreg where id=?");
+		ps.setString(1, id);
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			return rs.getString(1);
+		} else {
+			ps = con.prepareStatement("insert into sxreg (id,varde) values (?,?)");
+			ps.setString(1, id);
+			ps.setString(2, defaultValue);
+			ps.executeUpdate();
+			return defaultValue;
+		}
+	}
+	
+	public static Double getMomsMultiplikator() { return 1.25; }
+	
+	
 	
 }
