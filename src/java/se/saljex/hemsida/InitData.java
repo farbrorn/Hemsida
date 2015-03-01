@@ -15,6 +15,7 @@ import javax.servlet.ServletRequest;
  */
 public class InitData {
 
+	boolean hideVarukorg=false;
 	private long uniktID=0;
 	private ServletRequest request;
     public InitData(ServletRequest request) {
@@ -38,5 +39,15 @@ public class InitData {
 	public boolean isContentOnlyCall() {
 		return "c".equals(request.getParameter("g"));
 	}
+
+	public boolean isHideVarukorg() {
+		return hideVarukorg;
+	}
+
+	public void setHideVarukorg(boolean hideVarukorg) {
+		this.hideVarukorg = hideVarukorg;
+	}
+	
+	
 
 }

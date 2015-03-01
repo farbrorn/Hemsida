@@ -19,11 +19,21 @@ public class VarukorgProdukt {
 	Produkt produkt;
 	
 	public void setProdukt(Produkt produkt) {this.produkt = produkt; }
-	public void addArtikel(Artikel artikel, Integer antal) {
+	public VarukorgArtikel addArtikel(Artikel artikel, Integer antal) {
 		VarukorgArtikel a = new VarukorgArtikel();
 		a.setArt(artikel);
 		a.setAntal(antal);
 		artiklar.add(a);
+		return a;
+	}
+	public VarukorgArtikel addArtikel(Artikel artikel, Integer antal, String htmlFormData, String htmlErrorMEssage) {
+		VarukorgArtikel a = new VarukorgArtikel();
+		a.setArt(artikel);
+		a.setAntal(antal);
+		a.setHtmlFormErrorMessage(htmlErrorMEssage);
+		a.setHtmlFormValue(htmlFormData);
+		artiklar.add(a);
+		return a;
 	}
 	
 	public List<VarukorgArtikel> getVarukorgArtiklar() {

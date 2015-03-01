@@ -6,6 +6,7 @@
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     long rowCn = Const.getInitData(request).getNewUniktID();
     long id=0;
+    boolean inkMoms=Const.getSessionData(request).isInkMoms();
 
  %>
 <div class="kbl-block">
@@ -23,7 +24,7 @@
                                     <% 
                                     boolean firstRun=true;
                                     for (Artikel pv : p.getVarianter()) { %>
-                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris()%>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
+                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms)%>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
                                         
                                     <%
                                         firstRun = false;
@@ -31,7 +32,7 @@
                                 </select>
                             </div>
                             <div class="kbl-t-pris">
-                                <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris()) %></span><span class="kbl-t-pris-per">/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet()) %></span>
+                                <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris(inkMoms)) %></span><span class="kbl-t-pris-per">/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet()) %></span>
                                 <div class="kbl-t-ilager" id="ilager-<%= rowCn %>"><%= p.getVarianter().get(0).getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %></div>
 
                             </div>

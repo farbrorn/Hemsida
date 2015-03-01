@@ -19,7 +19,7 @@ public class Artikel {
     private String katNamn;
     private Double bruttopris;
 	
-    private Double nettoPris;
+    private Double nettoPris=null;
 
     private Double nettoPrisStaf1;
     private Double nettoPrisStaf2;
@@ -142,27 +142,36 @@ public class Artikel {
 	public void setAntalSaljPackIForpack(Integer antalSaljPackIForpack) {
 		this.antalSaljPackIForpack = antalSaljPackIForpack;
 	}
-	public Double getNettoPris() {
+	public Double getNettoPris(boolean inkMoms) {
+		return inkMoms ? nettoPris*Const.getMomsMultiplikator() : nettoPris;
+	}
+	public Double getNettoPrisExMoms() {
 		return nettoPris;
 	}
 
-	public void setNettoPris(Double nettoPris) {
+	public void setNettoPrisExMoms(Double nettoPris) {
 		this.nettoPris = nettoPris;
 	}
 
-	public Double getNettoPrisStaf1() {
+	public Double getNettoPrisStaf1ExMoms() {
 		return nettoPrisStaf1;
 	}
-
-	public void setNettoPrisStaf1(Double nettoPrisStaf1) {
-		this.nettoPrisStaf1 = nettoPrisStaf1;
+	public Double getNettoPrisStaf1(boolean inkMoms) {
+		return inkMoms ? nettoPrisStaf1*Const.getMomsMultiplikator() : nettoPrisStaf1;
 	}
 
-	public Double getNettoPrisStaf2() {
+	public void setNettoPrisStaf1ExMoms(Double nettoPrisStaf1) {
+		this.nettoPrisStaf1 = nettoPrisStaf1;
+	}
+	public Double getNettoPrisStaf2(boolean inkMoms) {
+		return inkMoms ? nettoPrisStaf2*Const.getMomsMultiplikator() : nettoPrisStaf2;
+	}
+
+	public Double getNettoPrisStaf2ExMoms() {
 		return nettoPrisStaf2;
 	}
 
-	public void setNettoPrisStaf2(Double nettoPrisStaf2) {
+	public void setNettoPrisStaf2ExMoms(Double nettoPrisStaf2) {
 		this.nettoPrisStaf2 = nettoPrisStaf2;
 	}
 
@@ -182,6 +191,13 @@ public class Artikel {
 		this.antalStaf2 = antalStaf2;
 	}
 	
+	public Double getNettoprisVidAntalSaljpack(int antal, boolean inkMoms) {
+		Double antalSaljpack = getAntalSaljpack();
+		if (antalSaljpack==null || antalSaljpack==0.0) antalSaljpack=1.0;
+		if (getAntalStaf2()!=null && getNettoPrisStaf2ExMoms()!=null && getNettoPrisStaf2ExMoms()>0 && antal>=getAntalStaf2()/antalSaljpack) return getNettoPrisStaf2(inkMoms);
+		if (getAntalStaf1()!=null && getNettoPrisStaf1ExMoms()!=null && getNettoPrisStaf1ExMoms()>0 && antal>=getAntalStaf1()/antalSaljpack) return getNettoPrisStaf1(inkMoms);
+		else return getNettoPris(inkMoms);
+	}
 		
 		
 
