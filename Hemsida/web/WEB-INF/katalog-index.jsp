@@ -1,3 +1,6 @@
+<%@page import="se.saljex.hemsida.Produkt"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="se.saljex.hemsida.SQLHandler"%>
 <%@page import="se.saljex.hemsida.KatalogGrupp"%>
 <%@page import="se.saljex.hemsida.KatalogGruppLista"%>
 <%@page import="se.saljex.hemsida.Const"%>
@@ -24,6 +27,7 @@ long id=0;
     } 
     
     firstRun=true;
+    ArrayList<Produkt> topProd;
     for (KatalogGrupp  kg : kgl.getGrupper().values()) { 
     if (avdelning!=null && !avdelning.getGrpId().equals(kg.getAvdelning())) continue; 
         if (!firstRun && kg.getDepth() == divBreakLevel) { %>
@@ -40,7 +44,16 @@ long id=0;
         <% if (kg.getDepth().equals(divBreakLevel)) { %>
         <div class="katalog-index-row"><h3>
                 <% id=Const.getInitData(request).getNewUniktID(); %>
-                <a id="contind<%= id %>" onclick="ajxCont(event, 'contind<%= id %>')" href="<%= request.getContextPath()+"/katalog/"+kg.getGrpId() %>"><%= Const.toHtml(kg.getRubrik()) %></a></h3></div>
+                <% topProd = SQLHandler.getToplistaInGrupp(request, kg.getGrpId(), Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4); %>
+                <a id="contind<%= id %>" onclick="ajxCont(event, 'contind<%= id %>')" href="<%= request.getContextPath()+"/katalog/"+kg.getGrpId() %>"><%= Const.toHtml(kg.getRubrik()) %></a></h3>
+                <% if (topProd!=null) { %>
+                    <% for (Produkt tp : topProd) { %>
+                    <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(tp) %>"></div>
+                    <% } %>
+                <% } %>
+                        
+        </div>
+                
         <%  } else if(kg.getDepth() > 0) { %>
         <div class="katalog-index-row">
             <% id=Const.getInitData(request).getNewUniktID(); %>

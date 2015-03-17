@@ -35,13 +35,14 @@
                                     <div class="vk-antal-enh">
                                         <div class="vk-antal"><%= a.getAntal() %> </div>
                                         <div class="vk-enh">
-                                            <%= a.getArt().getAntalSaljpack().equals(1.0) ? a.getFormatEnhet() : "x " + Const.getAnpassade2Decimaler(a.getArt().getAntalSaljpack()) + a.getFormatEnhet() %> 
+                                            <%= a.getArt().getEnhetStringMedForpackning() %> 
                                         </div>
                                     </div>
                                     <div class="vk-change">
                                         <input size="4" id="vk-antalinput-<%= rowCn %>" value="<%= a.getAntal() %>"/>
-                                        <div class="vk-andra-btn vk-btn" onclick="vk_set(<%= vkProdukt.getProdukt().getKlasid() %>,'<%= a.getArt().getArtnr() %>','vk-antalinput-<%= rowCn %>');">Ä</div>
-                                        <div class="vk-radera-btn vk-btn" onclick="vk_del(<%= vkProdukt.getProdukt().getKlasid() %>,'<%= a.getArt().getArtnr() %>');">X</div>
+                                        <button class="vk-btn vk-andra-btn" onclick="vk_incantal(<%= vkProdukt.getProdukt().getKlasid() %>,'<%= a.getArt().getArtnr() %>','vk-antalinput-<%= rowCn %>',1);" title="Öka antal">+</button>
+                                        <button class="vk-btn vk-andra-btn" onclick="vk_incantal(<%= vkProdukt.getProdukt().getKlasid() %>,'<%= a.getArt().getArtnr() %>','vk-antalinput-<%= rowCn %>',-1);" title="Minska antal">-</button>
+                                        <button class="vk-btn vk-radera-btn" onclick="vk_del(<%= vkProdukt.getProdukt().getKlasid() %>,'<%= a.getArt().getArtnr() %>');" title="Ta bort produkt">x</button>
                                     </div>
                                 </div>
                             <% } %>        

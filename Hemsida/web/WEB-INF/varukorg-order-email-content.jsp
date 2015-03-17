@@ -20,7 +20,7 @@
 %>
 
 <h1>Order från webbutiken</h1>
-<% if (Const.isHemsidaTestlage(Const.getConnection(request))) { %>
+<% if (Const.getStartupData().isHemsidaTestlage()) { %>
 <h1>Detta är bara en test!! Ingen skarp order!</h1>
 <% } %>
 

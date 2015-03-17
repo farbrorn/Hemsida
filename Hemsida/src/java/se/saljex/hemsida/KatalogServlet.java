@@ -84,6 +84,10 @@ public class KatalogServlet extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/katalog-gruppchildren.jsp").include(request, response);				
 				
 				ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr());
+				if (prod==null || prod.size()<1) { 
+					prod = SQLHandler.getToplistaInGrupp(request, grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
+					out.print("<h3>Rekommenderat</h3>");
+				}
 				request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
 				for (Produkt p : prod) {
 					request.setAttribute(Const.ATTRIB_PRODUKT, p);

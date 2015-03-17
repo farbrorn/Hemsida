@@ -1,6 +1,11 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <html>
     <head>
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+<% if (StartupData.isHemsidaTestlage()) { %> <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"> <% } %>
 <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
         <script>
             function updateVariant(id) {
@@ -34,7 +39,7 @@
             
             
             function sokare(v) {
-                ajaxRequest("<%= request.getContextPath() + "/s" %>" + "?q=" + encodeURIComponent(v),"content");
+                ajaxRequest("<%= request.getContextPath() + "/sok" %>" + "?q=" + encodeURIComponent(v),"content");
             }
             
             function vk_add(klasid, variantid, antalid) {
@@ -50,6 +55,13 @@
             function vk_set(klasid, artnr, antalid) {
                 var antal = document.getElementById(antalid).value;
                 if (antal != null && !isNaN(antal)) {
+                    ajaxRequest("<%= request.getContextPath() + "/varukorg" %>" + "?<%= Const.PARAM_VARUKORG_AC + "=" + Const.PARAM_VARUKORG_AC_SET + "&" + Const.PARAM_VARUKORG_GET + "=" + Const.PARAM_VARUKORG_GET_AJAX + "&" + Const.PARAM_KLASID + "=" %>" + klasid +"<%= "&" + Const.PARAM_ARTNR +"=" %>" + encodeURIComponent(artnr) + "<%= "&" + Const.PARAM_ANTAL + "=" %>" + antal,"vk-content");
+                }
+            }
+            function vk_incantal(klasid, artnr, antalid, steg) {
+                var antal = document.getElementById(antalid).value;
+                if (antal != null && !isNaN(antal) && steg!=null && !isNaN(steg)) {
+                    antal = antal*1+steg*1;
                     ajaxRequest("<%= request.getContextPath() + "/varukorg" %>" + "?<%= Const.PARAM_VARUKORG_AC + "=" + Const.PARAM_VARUKORG_AC_SET + "&" + Const.PARAM_VARUKORG_GET + "=" + Const.PARAM_VARUKORG_GET_AJAX + "&" + Const.PARAM_KLASID + "=" %>" + klasid +"<%= "&" + Const.PARAM_ARTNR +"=" %>" + encodeURIComponent(artnr) + "<%= "&" + Const.PARAM_ANTAL + "=" %>" + antal,"vk-content");
                 }
             }
@@ -77,6 +89,7 @@ function formatPris2(n, decPlaces, thouSeparator, decSeparator) {
 function callback(serverData, serverStatus, id) { 
 	if(serverStatus == 200){
    		document.getElementById(id).innerHTML = serverData;   
+                if (id=="content") renderAjaxContentOnLoaded();
 	} else {
 		//document.getElementById(id).innerHTML = 'Laddar...'; 
 	}
@@ -136,7 +149,7 @@ function AJAXPost2(formId, resultId) {
     xmlhttp = getHttpRequest();
     xmlhttp.open("POST",url,false);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    <% if(!Const.redirectToHttps()) { %>
+    <% if(!Const.getStartupData().redirectToHttps()) { %>
         xmlhttp.setRequestHeader("Content-length", params.length);
         xmlhttp.setRequestHeader("Connection", "close");
     <% } %>
@@ -177,6 +190,11 @@ function ajaxRequest(openThis, id) {
 }
 
 
+function renderAjaxContentOnLoaded() {
+    FB.XFBML.parse();
+    gapi.plusone.go();
+    }
+
             
             
         </script>
@@ -187,18 +205,31 @@ function ajaxRequest(openThis, id) {
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/inc/a.css">    </head>
 
     <body>
-        <div class="main">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/sv_SE/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script src="https://apis.google.com/js/platform.js" async defer>
+  {lang: 'sv'}
+</script>
             <div class="site-header">
-                <div class="site-header-logo"><img src="http://www.saljex.se/p/s200/logo-saljex.png" alt="saljex"></div>
-                <div class="site-header-menu-btn"  >btn</div>
+                <a href="<%= request.getContextPath() %>/">
+                    <div class="site-header-logo"><img src="<%= Const.getStartupData().getLogoUrl() %>" alt="Logga"></div>
+                </a>
                 <div class="site-header-sok">
                     <form action="<%= request.getContextPath() + "/s" %>" method="get">
-                    <input name="q" onkeyup="sokare(this.value)">
-                    <input value="Sök" type="submit">
+                        <!--<table><tr>     <td> -->
+                                    <input name="q" class="site-header-sok-input" onkeyup="sokare(this.value)">
+                                <!-- </td>  <td> -->
+                                    <input value="Sök" type="submit">
+                               <!-- </td>             </tr></table>  -->
                     </form>
                 </div>
-                <div class="site-header-vk-btn" onclick="vkShow()">Varukorg &#812;
-                </div>
+                <div class="site-header-abar">                
                     <div class="site-header-userinfo" onclick="vkShow()">
                         <% if (Const.getSessionData(request).getInloggadKontaktId()==null) {
                             %> <div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/login">Logga in</a></div><%
@@ -211,6 +242,10 @@ function ajaxRequest(openThis, id) {
                          <span>Till kassan</span>
                     </div>
                 </a>
+                <a href="<%= request.getContextPath() %>/s/<%= Const.getStartupData().getPageMeny() %>">
+                    <div class="site-header-menu-btn b-btn"  >Meny</div>
+                </a>
+                </div>
             </div>
 <% /*
             <div>
@@ -232,11 +267,40 @@ function ajaxRequest(openThis, id) {
 </form>            </div>
 */ %>
 
-                    <jsp:include page="/WEB-INF/produkttrad.jsp" />
+         <div class="main">
+             <div class="col-l">
+<% ArrayList<String> cards; %>
 
-            
-
-
-            <div class="content" id="content">
+<% cards = Const.getStartupData().getCardsLeftTop();
+for (String s : cards) { %>
+    <div class="card">
+        <%= s %>
+    </div>    
+<% } %>
+                 
+                   <jsp:include page="/WEB-INF/produkttrad.jsp" />
+<% cards = Const.getStartupData().getCardsLeftBot();
+for (String s : cards) { %>
+    <div class="card">
+        <%= s %>
+    </div>    
+<% } %>
+                
+                
+                
+             </div>    
+                
+                
+                
+<div class="col-m">
+<% cards = Const.getStartupData().getCardsMidTop();
+for (String s : cards) { %>
+    <div class="card">
+        <%= s %>
+    </div>    
+<% } %>
+    
+                       <div class="card content" id="content">
+                           
 
                 

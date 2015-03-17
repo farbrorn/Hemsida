@@ -9,7 +9,6 @@ package se.saljex.hemsida;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,7 @@ public class ReCaptcha {
 	public static String RECAPTCHA_HTMLFORMNAME = "g-recaptcha-response";
 	
 	public static boolean check(HttpServletRequest request) {
-		return check(Const.getReCaptchaSecretKey(Const.getConnection(request)), request.getParameter(RECAPTCHA_HTMLFORMNAME));
+		return check(StartupData.getReCaptchaSecretKey(), request.getParameter(RECAPTCHA_HTMLFORMNAME));
 	}
 	
 	public static boolean check(String secret, String response) {

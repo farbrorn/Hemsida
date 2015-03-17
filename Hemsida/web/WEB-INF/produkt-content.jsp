@@ -1,3 +1,4 @@
+<%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="se.saljex.hemsida.Artikel"%>
 <%@page import="se.saljex.hemsida.Const"%>
@@ -27,8 +28,8 @@
                             </div>
                             <div class="kop-stor a-btn" onclick="javascript">KÖP</div>
                         </div>
-                        <div>
-                            Listpris:
+                        <div class="kid-share">
+                            <jsp:include page="/WEB-INF/share-buttons.jsp" />
                         </div>
                     </div>
                                 <div class="kid-variant">Alla varianter  <div class="kid-variant-lagerfor">(Visar lagersaldo för <%= Const.getSessionData(request).getLagerNr() %>)</div>

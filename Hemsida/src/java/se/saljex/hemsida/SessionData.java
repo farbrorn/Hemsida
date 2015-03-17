@@ -86,7 +86,7 @@ public class SessionData {
 	}
 
 	public Integer getLagerNr() {
-		return lagernr==null? inloggadUser!=null ? inloggadUser.getDefultLagernr() : Const.getDefultLagernr() : lagernr;
+		return lagernr==null? inloggadUser!=null ? inloggadUser.getDefultLagernr() : StartupData.getDefultLagernr() : lagernr;
 	}
 	public void setLagernr(Integer lagernr) { this.lagernr=lagernr; }
 	
@@ -127,7 +127,7 @@ public class SessionData {
 		return inloggadUser==null ? null : inloggadUser.getKundNamn();
 	}
 	public String getAvtalsKundnr() {
-		return inloggadUser==null ? Const.getDefaultKundnr() : inloggadUser.getKundnr();		
+		return inloggadUser==null ? StartupData.getDefaultKundnr() : inloggadUser.getKundnr();		
 	}
 
 	public KatalogGruppLista getKatalogGruppLista(Connection con) throws SQLException {

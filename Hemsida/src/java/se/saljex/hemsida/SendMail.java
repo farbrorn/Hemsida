@@ -43,8 +43,8 @@ public class SendMail {
 	private String transport;
 
 	public SendMail(Connection con, Session s) {
-		this(s, Const.getSxServSmtpUser(con), Const.getSxServSmtpPassword(con), 
-				Const.getSxServSmtpServerPort(con), Const.getSxServSmtpTransport(con));
+		this(s, StartupData.getSxServSmtpUser(), StartupData.getSxServSmtpPassword(), 
+				StartupData.getSxServSmtpServerPort(), StartupData.getSxServSmtpTransport());
 	}
 	
 	public SendMail(Session s, String u, String p, String por, String transport) {
@@ -62,7 +62,7 @@ public class SendMail {
 
 
 	public void sendOrderSimpleMail(Connection con, String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
-		sendMailTextHtml(	new InternetAddress(Const.getSxServMailFromAddress(con)), Const.getSxServOrderMail(con),
+		sendMailTextHtml(	new InternetAddress(StartupData.getSxServMailFromAddress()), StartupData.getSxServOrderMail(),
 				subject, text,text);
 	}
 	public void sendOrderSimpleMail(Connection con, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
@@ -70,7 +70,7 @@ public class SendMail {
 	}
 	
 	public void sendAdminSimpleMail(Connection con, String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
-		sendMailTextHtml(	new InternetAddress(Const.getSxServMailFromAddress(con)), Const.getSxServAdminMail(con),
+		sendMailTextHtml(	new InternetAddress(StartupData.getSxServMailFromAddress()), StartupData.getSxServAdminMail(),
 				subject, text,text);
 	}
 	public void sendAdminSimpleMail(Connection con, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
@@ -79,7 +79,7 @@ public class SendMail {
 
 
 	public void sendSimpleMail(Connection con, String mailTo, String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
-		sendMailTextHtml(	new InternetAddress(Const.getSxServMailFromAddress(con))
+		sendMailTextHtml(	new InternetAddress(StartupData.getSxServMailFromAddress())
 				, mailTo, subject, text,text);
 	}
 

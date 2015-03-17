@@ -143,7 +143,7 @@ public class Artikel {
 		this.antalSaljPackIForpack = antalSaljPackIForpack;
 	}
 	public Double getNettoPris(boolean inkMoms) {
-		return inkMoms ? nettoPris*Const.getMomsMultiplikator() : nettoPris;
+		return inkMoms ? nettoPris*Const.getStartupData().getMomsMultiplikator() : nettoPris;
 	}
 	public Double getNettoPrisExMoms() {
 		return nettoPris;
@@ -157,14 +157,14 @@ public class Artikel {
 		return nettoPrisStaf1;
 	}
 	public Double getNettoPrisStaf1(boolean inkMoms) {
-		return inkMoms ? nettoPrisStaf1*Const.getMomsMultiplikator() : nettoPrisStaf1;
+		return inkMoms ? nettoPrisStaf1*Const.getStartupData().getMomsMultiplikator() : nettoPrisStaf1;
 	}
 
 	public void setNettoPrisStaf1ExMoms(Double nettoPrisStaf1) {
 		this.nettoPrisStaf1 = nettoPrisStaf1;
 	}
 	public Double getNettoPrisStaf2(boolean inkMoms) {
-		return inkMoms ? nettoPrisStaf2*Const.getMomsMultiplikator() : nettoPrisStaf2;
+		return inkMoms ? nettoPrisStaf2*Const.getStartupData().getMomsMultiplikator() : nettoPrisStaf2;
 	}
 
 	public Double getNettoPrisStaf2ExMoms() {
@@ -199,7 +199,14 @@ public class Artikel {
 		else return getNettoPris(inkMoms);
 	}
 		
-		
+
+	public String getFormatEnhet() {
+		return Const.getFormatEnhet(getEnhet());
+	}
+	
+	public String getEnhetStringMedForpackning() {
+		return getAntalSaljpack().equals(1.0) ? getFormatEnhet() : "x " + Const.getAnpassade2Decimaler(getAntalSaljpack()) + getFormatEnhet();
+	}
 
 
    
