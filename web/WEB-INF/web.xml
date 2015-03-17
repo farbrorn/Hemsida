@@ -8,6 +8,14 @@
         <filter-name>HttpsFilter</filter-name>
         <filter-class>se.saljex.hemsida.HttpsFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>se.saljex.hemsida.admin.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/Admin/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>HttpsFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -16,6 +24,10 @@
         <filter-name>RootFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>se.saljex.hemsida.MainListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>t1</servlet-name>
         <servlet-class>se.saljex.hemsida.t1</servlet-class>
@@ -48,6 +60,14 @@
         <servlet-name>ImageServerServlet</servlet-name>
         <servlet-class>se.saljex.hemsida.ImageServerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PageServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.PageServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditPage</servlet-name>
+        <servlet-class>se.saljex.hemsida.admin.EditPage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>t1</servlet-name>
         <url-pattern>/t1</url-pattern>
@@ -62,7 +82,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SokServlet</servlet-name>
-        <url-pattern>/s</url-pattern>
+        <url-pattern>/sok</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>VarukorgServlet</servlet-name>
@@ -80,12 +100,17 @@
         <servlet-name>ImageServerServlet</servlet-name>
         <url-pattern>/p/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PageServlet</servlet-name>
+        <url-pattern>/s/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditPage</servlet-name>
+        <url-pattern>/Admin/EditPage/*</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
 </web-app>

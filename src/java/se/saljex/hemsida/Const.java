@@ -9,11 +9,7 @@ package se.saljex.hemsida;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +35,9 @@ public class Const {
     public static final String ATTRIB_KATALOGAVDELNING = "katalogavdelning";
     public static final String ATTRIB_KATALOGREQUESTEDGRUPP = "katalogrequestedgrupp";
     public static final String ATTRIB_SESSIONDATA = "sessiondata";
+    public static final String ATTRIB_AID = "artikelnummer";
+    public static final String ATTRIB_KID = "klasid";
+	
 	
 	public static final String PARAM_VARUKORG_AC = "vkaction";
 	public static final String PARAM_VARUKORG_AC_ADD = "add";
@@ -56,8 +55,10 @@ public class Const {
 	
 		public final static String COOKIEAUTOINLOGID="loginuuid";
 		private static final Logger logger = Logger.getLogger("Hemsida");	
+
+		
+	private static StartupData startupData=null;
 	
-	public static int getDefaultSokLimit() { return 20; }
 	
 	
 	public static void log(String s) { logger.log(Level.WARNING, s); }
@@ -75,35 +76,13 @@ public class Const {
 		return (InitData)request.getAttribute(ATTRIB_NAME_INIT);
     }
     
-	public static Integer getKatalogRootGrp() { 
-	//	return 513; 
-		return 0;
-	}
 	
-	public static int[] getKatalogExcludeGrp() {
-		int[] e = {895};
-		return e;
-	}
-	public static String getKatalogExcludeGrpAsString() {
-		String s="";
-		for (int i : getKatalogExcludeGrp()) {
-			if (!s.isEmpty()) s = s+",";
-			s = s + i;
-		}
-		return s;
-	}
-	
-	public static String getImageServerOriginalAbsolutPath() {
-		return "/dum/imageserver";
-	}
-	public static String getImageServerCacheAbsolutPath() {
-		return "/dum/imageserver/cache";
-	}
+
 	
 	
-	public static boolean isFirstTradLevelAvdelning() { return true; }
 	
-	public static Integer getKatalogTradMaxDisplayDepthLevel() { return 1; }
+	
+	
 	
     public static void setInitdata(ServletRequest request, InitData initData) {
 	request.setAttribute(ATTRIB_NAME_INIT, initData);
@@ -185,10 +164,16 @@ public class Const {
 		 return "";//Om vi får exception retureneras ""
 	 }
 	 
+	public static String toHtmlNotLineBreak(String string) {
+		return toHtml(string, false);
+	}
 	public static String toHtml(String string) {
+		return toHtml(string, true);
+	}
+	public static String toHtml(String string, boolean convertWhites) {
 		// Baserat på kod från http://www.rgagnon.com/javadetails/java-0306.html av S. Bayer
 		if (string == null) return "";
-		StringBuffer sb = new StringBuffer(string.length());
+		StringBuilder sb = new StringBuilder(string.length());
 		// true if last char was blank
 		boolean lastWasBlankChar = false;
 		int len = string.length();
@@ -201,7 +186,7 @@ public class Const {
 				// this solves the problem you get if you replace all
 				// blanks with &nbsp;, if you do that you loss 
 				// word breaking
-				if (lastWasBlankChar) {
+				if (convertWhites && lastWasBlankChar) {
 					 lastWasBlankChar = false;
 					 sb.append("&nbsp;");
 				 } else {
@@ -215,7 +200,7 @@ public class Const {
 				else if (c == '&') sb.append("&amp;");
 				else if (c == '<') sb.append("&lt;");
 				else if (c == '>') sb.append("&gt;");
-				else if (c == '\n') sb.append("<br/>");
+				else if (convertWhites && c == '\n') sb.append("<br/>");
 				else sb.append(c);
 			}
 		}
@@ -293,98 +278,27 @@ public class Const {
 	}
 	
 	public static String getArtBildURL(Produkt p) {
-		return getArtBildURL(p.getVarianter().get(0).getArtnr());
+		if (p.getVarianter().size() > 0) return getArtBildURL(p.getVarianter().get(0).getArtnr());
+		else return "";
 	}
 
-	public static List<Integer> getAktivaLagernr() {
-		List<Integer> ret = new ArrayList<Integer>();
-		ret.add(0);
-		ret.add(1);
-		ret.add(3);
-		ret.add(4);
-		ret.add(10);
-		return ret;
-	}
 	
 	public static boolean isLagernrInAktivList(int lagernr) {
-		List<Integer> list = getAktivaLagernr();
+		List<Integer> list = StartupData.getAktivaLagernr();
 		for (Integer l : list) {
 			if (l.equals(lagernr)) return true;
 		}
 		return false;
 	}
 	
-	public static String getDefaultKundnr() {
-		return "1";
-	}
-	public static Integer getDefultLagernr() { return 0; }
-	
-	public static boolean redirectToHttps() { return true; }
-	
-	public static String getForetagNamn() { return "Säljex"; }
-	
-	public static String getReCaptchaSiteKey(Connection con) {
-		return getSxreg(con, "Hemsida-ReCaptcha-SiteKey", null);
-	}
-	public static String getReCaptchaSecretKey(Connection con) {
-		return getSxreg(con, "Hemsida-ReCaptcha-SecretKey", null);
-	}
-	
-	public static String getSxServSmtpUser(Connection con) {
-		return getSxreg(con, "SxServSMTPUser", null);
-	}
-	public static String getSxServSmtpPassword(Connection con) {
-		return getSxreg(con, "SxServSMTPPassword", null);
-	}
-	public static String getSxServSmtpServerPort(Connection con) {
-		return getSxreg(con, "SxServSMTPServerPort", "25");
-	}
-	public static String getSxServSmtpTransport(Connection con) {
-		return getSxreg(con, "SxServSMTPTransport", "smtp");
+
+	public static StartupData getStartupData() {
+		return startupData;
 	}
 
-	public static String getSxServMailFromAddress(Connection con) {
-		return getSxreg(con, "SxServMailFromAddress", "info@saljex.se");
+	public static void setStartupData(StartupData startupData) {
+		Const.startupData = startupData;
 	}
-	public static String getSxServAdminMail(Connection con) {
-		return getSxreg(con, "SxServAdminMail", "ulf@saljex.se");
-	}
-	public static String getSxServOrderMail(Connection con) {
-		return getSxreg(con, "SxServOrderMail", "order@saljex.se");
-	}
-	public static boolean isHemsidaTestlage(Connection con) {
-		return !"false".equals(getSxreg(con, "Hemsida-Testlage", "true"));
-	}
-	
-
-	
-	
-	public static String getSxreg (Connection con, String id, String defaultValue)  {
-		try {
-			return doGetSxreg(con, id, defaultValue);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-	
-	public static String doGetSxreg(Connection con, String id, String defaultValue) throws SQLException {
-		PreparedStatement ps = con.prepareStatement("select varde from sxreg where id=?");
-		ps.setString(1, id);
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			return rs.getString(1);
-		} else {
-			ps = con.prepareStatement("insert into sxreg (id,varde) values (?,?)");
-			ps.setString(1, id);
-			ps.setString(2, defaultValue);
-			ps.executeUpdate();
-			return defaultValue;
-		}
-	}
-	
-	public static Double getMomsMultiplikator() { return 1.25; }
 	
 	
 	

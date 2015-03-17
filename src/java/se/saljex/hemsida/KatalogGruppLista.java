@@ -19,6 +19,10 @@ public class KatalogGruppLista {
 	private LinkedHashMap<Integer, KatalogGrupp> grupper= new LinkedHashMap<Integer, KatalogGrupp>();
 	private ArrayList<KatalogGrupp> avdelningar=null;
 
+	public boolean isGruppInList(Integer grpId) {
+		return grupper.get(grpId)!=null;
+	}
+	
 	public ArrayList<KatalogGrupp> getAvdelningar() {
 		return avdelningar;
 	}

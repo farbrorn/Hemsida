@@ -53,8 +53,8 @@ public class ImageServerServlet extends HttpServlet {
      */
 	@Override
     public void init() throws ServletException {
-		basePath = Const.getImageServerOriginalAbsolutPath();
-		cachePath = Const.getImageServerCacheAbsolutPath();
+		basePath = StartupData.getImageServerOriginalAbsolutPath();
+		cachePath = StartupData.getImageServerCacheAbsolutPath();
        // Validate base path.
         if (this.basePath == null || cachePath == null) {
             throw new ServletException("Basepath and cachepath is required.");

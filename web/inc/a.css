@@ -1,17 +1,36 @@
-            h2, h3 {
-                font-family:'Segoe UI', Helvetica, Arial, sans-serif;
-                padding: 0px;
-                margin: 0px;
-            }
             body {
                 margin: 0px;
                 padding: 0px;
+                background-color: rgb(229, 229, 229);
+                overflow-y:scroll;
+                font-size: 12px;
+                font-family:'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif;
+            }
+            h1, h2, h3, h4 {
+                font-family:'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif;
+                padding: 0px;
+                margin: 0px;
+                line-height: 1em;
+            }
+            h1 {
+                font-size: 32px;
+                margin-bottom: 16px;
+            }
+            p {
+                margin: 0px;
+                padding: 0px;
+            }
+            table {
+                font-size: 100%;
             }
             form {
                 margin: 0px 0px 0px 0px;
             }
             .main {
-                max-width: 1344px;
+                max-width: 1280px;
+                margin-left: auto;
+                margin-right: auto;
+                padding-top: 44px;
             }
             
 /*            
@@ -70,31 +89,64 @@
                 
             }
   */          
-            .vk {
-                visibility: visible;
-                width: 320px;
+  
+  .card {
+      display: inline-block; 
+      background-color: white; 
+      margin: 0px 0px 12px 0px; 
+      width: 100%;
+      padding: 4px 2px 4px 4px;
+  }
+  .card h1, h2, h3, h4 {
+      margin: 0px 0px 2px 0px;
+  }
+  .card h1 {
+    font-weight: bold;
+    font-size: 300%;      
+  }
+            .card h2 {
+                font-weight: normal;
+                font-size: 200%;
+            }
+            .card h3  {
+                padding: 14px 2px 4px 2px;
+                font-size: 160%;
+                text-transform: uppercase;
+                font-weight: normal;
+                margin: 24px 0px 8px 0px;
+                border-bottom: 1px solid black;
+            }
+            .card h4  {
+                font-size: 130%;
+                font-weight: bold;
+            }
+
+  
+            .col-r {
+                width: 260px;
                 vertical-align: top;
-                font-size: 12px;
-                z-index: 9999;
-                border: 2px solid gray;
-                min-height: 400px;
-                box-shadow: 0 4px 4px rgba(0, 0, 0, .4);
-                /*border-radius: 0px 0px 4px 4px;*/
-               /* position: absolute; */
-                background: white;
+                margin-left: 12px;
+                height: 100%;
+                height: calc(100% - 44px);
+                background-color: rgb(229, 229, 229); 
+                position: fixed;
+                top: 44px;
+                overflow-y: auto;
+                overflow-x: hidden;
                 display: inline-block;
-                margin-left: 16px;
-                padding: 0px 6px 6px 6px;
+            }
+
+            .vk {
+                z-index: 9999;
+                min-height: 150px;
             }
             #vk-content {
-                min-height: 400px;
             }
             .vk-row {
                 min-height: 50px;
                 display: block;
                 vertical-align: middle;
                 padding: 0px 0px 1px 1px;
-                width: 320px;
             }
             .vk-img {
                 width: 30px;
@@ -115,7 +167,6 @@
                 font-weight: bold;
                 display: block;
                 width: 180px;
-                font-size: 12px;
             }
             .vk-art {
                 display: block;
@@ -123,11 +174,10 @@
             }
             .vk-col {
                 display: inline-block;
-                width: 280px
             }
             .vk-variant {
                 display: inline-block;
-                width: 100px;
+                width: 98px;
             }
             .vk-pris {
                 display: inline-block;
@@ -135,7 +185,7 @@
             }
             .vk-antal-enh {
                 display: inline-block;
-                width: 80px;
+                width: 54px;
             }
             .vk-antal {
                 display: inline-block;
@@ -145,30 +195,41 @@
             }
             .vk-change {
                 display: inline-block;
-                width: 88px;
             }
             .vk-change input {
                 display: inline-block;
                 width: 20px;
-                font-size: 8px;
+                font-size: 70%;
+                margin-right: 0px;
+                border: none;
+                display: none;
             }
             .vk-andra-btn {
-                display: inline-block;
-                width: 30px;
-                padding: 4px 0px 4px 0px;
+                /*background-image: url("/inc/ok.png");*/
+                /*margin-right: 2px;*/
             }
             .vk-radera-btn {
-                display: inline-block;
-                width: 30px;
-                padding: 4px 0px 4px 0px;
+                /*background-image: url("/inc/del.png");*/
+                color: red;
             }
             .vk-btn {
-                background-color: #999999;
-                color: black;
+                display: inline-block;
+                padding: 0px 0px 0px 0px;
+                background-color: inherit;
+                border: none;
+                
+                /*background-color: #999999;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: auto; */
                 text-align: center;
                 cursor: pointer;
-                text-transform: uppercase;
-                box-shadow: inset 1px 1px 0px #9f9f9f;
+                width: 12px;
+                height: 16px;
+                line-height: 12px;
+                vertical-align: middle;
+                font-size: 16px;
+                font-weight: bolder;
             }
             .vk-btn:hover {
                 background-color: #a9a9a9;
@@ -188,7 +249,7 @@
                 padding: 0px 0px 1px 1px;
                 min-width: 160px;
                 max-width: 640px;
-                font-size: 16px;
+                font-size: 130%;
             }
             .vkf-img {
                 width: 30px;
@@ -256,26 +317,52 @@
             
             
             .site-header {
-                background: red;
+                background: white;
                 min-height: 30px;
-                padding: 2px 4px 2px 4px;
+                padding: 2px 0px 2px 0px;
+                display: table;
+                width: 100%;
+/*                margin-bottom: 10px;*/
+                position: fixed;
+                border-bottom: 10px solid rgb(229, 229, 229);
+            }
+            .site-header a {
+                text-decoration: none;
             }
             .site-header-logo {
-                width: 140px;
+                width: 180px;
                 display: inline-block;
+            }
+            .site-header-abar {
+
+                display: inline-block;
+                float: right;
             }
             .site-header-logo img {
                 max-height: 30px;
-                max-width: 140px;
+                max-width: 180px;
                 vertical-align: middle;
             }
             .site-header-menu-btn {
-                width: 40px;
+                width: 60px;
                 display: inline-block;
+                font-size: 14px;
+                font-weight:bold;
+                height: 30px;
+                line-height: 30px;
+                margin: 0px 4px 0px 4px;
+                font-family:'Segoe UI', Helvetica, Arial, sans-serif;
             }
             .site-header-sok {
-                width: 240px;
+                margin-left: 40px;
+                width: 50%;
+                max-width: 400px;
+                min-width: 150px;
                 display: inline-block;
+            }
+            .site-header-sok-input {
+                width: 60%;
+                width: calc(100% - 50px);
             }
             .site-header-vk-btn {
                 cursor: pointer ;
@@ -287,53 +374,80 @@
                 display: inline-block;
             }
             .site-header-userinfo-namn {
-                font-size: 8px;
+                font-size: 70%;
             }
             .site-header-userinfo-login {
+                line-height: 30px;
             }
             .site-header-kassa-btn {
                 width: 120px;
                 display: inline-block;
-                font-size: 14px;
+                font-size: 120%;
                 font-weight:bold;
                 height: 30px;
                 line-height: 30px;
+                margin: 0px 4px 0px 4px;
                 font-family:'Segoe UI', Helvetica, Arial, sans-serif;
             }
-            .content {
+            
+            
+            .col-m {
                 min-width: 320px;
-                max-width: 800px;
-                width: 800px;
+                max-width: 806px;
+               /* min-height: 100%;
+                min-height: calc(100% - 50px); */
+                padding-top:2px;
+                padding-bottom: 2px;
+
+                width: 806px;
                 /*border: 1px solid;*/
                 display: inline-block;
+                
             }
-            .trad {
+            .content {
+                background-color: white;
+                width: 100%;
+            }
+            
+            
+            .col-l {
                 display: inline-block;
                 width: 180px;
-                padding: 2px 2px 2px 2px;
                 vertical-align: top;
-                background: #eeeeff;
-                /*border: 1px solid grey;*/
-                min-height: 300px;
+/*                min-height: 100%;
+                min-height: calc(100% - 50px);*/
+                margin-right: 8px;
+                padding-top: 2px;
             }
-            .trad li { display: block; 
+            
+            .trad {
+                background: rgb(245, 245, 245);
+                width: 100%;
+            }
+            
+            .trad li { display: block;
+                       line-height: 14px;
             }
             .trad ul { display: block; 
                        padding: 0px 0px 0px 2px;
+                       margin: 0px 0px 24px 0px;
             }
             .trad a {
                 text-decoration: none;
                 color: inherit;
             }
+            .trad a:hover {
+                text-decoration: underline;
+            }
             .trad-ind0 {
-                padding: 12px 0px 2px 2px;
+                padding: 0px 0px 6px 0px;
                 font-weight: bold;
             }
             .trad-ind1 {
-                padding: 2px 0px 2px 12px;
+                padding: 2px 0px 6px 0px;
             }
             .trad-ind2 {
-                padding: 2px 0px 2px 18px;
+                padding: 2px 0px 6px 10px;
             }
             .kid {
                 min-width: 320px;
@@ -343,6 +457,7 @@
             .kid-img {
                 min-width: 300px;
                 max-width: 300px;
+                min-height: 170px;
                 display: inline-block;
                 margin-left: 2px;
             }
@@ -353,14 +468,13 @@
             .kid h2 {
                 text-transform: uppercase;
                 font-weight: normal;
-                font-size: 24px;
+                font-size: 200%;
             }
-            .kid h3 {
+            .kid h3  {
                 padding: 14px 2px 4px 2px;
-                font-size: 20px;
+                font-size: 180%;
                 text-transform: uppercase;
                 font-weight: normal;
-                font-size: 20px;
                 margin: 24px 0px 8px 0px;
                 border-bottom: 1px solid black;
             }
@@ -380,10 +494,10 @@
             }
             .kid-variant-lagerfor {
                 display: inline-block;
-                font-size: 10px;
+                font-size: 80%;
             }
             .kid-pris {
-                font-size: 30px;
+                font-size: 250%;
                 font-weight: bold;
                 color: red;
             }
@@ -398,7 +512,11 @@
                 min-height: 100px;
                 padding: 0px 2px 2px 10px;
             }
-            
+            .kid-share {
+                margin: 24px 0px 0px 0px;
+                padding: 6px 4px 6px 4px; 
+                height: 48px;
+            }
 
             
             .t-variant-row {
@@ -432,20 +550,20 @@
                 padding: 0px 0px 2px 0px;
             }
             .t-variant-pris-kop input {
-                font-size: 10px;
+                font-size: 80%;
                 width:30px;
             }
             .t-variant-antal {
                 vertical-align: center;
                 width:100px;
                 display:inline-block;
-                font-size: 10px;
+                font-size: 80%;
             }
             .t-variant-saldo {
                 vertical-align: center;
                 width:100px;
                 display:inline-block;
-                font-size: 8px;
+                font-size: 70%;
             }
             
             .t-variant-kop {
@@ -456,7 +574,7 @@
             .finstilt {
                 margin: 0px;
                 padding:0px;
-                font-size: 10px;
+                font-size: 80%;
             }
             .even {
             }
@@ -470,16 +588,27 @@
             }
             .kop-antal {
                 display: inline-block;
-                font-size: 10px;
+                font-size: 80%;
             }
             .kop-stor {
                 display: inline-block;
                 min-width: 100px;
                 max-width: 100px;
-                font-size: 24px;
+                font-size: 200%;
                 font-weight:bold;
                 padding: 4px;
             }
+            
+            .btn {
+                display: inline-block;
+                width: 150px;
+                height: 22px;
+                line-height: 22px;
+                text-align: center;
+                cursor: pointer;
+                margin: 4px;
+            }
+            
             .a-btn {
                 background-color: #008000;
                 color: white;
@@ -491,22 +620,37 @@
             .a-btn:hover {
                 background-color: #009000;
             }
+            .b-btn {
+                background-color: #000080;
+                color: white;
+                text-align: center;
+                cursor: pointer;
+                text-transform: uppercase;
+                box-shadow: inset 1px 1px 0px #007000;
+            }
+            .b-btn:hover {
+                background-color: #0000b0;
+            }
+            
             .kli-t-row {
                 min-height: 60px;
                 display: inline-block;
                 -vertical-align: middle;
                 padding: 8px 0px 8px 0px;
                 width:100%;
-                font-size: 14px;
+                font-size: 120%;
                 border-bottom: 1px solid black;
             }
             .kli-t-row a {
                 text-decoration: none; 
                 color: inherit;
             }
+            .kli-t-row a:hover {
+                text-decoration: underline; 
+            }
             
             .kli-t-ilager {
-                font-size: 8px;
+                font-size: 70%;
             }
             .kli-odd {
                 
@@ -548,7 +692,6 @@
             .kli-t-variant select {
                 max-width:200px;
                 min-width: 90px;
-                font-size: 12px;
                 margin: 2px 2px 2px 0px;
             }
             .kli-t-namn {
@@ -556,7 +699,6 @@
                 -max-width: 500px;
             }
             .kli-t-namn h2 {
-                font-size: 12px;
                 text-transform: uppercase;
                 -font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
             }
@@ -584,7 +726,7 @@
                 padding: 0px 2px 0px 0px;
             }
             .kli-t-pris-kop input  {
-                font-size: 8px;
+                font-size: 70%;
                 width:20px;
             }
             .kli-t-pris {
@@ -611,7 +753,7 @@
                 padding: 2px 0px 2px 0px;
             }
             .kli-frp-pris {
-                font-size: 10px;
+                font-size: 80%;
             }
             
             
@@ -626,7 +768,6 @@
                 padding: 2px 23px 14px 23px;
                 margin: 0px 0px 14px 0px;
                 border-bottom: 1px solid gray;
-                font-size: 12px;
                 position: relative;
                 text-align: left;
             }
@@ -639,6 +780,9 @@
                 text-decoration: none; 
                 color: inherit;
             }
+            .kbl-block a:hover {
+                text-decoration: underline; 
+            }
             .kbl-t-img {
                 width: 150px;
                 height: 84px;
@@ -649,18 +793,16 @@
             }
             .kbl-t-variant select {
                 width: 150px;
-                font-size: 12px;
             }
             .kbl-t-namn {
                 height: 36px;
                 overflow: hidden;
             }
             .kbl-t-namn h2 {
-                font-size: 12px;
+                font-size: 100%;
             }
             .kbl-t-besk {
                 height: 42px;
-                font-size: 11px;
                 overflow: hidden;
             }
             .kbl-t-variant {
@@ -674,12 +816,16 @@
             }
             .kbl-t-pris {
                 text-align: right;
-                background: #2222ff;
-                color: white;
+                /* background: #2222ff; */
+                /* color: white;*/
+                box-shadow: 0px 0px 40px #9f9f9f;
                 position:absolute;
                 right: 0;
                 top: 8;
                 padding: 4px 8px 4px 8px;
+                border-radius: 20px;
+                border: 1px solid red;
+                
             }
             .kbl-t-pris-pris {
                 font-weight: bold;
@@ -691,11 +837,11 @@
             
             .kbl-t-antal {
                 display: inline-block;
-                font-size: 10px;
+                font-size: 80%;
             }
             .kbl-t-antal input {
                 width: 30px;
-                font-size: 8px;
+                font-size: 70%;
             }
             .kbl-t-kop {
                 width: 60px;
@@ -705,7 +851,7 @@
                 padding: 4px 0px 4px 0px;
             }
             .kbl-t-ilager {
-                font-size: 8px;
+                font-size: 70%;
             }
             
             
@@ -722,7 +868,6 @@
                 margin: 0px 0px 14px 0px;
                 border-bottom: 1px solid gray;
                 position: relative;
-                font-size: 13px;
                 text-align: left;
             }
             .kbb-block img {
@@ -739,7 +884,7 @@
             }
             .kbb-t-variant select {
                 width: 180px;
-                font-size: 14px;
+                font-size: 120%;
             }
             .kbb-t-namn {
                 height: 48px;
@@ -747,10 +892,9 @@
             }
             .kbb-t-besk {
                 height: 44px;
-                font-size:13px;
             }
             .kbb-t-namn h2 {
-                font-size: 14px;
+                font-size: 120%;
             }
             .kbb-t-variant {
                 height: 22px;
@@ -777,23 +921,23 @@
                 padding: 4px 8px 4px 8px;
             }
             .kbb-t-pris-pris {
-                font-size: 16px;
+                font-size: 130%;
                 font-weight: bold;
                 color: white;
             }
             .kbb-t-pris-per {
-                font-size: 14px;
+                font-size: 120%;
                 color: white;
                 position: relative;
                 bottom: -1px;
             }
             .kbb-t-antal {
                 display: inline-block;
-                font-size: 10px;
+                font-size: 80%;
             }
             .kbb-t-antal input {
                 width: 30px;
-                font-size: 8px;
+                font-size: 70%;
             }
             .kbb-t-kop {
                 width: 60px;
@@ -801,13 +945,70 @@
                 text-align: center;
                 font-weight:bold;
                 vertical-align: middle;
-                font-size:14px;
+                font-size:120%;
                 padding: 4px 0px 4px 0px;
             }
             
+            .asl-row {
+                
+            }
+            .asl-row a {
+                text-decoration: none;
+                color: inherit;
+            }
+            .asl-img {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                margin: 0px 8px 0px 0px;
+            }
+            .asl-img img {
+                max-width: 20px;
+                max-height: 20px;
+            }
+            .asl-text {
+                display: inline-block;
+                width: 200px;
+                vertical-align: top;
+            }
+            .asl-rubrik {
+                display: inline-block;
+                
+            }
+            .asl-artnr {
+                display: inline-block;
+                font-size: 60%;
+            }
+            .asl-artnr::before {
+                content: "(";
+            }
+            .asl-artnr::after {
+                content: ")";
+            }
+            .asl-variant {
+                display: inline-block;
+                
+            }
+            .asl-pris {
+                display: inline-block;
+                float: right;
+                vertical-align: top;
+                
+            }
+            .asl-pris-pris {
+                display: inline-block;
+                
+            }
+            .asl-pris-per {
+                display: inline-block;
+                
+            }
             .katalog-head {
                 padding: 2px 0px 2px 0px;
             }
+            
+            
+            
             .katalog-head-children {
                 
             }
@@ -817,7 +1018,7 @@
             .katalog-head-sokvag h2 {
                 text-transform: uppercase;
                 font-weight: normal;
-                font-size: 24px;
+                font-size: 200%;
                 padding: 4px 0px 0px 8px;
             }
             .katalog-head-sokvag-grp {
@@ -852,12 +1053,15 @@
             
             .katalog-index {
             }
+            .katalog-index a:hover {
+                text-decoration: underline;
+            }
             .katalog-index-avd {
                 display: inline-block;
                 padding: 0px 12px 2px 12px;
             }
             .katalog-index h2 {
-                font-size: 24px;
+                font-size: 200%;
                 padding: 0px 0px 0px 8px;
                 margin: 2px 0px 6px 0px;
                 background: #ff8888;
@@ -878,9 +1082,21 @@
                 padding-bottom: 6px;
             }
             .katalog-index-row h3 {
-                font-size: 16px;
+                font-size: 130%;
                 font-weight: bold;
             }
+            .katalog-index-row-img {
+                width: 30px;
+                padding: 0px 0px 0px 0px;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .katalog-index-row-img img {
+                max-width: 30px;
+                max-height: 30px;
+                vertical-align: middle;
+            }
+
 
             
             .katalog-head a {
@@ -894,7 +1110,6 @@
             }
 
             .momsinfo {
-                font-size: 12px;
                 font-style: italic;
             }
             
@@ -923,7 +1138,7 @@
                 .site-header-kassa-btn {
                     width: 80px;
                     display: inline-block;
-                    font-size: 10px;
+                    font-size: 80%;
                     font-weight:bold;
                     height: 30px;
                     line-height: 30px;
@@ -932,7 +1147,7 @@
             }
 
             @media all and (max-width: 820px) {
-                .content {
+                .col-m {
                     width: auto;
                 }
                 .kli-t-namn-besk{
@@ -943,8 +1158,13 @@
                     width: 310;
                 }   
             }
+            @media all and (max-width: 960px) {
+                .col-r {
+                    display: none;
+                }
+            }
             @media all and (max-width: 1020px) {
-                .trad {
+                .col-l {
                     display:none;
                 }
             }

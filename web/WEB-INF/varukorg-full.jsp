@@ -90,7 +90,7 @@
     <input type="hidden" name="<%= Const.PARAM_VARUKORG_AC %>" value="<%= Const.PARAM_VARUKORG_AC_SAVEORDER %>">
     <% String recaptchaSiteKey = null; %>
     <% if (u==null) { %>
-        <% recaptchaSiteKey = Const.getReCaptchaSiteKey(Const.getConnection(request));
+        <% recaptchaSiteKey = Const.getStartupData().getReCaptchaSiteKey();
             if (recaptchaSiteKey!=null) { %>
             <script>
                 var recaptchaonload = function() {
@@ -113,6 +113,6 @@
     
      <%
      if (u==null) {
-        ReCaptcha.check(Const.getReCaptchaSecretKey(Const.getConnection(request)), request.getParameter("g-recaptcha-response"));
+        ReCaptcha.check(Const.getStartupData().getReCaptchaSecretKey(), request.getParameter("g-recaptcha-response"));
      }
    %>

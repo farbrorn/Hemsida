@@ -42,7 +42,7 @@ public class HttpsFilter implements Filter {
 			FilterChain chain)
 			throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest)request;
-        if (Const.redirectToHttps() && !httpRequest.isSecure() && !"https".equals(httpRequest.getHeader("X-Forwarded-Proto"))) {
+        if (StartupData.redirectToHttps() && !httpRequest.isSecure() && !"https".equals(httpRequest.getHeader("X-Forwarded-Proto"))) {
             StringBuilder newUrl = new StringBuilder("https://");
             newUrl.append(httpRequest.getServerName());
             if (httpRequest.getRequestURI() != null) {
