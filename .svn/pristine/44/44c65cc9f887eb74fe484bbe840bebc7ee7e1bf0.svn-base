@@ -1,0 +1,1170 @@
+            body {
+                margin: 0px;
+                padding: 0px;
+                background-color: rgb(229, 229, 229);
+                overflow-y:scroll;
+                font-size: 12px;
+                font-family:'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif;
+            }
+            h1, h2, h3, h4 {
+                font-family:'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif;
+                padding: 0px;
+                margin: 0px;
+                line-height: 1em;
+            }
+            h1 {
+                font-size: 32px;
+                margin-bottom: 16px;
+            }
+            p {
+                margin: 0px;
+                padding: 0px;
+            }
+            table {
+                font-size: 100%;
+            }
+            form {
+                margin: 0px 0px 0px 0px;
+            }
+            .main {
+                max-width: 1280px;
+                margin-left: auto;
+                margin-right: auto;
+                padding-top: 44px;
+            }
+            
+/*            
+            .sok {
+                background-color: #eeeeee;
+                position: fixed;
+                width: 800px;
+                height: 200px;
+                font-size: 12px;
+                z-index: 5;
+                overflow-y: scroll;
+            }
+            .sok h2 {
+                font-size: 12px;
+            }
+            .sok-row {
+                height: 50px;
+                padding: 4px 4px 2px 4px;
+            }
+            .sok-t-namn-pris {
+                display: inline-block;
+                width: 200px;
+            }
+            .sok-t-namn {
+                display: block;
+                width: 200px;
+                height: 30px;
+            }
+            .sok-t-pris {
+                width: 100px;
+                display: block;
+                height: 20px;
+            }
+            .sok-t-pris-pris {
+                color: red;
+                font-weight: bold;
+                display: inline;
+            }
+            .sok-t-pris-per {
+                position: relative;
+                bottom: -1px;
+                display: inline;
+            }
+            .sok img {
+                max-width: 40px;
+                max-height: 40px;
+                vertical-align: middle;
+            }
+            .sok-t-img {
+                width: 40px;
+                padding: 2px 8px 2px 4px;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .sok-fler-traffar {
+                
+            }
+  */          
+  
+  .card {
+      display: inline-block; 
+      background-color: white; 
+      margin: 0px 0px 12px 0px; 
+      width: 100%;
+      padding: 4px 2px 4px 4px;
+  }
+  .card h1, h2, h3, h4 {
+      margin: 0px 0px 2px 0px;
+  }
+  .card h1 {
+    font-weight: bold;
+    font-size: 300%;      
+  }
+            .card h2 {
+                font-weight: normal;
+                font-size: 200%;
+            }
+            .card h3  {
+                padding: 14px 2px 4px 2px;
+                font-size: 160%;
+                text-transform: uppercase;
+                font-weight: normal;
+                margin: 24px 0px 8px 0px;
+                border-bottom: 1px solid black;
+            }
+            .card h4  {
+                font-size: 130%;
+                font-weight: bold;
+            }
+
+  
+            .col-r {
+                width: 260px;
+                vertical-align: top;
+                margin-left: 12px;
+                height: 100%;
+                height: calc(100% - 44px);
+                background-color: rgb(229, 229, 229); 
+                position: fixed;
+                top: 44px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                display: inline-block;
+            }
+
+            .vk {
+                z-index: 9999;
+                min-height: 150px;
+            }
+            #vk-content {
+            }
+            .vk-row {
+                min-height: 50px;
+                display: block;
+                vertical-align: middle;
+                padding: 0px 0px 1px 1px;
+            }
+            .vk-img {
+                width: 30px;
+                padding: 0px 0px 0px 0px;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .vk-img img {
+                max-width: 30px;
+                max-height: 30px;
+                vertical-align: middle;
+            }
+            .vk-kl {
+                display: block;
+            }
+            
+            .vk-kl-namn {
+                font-weight: bold;
+                display: block;
+                width: 180px;
+            }
+            .vk-art {
+                display: block;
+                margin-bottom: 2px;
+            }
+            .vk-col {
+                display: inline-block;
+            }
+            .vk-variant {
+                display: inline-block;
+                width: 98px;
+            }
+            .vk-pris {
+                display: inline-block;
+                width: 40px;
+            }
+            .vk-antal-enh {
+                display: inline-block;
+                width: 54px;
+            }
+            .vk-antal {
+                display: inline-block;
+            }
+            .vk-enh {
+                display: inline-block;
+            }
+            .vk-change {
+                display: inline-block;
+            }
+            .vk-change input {
+                display: inline-block;
+                width: 20px;
+                font-size: 70%;
+                margin-right: 0px;
+                border: none;
+                display: none;
+            }
+            .vk-andra-btn {
+                /*background-image: url("/inc/ok.png");*/
+                /*margin-right: 2px;*/
+            }
+            .vk-radera-btn {
+                /*background-image: url("/inc/del.png");*/
+                color: red;
+            }
+            .vk-btn {
+                display: inline-block;
+                padding: 0px 0px 0px 0px;
+                background-color: inherit;
+                border: none;
+                
+                /*background-color: #999999;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: auto; */
+                text-align: center;
+                cursor: pointer;
+                width: 12px;
+                height: 16px;
+                line-height: 12px;
+                vertical-align: middle;
+                font-size: 16px;
+                font-weight: bolder;
+            }
+            .vk-btn:hover {
+                background-color: #a9a9a9;
+            }
+            
+
+            
+            
+            
+            
+            
+            
+            .vkf-row {
+                min-height: 50px;
+                display: block;
+                vertical-align: middle;
+                padding: 0px 0px 1px 1px;
+                min-width: 160px;
+                max-width: 640px;
+                font-size: 130%;
+            }
+            .vkf-img {
+                width: 30px;
+                padding: 0px 0px 0px 0px;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .vkf-img img {
+                max-width: 30px;
+                max-height: 30px;
+                vertical-align: middle;
+            }
+            .vkf-kl {
+                display: block;
+            }
+            
+            .vkf-kl-namn {
+                font-weight: bold;
+                display: block;
+                width: 160px;
+            }
+            .vkf-art {
+                display: block;
+                margin-bottom: 2px;
+            }
+            .vkf-col {
+                display: inline-block;
+                width: 600px
+            }
+            .vkf-variant {
+                display: inline-block;
+                width: 240px;
+            }
+            .vkf-pris {
+                display: inline-block;
+                width: 60px;
+                text-align: right;
+            }
+            .vkf-enh {
+                display: inline-block;
+                width: 52px;
+            }
+            .vkf-change {
+                display: inline-block;
+                width: 44px;
+            }
+            .vkf-change input {
+                display: inline-block;
+                width: 40px;
+            }
+            .vkf-btn {
+                background-color: #999999;
+                color: black;
+                text-align: center;
+                cursor: pointer;
+                text-transform: uppercase;
+                box-shadow: inset 1px 1px 0px #9f9f9f;
+            }
+            .vkf-btn:hover {
+                background-color: #a9a9a9;
+            }
+            
+            
+            
+            
+            
+            .site-header {
+                background: white;
+                min-height: 30px;
+                padding: 2px 0px 2px 0px;
+                display: table;
+                width: 100%;
+/*                margin-bottom: 10px;*/
+                position: fixed;
+                border-bottom: 10px solid rgb(229, 229, 229);
+            }
+            .site-header a {
+                text-decoration: none;
+            }
+            .site-header-logo {
+                width: 180px;
+                display: inline-block;
+            }
+            .site-header-abar {
+
+                display: inline-block;
+                float: right;
+            }
+            .site-header-logo img {
+                max-height: 30px;
+                max-width: 180px;
+                vertical-align: middle;
+            }
+            .site-header-menu-btn {
+                width: 60px;
+                display: inline-block;
+                font-size: 14px;
+                font-weight:bold;
+                height: 30px;
+                line-height: 30px;
+                margin: 0px 4px 0px 4px;
+                font-family:'Segoe UI', Helvetica, Arial, sans-serif;
+            }
+            .site-header-sok {
+                margin-left: 40px;
+                width: 50%;
+                max-width: 400px;
+                min-width: 150px;
+                display: inline-block;
+            }
+            .site-header-sok-input {
+                width: 60%;
+                width: calc(100% - 50px);
+            }
+            .site-header-vk-btn {
+                cursor: pointer ;
+                width: 90px;
+                display: inline-block;
+            }
+            .site-header-userinfo {
+                width: 90px;
+                display: inline-block;
+            }
+            .site-header-userinfo-namn {
+                font-size: 70%;
+            }
+            .site-header-userinfo-login {
+                line-height: 30px;
+            }
+            .site-header-kassa-btn {
+                width: 120px;
+                display: inline-block;
+                font-size: 120%;
+                font-weight:bold;
+                height: 30px;
+                line-height: 30px;
+                margin: 0px 4px 0px 4px;
+                font-family:'Segoe UI', Helvetica, Arial, sans-serif;
+            }
+            
+            
+            .col-m {
+                min-width: 320px;
+                max-width: 806px;
+               /* min-height: 100%;
+                min-height: calc(100% - 50px); */
+                padding-top:2px;
+                padding-bottom: 2px;
+
+                width: 806px;
+                /*border: 1px solid;*/
+                display: inline-block;
+                
+            }
+            .content {
+                background-color: white;
+                width: 100%;
+            }
+            
+            
+            .col-l {
+                display: inline-block;
+                width: 180px;
+                vertical-align: top;
+/*                min-height: 100%;
+                min-height: calc(100% - 50px);*/
+                margin-right: 8px;
+                padding-top: 2px;
+            }
+            
+            .trad {
+                background: rgb(245, 245, 245);
+                width: 100%;
+            }
+            
+            .trad li { display: block;
+                       line-height: 14px;
+            }
+            .trad ul { display: block; 
+                       padding: 0px 0px 0px 2px;
+                       margin: 0px 0px 24px 0px;
+            }
+            .trad a {
+                text-decoration: none;
+                color: inherit;
+            }
+            .trad a:hover {
+                text-decoration: underline;
+            }
+            .trad-ind0 {
+                padding: 0px 0px 6px 0px;
+                font-weight: bold;
+            }
+            .trad-ind1 {
+                padding: 2px 0px 6px 0px;
+            }
+            .trad-ind2 {
+                padding: 2px 0px 6px 10px;
+            }
+            .kid {
+                min-width: 320px;
+                max-width: 800px;
+                min-height: 100px;
+            }
+            .kid-img {
+                min-width: 300px;
+                max-width: 300px;
+                min-height: 170px;
+                display: inline-block;
+                margin-left: 2px;
+            }
+            .kid img {
+                max-width: 200px;
+                max-height: 300px;
+            }
+            .kid h2 {
+                text-transform: uppercase;
+                font-weight: normal;
+                font-size: 200%;
+            }
+            .kid h3  {
+                padding: 14px 2px 4px 2px;
+                font-size: 180%;
+                text-transform: uppercase;
+                font-weight: normal;
+                margin: 24px 0px 8px 0px;
+                border-bottom: 1px solid black;
+            }
+            .kid-head {
+                margin: 0px 0px 20px 2px;
+                min-height: 100px;
+            }
+            .kid-order {
+                display: inline-block;
+                vertical-align: top;
+                max-width: 640px;
+                margin-left: 2px;
+            }
+            .kid-variant {
+                margin: 40px 0px 0px 2px;
+                clear: both;
+            }
+            .kid-variant-lagerfor {
+                display: inline-block;
+                font-size: 80%;
+            }
+            .kid-pris {
+                font-size: 250%;
+                font-weight: bold;
+                color: red;
+            }
+            .kid-variant-odd {
+                
+            }
+            .kid-variant-even {
+                
+            }
+            
+            .kid-info {
+                min-height: 100px;
+                padding: 0px 2px 2px 10px;
+            }
+            .kid-share {
+                margin: 24px 0px 0px 0px;
+                padding: 6px 4px 6px 4px; 
+                height: 48px;
+            }
+
+            
+            .t-variant-row {
+                vertical-align: top;
+                display: inline-block;    
+                padding: 4px 2px 4px 2px;
+                border-top: 1px solid black;
+            }
+            .t-variant-namn {
+                width: 380px;
+                vertical-align: top;
+                display:inline-block;
+            }
+            .t-variant-pris {
+                vertical-align: top;
+                width:120px;
+                display:inline-block;
+            }
+            .t-variant-pris-kop-hold {
+                display:inline-block;
+                vertical-align: top;
+                text-align: right;
+                padding: 0px 2px 0px 0px;
+            }
+            .t-variant-pris-kop-hold input:disabled {
+                border: none;
+                background: inherit;
+            }            
+            .t-variant-pris-kop {
+                display:block;
+                padding: 0px 0px 2px 0px;
+            }
+            .t-variant-pris-kop input {
+                font-size: 80%;
+                width:30px;
+            }
+            .t-variant-antal {
+                vertical-align: center;
+                width:100px;
+                display:inline-block;
+                font-size: 80%;
+            }
+            .t-variant-saldo {
+                vertical-align: center;
+                width:100px;
+                display:inline-block;
+                font-size: 70%;
+            }
+            
+            .t-variant-kop {
+                display:inline-block;
+                vertical-align: top;
+                width:60px;
+            }
+            .finstilt {
+                margin: 0px;
+                padding:0px;
+                font-size: 80%;
+            }
+            .even {
+            }
+            .odd {
+                background: #eeeeee;
+            }
+            .pris-stor {
+                display: inline-block;
+                min-width: 100px;
+                height: 40px;
+            }
+            .kop-antal {
+                display: inline-block;
+                font-size: 80%;
+            }
+            .kop-stor {
+                display: inline-block;
+                min-width: 100px;
+                max-width: 100px;
+                font-size: 200%;
+                font-weight:bold;
+                padding: 4px;
+            }
+            
+            .btn {
+                display: inline-block;
+                width: 150px;
+                height: 22px;
+                line-height: 22px;
+                text-align: center;
+                cursor: pointer;
+                margin: 4px;
+            }
+            
+            .a-btn {
+                background-color: #008000;
+                color: white;
+                text-align: center;
+                cursor: pointer;
+                text-transform: uppercase;
+                box-shadow: inset 1px 1px 0px #007000;
+            }
+            .a-btn:hover {
+                background-color: #009000;
+            }
+            .b-btn {
+                background-color: #000080;
+                color: white;
+                text-align: center;
+                cursor: pointer;
+                text-transform: uppercase;
+                box-shadow: inset 1px 1px 0px #007000;
+            }
+            .b-btn:hover {
+                background-color: #0000b0;
+            }
+            
+            .kli-t-row {
+                min-height: 60px;
+                display: inline-block;
+                -vertical-align: middle;
+                padding: 8px 0px 8px 0px;
+                width:100%;
+                font-size: 120%;
+                border-bottom: 1px solid black;
+            }
+            .kli-t-row a {
+                text-decoration: none; 
+                color: inherit;
+            }
+            .kli-t-row a:hover {
+                text-decoration: underline; 
+            }
+            
+            .kli-t-ilager {
+                font-size: 70%;
+            }
+            .kli-odd {
+                
+            }
+            .kli-even {
+                
+            }
+            .kli img {
+                max-width: 110px;
+                max-height: 50px;
+                -vertical-align: middle;
+                
+            }
+            .kli-t-img {
+                width: 110px;
+                padding: 2px 10px 2px 10px;
+                display: inline-block;
+                vertical-align: top;
+                -vertical-align: middle;
+                text-align: center;
+            }
+            .kli-t-text {
+                display: inline-block;
+                -float: right;
+                vertical-align: top;
+                padding-left: 2px;
+            }
+            .kli-t-namn-besk {
+                width: 420px;
+                padding-right: 20px;
+                display: inline-block;
+                -vertical-align: middle;
+                font-size: 11px;
+                vertical-align: top;
+                -height: 54px;
+                overflow: hidden;
+                margin-bottom: 4px;
+            }
+            .kli-t-variant select {
+                max-width:200px;
+                min-width: 90px;
+                margin: 2px 2px 2px 0px;
+            }
+            .kli-t-namn {
+                -display: inline-block;
+                -max-width: 500px;
+            }
+            .kli-t-namn h2 {
+                text-transform: uppercase;
+                -font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            }
+            .kli-t-variant-kop {
+                display: inline-block;
+                width: 220px;
+                -float:right;
+                -text-align: right;
+                vertical-align: top;
+                
+            }
+            .kli-t-variant {
+                display: inline-block;
+                max-width: 200px;
+
+            }
+            .kli-t-pris-kop {
+                display: inline-block;
+                -max-width: 280px;
+                -float: right;
+                padding: 0px 2px 0px 0px;
+            }
+            .kli-t-besk {
+                font-family:'Segoe UI', Helvetica, Arial, sans-serif;
+                padding: 0px 2px 0px 0px;
+            }
+            .kli-t-pris-kop input  {
+                font-size: 70%;
+                width:20px;
+            }
+            .kli-t-pris {
+                width: 100px;
+                display: inline-block;
+            }
+            .kli-t-pris-pris {
+                font-weight: bold;
+            }
+            .kli-t-pris-per {
+                position: relative;
+                bottom: -1px;
+            }
+            .kli-t-antal {
+                -width: 64px;
+                display: inline-block;
+                font-size: 10px;
+            }
+            .kli-t-kop {
+                width: 60px;
+                display: inline-block;
+                text-align: center;
+                font-weight:bold;
+                padding: 2px 0px 2px 0px;
+            }
+            .kli-frp-pris {
+                font-size: 80%;
+            }
+            
+            
+            .kbl {
+                text-align: left;
+            }
+            .kbl-block {
+                min-height: 80px;
+                max-height: 1000px;
+                width: 150px;
+                display: inline-block;
+                padding: 2px 23px 14px 23px;
+                margin: 0px 0px 14px 0px;
+                border-bottom: 1px solid gray;
+                position: relative;
+                text-align: left;
+            }
+            .kbl-block img {
+                max-width: 120px;
+                max-height: 80px;
+                vertical-align: middle;
+            }
+            .kbl-block a {
+                text-decoration: none; 
+                color: inherit;
+            }
+            .kbl-block a:hover {
+                text-decoration: underline; 
+            }
+            .kbl-t-img {
+                width: 150px;
+                height: 84px;
+                padding: 2px 0px 2px 0px;
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+            }
+            .kbl-t-variant select {
+                width: 150px;
+            }
+            .kbl-t-namn {
+                height: 36px;
+                overflow: hidden;
+            }
+            .kbl-t-namn h2 {
+                font-size: 100%;
+            }
+            .kbl-t-besk {
+                height: 42px;
+                overflow: hidden;
+            }
+            .kbl-t-variant {
+                height: 24px;
+            }
+            .kbl-t-antal-kop {
+                height: 20px;
+                max-width: 150px;
+                text-align: right;
+                padding: 8px 0px 0px 0px;
+            }
+            .kbl-t-pris {
+                text-align: right;
+                /* background: #2222ff; */
+                /* color: white;*/
+                box-shadow: 0px 0px 40px #9f9f9f;
+                position:absolute;
+                right: 0;
+                top: 8;
+                padding: 4px 8px 4px 8px;
+                border-radius: 20px;
+                border: 1px solid red;
+                
+            }
+            .kbl-t-pris-pris {
+                font-weight: bold;
+            }
+            .kbl-t-pris-per {
+                position: relative;
+                bottom: -1px;
+            }
+            
+            .kbl-t-antal {
+                display: inline-block;
+                font-size: 80%;
+            }
+            .kbl-t-antal input {
+                width: 30px;
+                font-size: 70%;
+            }
+            .kbl-t-kop {
+                width: 60px;
+                display: inline-block;
+                text-align: center;
+                font-weight:bold;
+                padding: 4px 0px 4px 0px;
+            }
+            .kbl-t-ilager {
+                font-size: 70%;
+            }
+            
+            
+            .kbb {
+                text-align: left;
+            }
+            .kbb-block {
+                min-height: 180px;
+                max-height: 1000px;
+                width: 226px;
+                display: inline-block;
+                vertical-align: middle;
+                padding: 2px 19px 14px 19px;
+                margin: 0px 0px 14px 0px;
+                border-bottom: 1px solid gray;
+                position: relative;
+                text-align: left;
+            }
+            .kbb-block img {
+                max-width: 180px;
+                max-height: 140px;
+            }
+            .kbb-t-img {
+                width: 220px;
+                height: 144px;
+                padding: 2px 0px 2px 0px;
+                display: table-cell;
+                vertical-align: bottom;
+                text-align: center;
+            }
+            .kbb-t-variant select {
+                width: 180px;
+                font-size: 120%;
+            }
+            .kbb-t-namn {
+                height: 48px;
+                padding-top: 12px;
+            }
+            .kbb-t-besk {
+                height: 44px;
+            }
+            .kbb-t-namn h2 {
+                font-size: 120%;
+            }
+            .kbb-t-variant {
+                height: 22px;
+                padding: 8px 0px 8px 0px;
+            }
+            .kbb-t-variant-prompt {
+                
+            }
+
+            .kbb-t-antal-kop {
+                height: 30px;
+                max-width: 316px;
+                text-align: right;
+                padding: 18px 0px 0px 0px; 
+            }
+            .kbb-t-pris {
+                min-width: 60px;
+                text-align: right;
+                background: #2222ff;
+                color: white;
+                position:absolute;
+                right: 0;
+                top: 8;
+                padding: 4px 8px 4px 8px;
+            }
+            .kbb-t-pris-pris {
+                font-size: 130%;
+                font-weight: bold;
+                color: white;
+            }
+            .kbb-t-pris-per {
+                font-size: 120%;
+                color: white;
+                position: relative;
+                bottom: -1px;
+            }
+            .kbb-t-antal {
+                display: inline-block;
+                font-size: 80%;
+            }
+            .kbb-t-antal input {
+                width: 30px;
+                font-size: 70%;
+            }
+            .kbb-t-kop {
+                width: 60px;
+                display: inline-block;
+                text-align: center;
+                font-weight:bold;
+                vertical-align: middle;
+                font-size:120%;
+                padding: 4px 0px 4px 0px;
+            }
+            
+            .asl-row {
+                
+            }
+            .asl-row a {
+                text-decoration: none;
+                color: inherit;
+            }
+            .asl-img {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                margin: 0px 8px 0px 0px;
+            }
+            .asl-img img {
+                max-width: 20px;
+                max-height: 20px;
+            }
+            .asl-text {
+                display: inline-block;
+                width: 200px;
+                vertical-align: top;
+            }
+            .asl-rubrik {
+                display: inline-block;
+                
+            }
+            .asl-artnr {
+                display: inline-block;
+                font-size: 60%;
+            }
+            .asl-artnr::before {
+                content: "(";
+            }
+            .asl-artnr::after {
+                content: ")";
+            }
+            .asl-variant {
+                display: inline-block;
+                
+            }
+            .asl-pris {
+                display: inline-block;
+                float: right;
+                vertical-align: top;
+                
+            }
+            .asl-pris-pris {
+                display: inline-block;
+                
+            }
+            .asl-pris-per {
+                display: inline-block;
+                
+            }
+            .katalog-head {
+                padding: 2px 0px 2px 0px;
+            }
+            
+            
+            
+            .katalog-head-children {
+                
+            }
+            .katalog-head-sokvag {
+                padding: 0px 0px 16px 0px;
+            }
+            .katalog-head-sokvag h2 {
+                text-transform: uppercase;
+                font-weight: normal;
+                font-size: 200%;
+                padding: 4px 0px 0px 8px;
+            }
+            .katalog-head-sokvag-grp {
+                display: inline-block;
+                padding: 0px 0px 0px 8px;
+            }
+            .katalog-head-sokvag-grp a:hover {
+                font-weight: bold;
+            }
+            .katalog-head-nav {
+                
+            }
+            .katalog-head-nav a {
+                padding: 0px 8px 0px 8px;
+            }
+            .katalog-head-nav a:hover {
+                font-weight: bolder; 
+            }
+            
+            .katalog-head-nav-prev , .katalog-head-nav-next, .katalog-head-nav-index {
+                width: 33%;
+                display: inline-block;
+            }
+            .katalog-head-nav-next {
+                text-align: right;
+            }
+            .katalog-head-nav-index {
+                text-align: center;
+            }
+
+            
+            
+            .katalog-index {
+            }
+            .katalog-index a:hover {
+                text-decoration: underline;
+            }
+            .katalog-index-avd {
+                display: inline-block;
+                padding: 0px 12px 2px 12px;
+            }
+            .katalog-index h2 {
+                font-size: 200%;
+                padding: 0px 0px 0px 8px;
+                margin: 2px 0px 6px 0px;
+                background: #ff8888;
+            }
+            .katalog-index a {
+                text-decoration: none;
+                color: inherit;
+            }
+            
+            .katalog-index-root {
+                line-height: 1em;
+                width: 150px;
+                padding: 0px 23px 20px 23px;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .katalog-index-row {
+                padding-bottom: 6px;
+            }
+            .katalog-index-row h3 {
+                font-size: 130%;
+                font-weight: bold;
+            }
+            .katalog-index-row-img {
+                width: 30px;
+                padding: 0px 0px 0px 0px;
+                display: inline-block;
+                vertical-align: top;
+            }
+            .katalog-index-row-img img {
+                max-width: 30px;
+                max-height: 30px;
+                vertical-align: middle;
+            }
+
+
+            
+            .katalog-head a {
+                text-decoration: none;
+                color: inherit;
+            }
+            .katalog-head-children-child {
+                display: inline-block;
+                width: 150px;
+                padding: 2px 23px 2px 23px;
+            }
+
+            .momsinfo {
+                font-style: italic;
+            }
+            
+            
+            @media all and (max-width: 400px) {
+                .kbl-block {
+                    padding-right: 2px;
+                    padding-left: 2px;
+                }
+            }
+            @media all and (max-width: 630px) {
+                .kbb {
+                    text-align: center;
+                }
+                .kbl {
+                    text-align: center;
+                }
+            }
+            @media all and (max-width: 500px) {
+                .site-header-sok {
+                    width: 200px;
+                }
+                .site-header-vk-btn {
+                    width: 80px;
+                }
+                .site-header-kassa-btn {
+                    width: 80px;
+                    display: inline-block;
+                    font-size: 80%;
+                    font-weight:bold;
+                    height: 30px;
+                    line-height: 30px;
+                    font-family:'Segoe UI', Helvetica, Arial, sans-serif;
+                }
+            }
+
+            @media all and (max-width: 820px) {
+                .col-m {
+                    width: auto;
+                }
+                .kli-t-namn-besk{
+                    width: 310px;
+                    padding-right: 2px;
+                }
+                .t-variant-namn {
+                    width: 310;
+                }   
+            }
+            @media all and (max-width: 960px) {
+                .col-r {
+                    display: none;
+                }
+            }
+            @media all and (max-width: 1020px) {
+                .col-l {
+                    display:none;
+                }
+            }
