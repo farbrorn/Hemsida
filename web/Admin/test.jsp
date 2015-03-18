@@ -17,7 +17,6 @@
         <%
             
             
-            
 String h = "En brun räv:<kbl value=\"123\"> kommer fram. Så meining nr <kbl value=\"2\">. Saknar varde <kbl>. Saknar sluttag <kbl value=\"ingen sluttag\". ";            
 
 
