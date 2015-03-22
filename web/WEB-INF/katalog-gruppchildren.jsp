@@ -67,12 +67,13 @@ long id=0;
                         <% topProd = null; %>
                         <% if (kg.getDepth()==startLevel+1) topProd = SQLHandler.getToplistaInGrupp(request, kg.getGrpId(), Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4); %>
                         <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() +"/katalog/" + kg.getGrpId() %>">
-                        <%= (kg.getDepth()==startLevel+1 ? "<h3>":"") + (kg.getDepth() > startLevel+2 ? "&nbsp;&nbsp;" :"") +  Const.toHtml(kg.getRubrik()) + (kg.getDepth()==startLevel+1 ? "</h3>":"") %></div>
+                        <%= (kg.getDepth()==startLevel+1 ? "<h3>":"") + (kg.getDepth() > startLevel+2 ? "&nbsp;&nbsp;" :"") +  Const.toHtml(kg.getRubrik()) + (kg.getDepth()==startLevel+1 ? "</h3>":"") %>
                         <% if (topProd!=null) { %>
                             <% for (Produkt tp : topProd) { %>
                             <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(tp) %>"></div>
                             <% } %>
                         <% } %>
+                        </div>
                       </a>  <%
                 }
             }
