@@ -73,8 +73,9 @@ long id=0;
                             <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(tp) %>"></div>
                             <% } %>
                         <% } %>
+                        </a>
                         </div>
-                      </a>  <%
+                        <%
                 }
             }
             if (rootPrinted) { %> </div> <% }
