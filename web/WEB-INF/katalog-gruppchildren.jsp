@@ -1,3 +1,4 @@
+<%@page import="java.sql.Connection"%>
 <%@page import="se.saljex.hemsida.SQLHandler"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%@page import="java.util.ArrayList"%>
@@ -13,6 +14,7 @@ List<KatalogGrupp> kglChildren = khInfo.getChildren();
     ArrayList<Produkt> topProd;
 
 long id=0;
+Connection con = Const.getConnection(request);
 %>
 <div class="katalog-head">
     <div class="katalog-head-nav">
@@ -64,15 +66,15 @@ long id=0;
                     }
                     %><div class="katalog-index-row">
                         <% id=Const.getInitData(request).getNewUniktID(); %>
-                        <% topProd = null; %>
-                        <% if (kg.getDepth()==startLevel+1) topProd = SQLHandler.getToplistaInGrupp(request, kg.getGrpId(), Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4); %>
                         <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() +"/katalog/" + kg.getGrpId() %>">
                         <%= (kg.getDepth()==startLevel+1 ? "<h3>":"") + (kg.getDepth() > startLevel+2 ? "&nbsp;&nbsp;" :"") +  Const.toHtml(kg.getRubrik()) + (kg.getDepth()==startLevel+1 ? "</h3>":"") %>
-                        <% if (topProd!=null) { %>
-                            <% for (Produkt tp : topProd) { %>
-                            <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(tp) %>"></div>
+                        <% if (kg.getDepth()==startLevel+1) {%>
+                            <div class="katalog-index-row-imgs" >
+                                <% for (Produkt p : kg.getTopProdukter(con)) { %>
+                                <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(p) %>"></div>
                             <% } %>
-                        <% } %>
+                            </div>
+                           <% } %>
                         </a>
                         </div>
                         <%

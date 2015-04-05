@@ -35,6 +35,7 @@ public class StartupData {
 	ArrayList<String> cardsRightBot=new ArrayList<>();
 	
 	DataSource sxadm;
+	KatalogGruppLista kgl=null;
 	
 	private Double momsMultiplikatot=null;
 			
@@ -343,6 +344,11 @@ public class StartupData {
 
 	public DataSource getSxadm() {
 		return sxadm;
+	}
+
+	public KatalogGruppLista getKatalogGruppLista() throws SQLException {
+		if (kgl==null) kgl = SQLHandler.getKatalogGruppLista(sxadm.getConnection());
+		return kgl;
 	}
 	
 }

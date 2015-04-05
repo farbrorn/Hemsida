@@ -85,15 +85,24 @@ public class KatalogServlet extends HttpServlet {
 				
 				ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr());
 				if (prod==null || prod.size()<1) { 
-					prod = SQLHandler.getToplistaInGrupp(request, grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
-					out.print("<h3>Rekommenderat</h3>");
+					ArrayList<Produkt> rekProd = SQLHandler.getRekommenderadeToplistaInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
+					if (rekProd!=null && rekProd.size() > 0) {
+						out.print("<h3>Rekommenderat</h3>");
+						request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
+						for (Produkt p : rekProd) {
+							request.setAttribute(Const.ATTRIB_PRODUKT, SQLHandler.getProdukt(Const.getConnection(request), p.getKlasid(), Const.getSessionData(request).getAvtalsKundnr()));
+							request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
+						}
+						request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
+					}
+				} else {
+					request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
+					for (Produkt p : prod) {
+						request.setAttribute(Const.ATTRIB_PRODUKT, p);
+						request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
+					}
+					request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 				}
-				request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
-				for (Produkt p : prod) {
-					request.setAttribute(Const.ATTRIB_PRODUKT, p);
-					request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
-				}
-				request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 			}
 			
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				

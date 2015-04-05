@@ -7,6 +7,10 @@
 package se.saljex.hemsida;
 
 import java.sql.Array;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -23,6 +27,8 @@ public class KatalogGrupp {
 	private Integer antalKlasar;
 	private Integer[] sortPath;
 	private Integer avdelning;
+	private ArrayList<Produkt> topProdukter = null;
+	private ArrayList<Produkt> topRekommenderadeProdukter = null;
 	public KatalogGrupp() {
 	}
 
@@ -119,6 +125,29 @@ public class KatalogGrupp {
 
 	public void setDepth(Integer depth) {
 		this.depth = depth;
+	}
+	
+	public List<Produkt> getTopProdukter(Connection con) {
+		if (topProdukter == null) {
+			try {
+				topProdukter = SQLHandler.getToplistaInGrupp(con, getGrpId(), StartupData.getDefaultKundnr(), StartupData.getDefultLagernr(), 4);
+			} catch (SQLException e) {
+				Const.log("SQL: Fel vid getTopBilder. " + e.getMessage());
+			}
+			
+		}
+		return topProdukter;
+	}
+	public List<Produkt> getTopRekommenderadeProdukter(Connection con) {
+		if (topRekommenderadeProdukter == null) {
+			try {
+				topRekommenderadeProdukter = SQLHandler.getRekommenderadeToplistaInGrupp(con, getGrpId(), StartupData.getDefaultKundnr(), StartupData.getDefultLagernr(), 4);
+			} catch (SQLException e) {
+				Const.log("SQL: Fel vid getTopBilder. " + e.getMessage());
+			}
+			
+		}
+		return topRekommenderadeProdukter;
 	}
 
 }

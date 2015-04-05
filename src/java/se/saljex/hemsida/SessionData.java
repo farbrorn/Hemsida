@@ -24,7 +24,6 @@ public class SessionData {
 
 	private Integer lagernr=null;
 	
-	KatalogGruppLista kgl=null;
 	
 	boolean inkMoms = true;
 
@@ -131,8 +130,7 @@ public class SessionData {
 	}
 
 	public KatalogGruppLista getKatalogGruppLista(Connection con) throws SQLException {
-		if (kgl==null) kgl = SQLHandler.getKatalogGruppLista(con);
-		return kgl;
+		return Const.getStartupData().getKatalogGruppLista();
 	}
 
 	public boolean isInkMoms() {

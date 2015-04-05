@@ -1,3 +1,4 @@
+<%@page import="java.sql.Connection"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="se.saljex.hemsida.SQLHandler"%>
@@ -8,6 +9,7 @@
 KatalogGruppLista kgl = Const.getSessionData(request).getKatalogGruppLista(Const.getConnection(request));
 KatalogGrupp avdelning = (KatalogGrupp)request.getAttribute(Const.ATTRIB_KATALOGAVDELNING);
 long id=0;
+Connection con = Const.getConnection(request);
 
 %>
 <div class="katalog-index">
@@ -44,13 +46,12 @@ long id=0;
         <% if (kg.getDepth().equals(divBreakLevel)) { %>
         <div class="katalog-index-row"><h3>
                 <% id=Const.getInitData(request).getNewUniktID(); %>
-                <% topProd = SQLHandler.getToplistaInGrupp(request, kg.getGrpId(), Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4); %>
                 <a id="contind<%= id %>" onclick="ajxCont(event, 'contind<%= id %>')" href="<%= request.getContextPath()+"/katalog/"+kg.getGrpId() %>"><%= Const.toHtml(kg.getRubrik()) %></a></h3>
-                <% if (topProd!=null) { %>
-                    <% for (Produkt tp : topProd) { %>
-                    <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(tp) %>"></div>
+                    <div class="katalog-index-row-imgs" >
+                        <% for (Produkt tp : kg.getTopProdukter(con)) { %>
+                        <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(tp) %>"></div>
                     <% } %>
-                <% } %>
+                    </div>
                         
         </div>
                 

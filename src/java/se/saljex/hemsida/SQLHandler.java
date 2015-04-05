@@ -20,10 +20,14 @@ import se.saljex.sxlibrary.SXUtil;
  */
 public class SQLHandler {
 
-	public static String getSQLKatalogGrupper(Integer rootGrp) {
+	public static String getSQLKatalogGrupper(Integer rootGrp, boolean includeRootGrp) {
 		String s = StartupData.getKatalogExcludeGrpAsString();
+		String st;
+		if (includeRootGrp) st = "grpid= " + rootGrp;
+		else st="prevgrpid = " + rootGrp;
+		
 		return " (with recursive kataloggrupper as ( "
-				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[ rubrik, sortorder::varchar, grpid::varchar] as sortpath, grpid as avdelning from artgrp where prevgrpid = " + rootGrp + " and grpid not in (" + s + ")" 
+				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[ rubrik, sortorder::varchar, grpid::varchar] as sortpath, grpid as avdelning from artgrp where " + st + " and grpid not in (" + s + ")" 
 				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, depth+1 , sortpath || a.rubrik || a.sortorder::varchar || a.grpid::varchar, avdelning from artgrp a  "
 				+ " join kataloggrupper  on kataloggrupper.grpid=a.prevgrpid and kataloggrupper.grpid not in (" + s + ")) "
 				+ " select * from kataloggrupper order by sortpath) ";
@@ -35,7 +39,7 @@ public class SQLHandler {
 	}
 	
 	public static String getSQLKatalogGrupper() {
-		return getSQLKatalogGrupper(StartupData.getKatalogRootGrp());
+		return getSQLKatalogGrupper(StartupData.getKatalogRootGrp(), false);
 	}	
 
 	public static KatalogGruppLista getKatalogGruppLista(Connection con) throws SQLException {
@@ -795,9 +799,14 @@ public class SQLHandler {
 		
 	}
 
+	
+	
 	public static ArrayList<Produkt> getToplistaInGrupp(HttpServletRequest request, Integer gruppId, String kundnr, int lagernr, int maxResults) throws SQLException {
-		Connection con = Const.getConnection(request);
-		if (!Const.getSessionData(request).getKatalogGruppLista(con).isGruppInList(gruppId))  return null;
+		if (!Const.getSessionData(request).getKatalogGruppLista(Const.getConnection(request)).isGruppInList(gruppId))  return null;
+		return getToplistaInGrupp(Const.getConnection(request), gruppId, kundnr, lagernr, maxResults);
+	}
+	
+	public static ArrayList<Produkt> getToplistaInGrupp(Connection con, Integer gruppId, String kundnr, int lagernr, int maxResults) throws SQLException {
 		ArrayList<Produkt> ret = new ArrayList<>();
 		
 				String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
@@ -807,14 +816,14 @@ public class SQLHandler {
 				+ " from vbutikart v  "
 				+ " where v.k_nummer=? and v.lid_lagernr=? and v.ak_klasid in "
 				+ " (select ak.klasid  "
-				+ " from " + getSQLKatalogGrupper(gruppId) + " ag"
+				+ " from " + getSQLKatalogGrupper(gruppId, true) + " ag"
 
 				+ "		join artgrplank agl on ag.grpid=agl.grpid "
 				+ "     join artklase ak on ak.klasid=agl.klasid"
 				+ "		order by ak.autosortvikt desc limit ? "
 				+ "		 ) "
 				+ " order by v.ak_klasid, v.akl_sortorder, v.nummer, v.lid_lagernr ";
-System.out.print(q);
+//System.out.print(q);
 
 		PreparedStatement ps = con.prepareStatement(q);
 		ps.setInt(3, maxResults);
@@ -826,7 +835,7 @@ System.out.print(q);
 		String temp_artnr=null;
 		Artikel a=null;
 		while (rs.next()) {
-System.out.print("loop");
+//System.out.print("loop");
 			if (temp_klasid== null || !temp_klasid.equals(rs.getInt("ak_klasid"))) {
 				p = new Produkt();
 				ret.add(p);
@@ -857,5 +866,65 @@ System.out.print("loop");
 		
 	}
 	
+	
+	public static ArrayList<Produkt> getRekommenderadeToplistaInGrupp(Connection con, Integer gruppId, String kundnr, int lagernr, int maxResults) throws SQLException {
+		ArrayList<Produkt> ret = new ArrayList<>();
+		
+				String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
+				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
+				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
+				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+				+ " from vbutikart v  "
+				+ " where v.k_nummer=? and v.lid_lagernr=? and v.ak_klasid in "
+				+ " (select ak.klasid  "
+				+ " from " + getSQLKatalogGrupper(gruppId, true) + " ag"
+
+				+ "		join artgrplank agl on ag.grpid=agl.grpid "
+				+ "     join artklase ak on ak.klasid=agl.klasid and ak.rekommenderadprio > 0 "
+				+ "		order by ak.rekommenderadprio desc, ak.autosortvikt desc, ak.klasid limit ? "
+				+ "		 ) "
+				+ " order by v.ak_klasid, v.akl_sortorder, v.nummer, v.lid_lagernr ";
+//System.out.print(q);
+
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setInt(3, maxResults);
+		ps.setInt(2, lagernr);
+		ps.setString(1, kundnr);
+		ResultSet rs = ps.executeQuery();
+		Produkt p = null;
+		Integer temp_klasid=null;
+		String temp_artnr=null;
+		Artikel a=null;
+		while (rs.next()) {
+//System.out.print("loop");
+			if (temp_klasid== null || !temp_klasid.equals(rs.getInt("ak_klasid"))) {
+				p = new Produkt();
+				ret.add(p);
+				p.setKlasid(rs.getInt("ak_klasid"));
+				p.setRubrik(rs.getString("ak_rubrik"));
+				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
+				p.setBeskrivning(rs.getString("ak_text"));
+				temp_klasid = p.getKlasid();
+			}
+			
+			if (temp_artnr==null || !temp_artnr.equals(rs.getString("nummer"))) {
+				a = getArtikelFromSQL2(rs);
+				p.addVariant(a);
+				temp_artnr = rs.getString("nummer");
+			}
+			
+			LagerSaldo ls = new LagerSaldo();
+			ls.setBest(rs.getDouble("l_best"));
+			ls.setIlager(rs.getDouble("l_ilager"));
+			ls.setIorder(rs.getDouble("l_iorder"));
+			ls.setMaxlager(rs.getDouble("l_maxlager"));
+			ls.setLagernamn(rs.getString("lid_bnamn"));
+			ls.setLagernr(rs.getInt("lid_lagernr"));
+			a.addLagerSaldoRow(ls);
+		}
+
+		return ret;
+		
+	}
 	
 }

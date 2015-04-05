@@ -1085,6 +1085,10 @@
                 font-size: 130%;
                 font-weight: bold;
             }
+            .katalog-index-row-imgs {
+                min-height: 30px;
+                padding: 0px 0px 0px 0px;
+            }
             .katalog-index-row-img {
                 width: 30px;
                 padding: 0px 0px 0px 0px;
