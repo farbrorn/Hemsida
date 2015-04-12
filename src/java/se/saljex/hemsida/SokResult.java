@@ -7,20 +7,21 @@
 package se.saljex.hemsida;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Ulf
  */
 public class SokResult {
-	private ProduktLista pl = new ProduktLista();
+	private ArrayList<ProduktGrund> pl = new ArrayList<>();
 
-	public ProduktLista getPl() {
+	public List<ProduktGrund> getPl() {
 		return pl;
 	}
-
-	public void setPl(ProduktLista pl) {
-		this.pl = pl;
+	public void add(ProduktGrund produktGrund) {
+		pl.add(produktGrund);
 	}
+
 	
 }

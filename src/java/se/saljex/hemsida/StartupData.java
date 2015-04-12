@@ -38,7 +38,10 @@ public class StartupData {
 	KatalogGruppLista kgl=null;
 	
 	private Double momsMultiplikatot=null;
-			
+	
+	private String imageServerCacheAbsolutPath = null;
+	private String imageServerOriginlAbsolutPath = null;
+	private String bildUrl = null;
 			
 	
 	public StartupData(	DataSource sxadm) {
@@ -47,9 +50,25 @@ public class StartupData {
 
 	
 	public static String getImageServerCacheAbsolutPath() {
-		return Const.getStartupData().getConfig("Hemsida-Imageserver-CachPath", "/dum/imageserver/cache");
+		return Const.getStartupData().getImageServerCacheAbsolutPathLocal();
+	}
+	public static String getImageServerOriginalAbsolutPath() {
+		return Const.getStartupData().getImageServerOriginalAbsolutPathLocal();
 	}
 
+	public String getImageServerCacheAbsolutPathLocal() {
+		return imageServerCacheAbsolutPath;
+	}
+	public String getImageServerOriginalAbsolutPathLocal() {
+		return imageServerOriginlAbsolutPath;
+	}
+	
+	public static String getBildURL() {
+		return Const.getStartupData().getBildURLLocal();		
+	}
+	public String getBildURLLocal() {
+		return bildUrl;
+	}
 	public static Integer getKatalogRootGrp() {
 		Integer ret = null;
 		try {
@@ -150,9 +169,6 @@ public class StartupData {
 		return Const.getStartupData().getConfig("SxServMailFromAddress", "info@saljex.se");
 	}
 
-	public static String getImageServerOriginalAbsolutPath() {
-		return Const.getStartupData().getConfig("Hemsida-Imageserver-OriginalPath", "/dum/imageserver");
-	}
 
 	public static String getForetagNamn() {
 		return "S\u00e4ljex";
@@ -271,7 +287,11 @@ public class StartupData {
 					else if (t.startsWith(Page.STATUS_CARD_RIGHT_BOT)) cardsRightBot.add(html);
 				}
 			}
-					
+			
+			imageServerCacheAbsolutPath = getConfig("Hemsida-Imageserver-CachePath", "/home/adminuser/imageserver/cache");
+			imageServerOriginlAbsolutPath = getConfig("Hemsida-Imageserver-OriginalPath", "/home/adminuser/Dropbox/imageserver/album");
+			bildUrl = getConfig("Hemsida-BildURL", "http://saljex.se/p/");
+			
 		} finally {
 			try { con.close(); }catch (Exception e) {}
 		}

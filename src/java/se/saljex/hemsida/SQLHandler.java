@@ -19,18 +19,29 @@ import se.saljex.sxlibrary.SXUtil;
  * @author Ulf
  */
 public class SQLHandler {
+		public static final String V_SELECT_COLS = " v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, v.nummer, v.namn, v.katnamn, "
+				+ " v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
+				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2, v.rsk, v.refnr ";
 
-	public static String getSQLKatalogGrupper(Integer rootGrp, boolean includeRootGrp) {
+	public static String getSQLKatalogGrupper(Integer rootGrp, boolean includeRootGrp, boolean kortSelectsats) {
 		String s = StartupData.getKatalogExcludeGrpAsString();
 		String st;
 		if (includeRootGrp) st = "grpid= " + rootGrp;
 		else st="prevgrpid = " + rootGrp;
-		
+
+		if (!kortSelectsats)
 		return " (with recursive kataloggrupper as ( "
 				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[ rubrik, sortorder::varchar, grpid::varchar] as sortpath, grpid as avdelning from artgrp where " + st + " and grpid not in (" + s + ")" 
 				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, depth+1 , sortpath || a.rubrik || a.sortorder::varchar || a.grpid::varchar, avdelning from artgrp a  "
 				+ " join kataloggrupper  on kataloggrupper.grpid=a.prevgrpid and kataloggrupper.grpid not in (" + s + ")) "
 				+ " select * from kataloggrupper order by sortpath) ";
+		else
+		return " (with recursive kataloggrupper as ( "
+				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html  from artgrp where " + st + " and grpid not in (" + s + ")" 
+				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html  from artgrp a  "
+				+ " join kataloggrupper  on kataloggrupper.grpid=a.prevgrpid and kataloggrupper.grpid not in (" + s + ")) "
+				+ " select * from kataloggrupper) ";
+			
 /*		return " (with recursive kataloggrupper as ( "
 				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[ sortorder, grpid] as sortpath, grpid as avdelning from artgrp where prevgrpid = " + StartupData.getKatalogRootGrp() + " and grpid not in (" + s + ")" 
 				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, depth+1 , sortpath || a.sortorder || a.grpid, avdelning from artgrp a  "
@@ -38,10 +49,26 @@ public class SQLHandler {
 				+ " select * from kataloggrupper order by sortpath) ";*/
 	}
 	
+	public static String getSQLKatalogGrupper(Integer rootGrp, boolean includeRootGrp) {
+		return getSQLKatalogGrupper(rootGrp, includeRootGrp, false);
+	}
+	
 	public static String getSQLKatalogGrupper() {
 		return getSQLKatalogGrupper(StartupData.getKatalogRootGrp(), false);
 	}	
 
+	public static String getSQLKatalogGrupperKort() {
+		return getSQLKatalogGrupper(StartupData.getKatalogRootGrp(), false, true);
+	}	
+	public static String getSQLKatalogGrupperKort(Integer rootGrp) {
+		return getSQLKatalogGrupper(rootGrp, false, true);
+	}	
+	public static String getSQLKatalogGrupperKort(Integer rootGrp,boolean includeRootGrp) {
+		return getSQLKatalogGrupper(rootGrp, includeRootGrp, true);
+	}	
+	
+	
+	
 	public static KatalogGruppLista getKatalogGruppLista(Connection con) throws SQLException {
 		KatalogGruppLista kgl = new KatalogGruppLista();
 		ArrayList<KatalogGrupp> avdelningar = null;
@@ -148,8 +175,8 @@ public class SQLHandler {
 	}
 */
 	
-	public static String ARTIKEL_SELECT_LIST = " a.nummer, a.namn, a.katnamn, a.utpris, a.enhet, a.minsaljpack, a.forpack, a.fraktvillkor ";
-	
+//	public static String ARTIKEL_SELECT_LIST = " a.nummer, a.namn, a.katnamn, a.utpris, a.enhet, a.minsaljpack, a.forpack, a.fraktvillkor ";
+	/*
 	public static Artikel getArtikelFromSQL(ResultSet rs) throws SQLException {
 		return getArtikelFromSQL(rs,0);
 	}
@@ -183,7 +210,7 @@ public class SQLHandler {
 		if (Const.isEmpty(pv.getKatNamn())) pv.setKatNamn(pv.getNamn());
 		
 		return pv;
-	}
+	}*/
 
 /*	public static Artikel gammalgetArtikel(Connection con, String artNr) throws SQLException {
 		String q = "select " + ARTIKEL_SELECT_LIST +  " from artikel a where a.nummer=? ";
@@ -198,10 +225,7 @@ public class SQLHandler {
 	}
 */	
 	public static VarukorgRow getArtikelProdukt(Connection con, String artNr, Integer klasid, String kundnr, Integer lagernr) throws SQLException {
-		String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
-				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
-				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
-				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+		String q = "select " + V_SELECT_COLS 
 				+ " from vbutikart v  "
 				+ " where v.ak_klasid=? and v.nummer=? and v.k_nummer=? and v.lid_lagernr=? ";
 		PreparedStatement ps = con.prepareStatement(q);
@@ -328,7 +352,42 @@ public class SQLHandler {
 			valueString.append("(?)");
 		}
 
-		
+
+		String q =
+				"select ak_klasid, ak_rubrik, ak_text, ak_html, ak_auto_bildartnr " +
+" from " +
+" ( " +
+"" +
+" select ak.klasid as ak_klasid, ak.rubrik as ak_rubrik, ak.text as ak_text, ak.html as ak_html, " +
+" sum(case when upper(ak.rubrik) like '%'||upper(terms.term)||'%' then 1 else 0 end) as cnt_ag_rubrik, " +
+" sum(case when upper(ak.rubrik) like '%'||upper(terms.term)||'%' then 1 else 0 end) as cnt_ak_rubrik, " +
+" sum(case when upper(ak.rubrik) like upper(terms.term)||'%' then 1 else 0 end) as cnt_ak_rubrik_start, " +
+" sum(case when upper(ak.text) like '%'||upper(terms.term)||'%' then 1 else 0 end) as cnt_ak_text, " +
+" sum(case when ak.auto_sokartnr like '%-'||upper(terms.term)||'-%' then 1 else 0 end) as cnt_artnr, " +
+" sum(case when ak.auto_sokrefnr  like '%-'||upper(terms.term)||'-%' then 1 else 0 end) as cnt_refnr , " +
+" sum(case when ak.auto_sokartnr like '%-'||upper(terms.term)||'%' then 1 else 0 end) as cnt_artnr_start, " +
+" ak.autosortvikt as autosortvikt, " +
+" ak.auto_bildartnr as ak_auto_bildartnr " +
+" from artklase ak " +
+" join ( values" + valueString.toString() + " ) as terms (term) on 1=1 " +
+" join artgrplank agl on ak.klasid=agl.klasid " +
+" join " +
+" " + getSQLKatalogGrupperKort() + " ag" +  " on ag.grpid = agl.grpid " +
+
+" where (ak.auto_sokord) like  ('%'||terms.term||'%') " +
+" group by ak.klasid " +
+" having count(distinct terms.term)=? " +
+" ) aa " +
+" order by " +
+"(cnt_ag_rubrik * 1 + " +
+"cnt_ak_rubrik * 2 + " +
+"cnt_ak_rubrik_start * 4 + " +
+"cnt_ak_text  * 1 + " +
+"cnt_artnr * 400 + " +
+"cnt_artnr_start * 200 + " +
+"cnt_refnr * 100) * autosortvikt desc "
++ " offset ? limit ?";
+		/*-
 		String q = 
 				" select v.ak_klasid, v.ak_rubrik, v.ak_text,v.ak_html, "
 				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
@@ -382,8 +441,7 @@ public class SQLHandler {
 				+ ", v.ak_rubrik, v.akl_sortorder, v.nummer"
 				
 				;
-		
-		
+*/		
 /*		String q = 
 				" select v.ak_klasid, v.ak_rubrik, v.ak_text,v.ak_html, "
 				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
@@ -495,7 +553,7 @@ public class SQLHandler {
 		int i = 0;
 		for (String s: sokTermer) {
 			i++;
-			ps.setString(i, s);
+			ps.setString(i, s.toUpperCase());
 		}
 		i++;
 		ps.setInt(i, sokTermer.length);
@@ -504,27 +562,25 @@ public class SQLHandler {
 		i++;
 		ps.setInt(i, limit);
 		i++;
-		ps.setString(i, kundnr);
-		i++;
-		ps.setInt(i, lagernr);
 		
 		ResultSet rs = ps.executeQuery();
 		SokResult sokResultat = new SokResult();
 		SokResultRow row;
-		Produkt p=null;
+		ProduktGrund p=null;
 		Artikel pv=null;
 		
 		while (rs.next()) {
 			if (p==null || !p.getKlasid().equals(rs.getInt(1))) {
-				p = new Produkt();
-				sokResultat.getPl().addProdukt(p);
+				p = new ProduktGrund();
+				sokResultat.add(p);
 				p.setKlasid(rs.getInt(1));
 				p.setRubrik(rs.getString(2));
 				p.setBeskrivningHTML(rs.getString(4));
 				p.setBeskrivning(rs.getString(3));
+				p.setAutoBildArtnr(rs.getString(5));
 			}
 			
-			pv = getArtikelFromSQL2(rs);
+/*			pv = getArtikelFromSQL2(rs);
 			p.getVarianter().add(pv);
 			
 			LagerSaldo ls = new LagerSaldo();
@@ -535,7 +591,7 @@ public class SQLHandler {
 			ls.setLagernamn(rs.getString("lid_bnamn"));
 			ls.setLagernr(rs.getInt("lid_lagernr"));
 			pv.addLagerSaldoRow(ls);
-			
+*/			
 		}
 		return sokResultat;
 	}
@@ -611,10 +667,7 @@ public class SQLHandler {
 //	}
 	public static ArrayList<Produkt> getProdukterInGrupp(Connection con, Integer grpId, String kundnr) throws SQLException {
 		ArrayList<Produkt> produkter = new ArrayList<>();
-		String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
-				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
-				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
-				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+		String q = "select  " + V_SELECT_COLS
 				+ " from vbutikart v join artgrplank agl on agl.klasid=v.ak_klasid "
 				+ " where agl.grpid=? and v.k_nummer=? and v.l_lagernr= " + StartupData.getDefultLagernr() + " "
 				+ " order by agl.sortorder, v.ak_klasid, v.akl_sortorder, v.nummer, v.lid_lagernr";
@@ -687,6 +740,7 @@ public class SQLHandler {
 		pv.setKatNamn(rs.getString("katnamn"));
 		pv.setNamn(rs.getString("namn"));
 		pv.setArtnr(rs.getString("nummer"));
+		pv.setRsk(rs.getString("rsk"));
 		pv.setAntalSaljPackIForpack(antalSaljPackIForpack);
 		if (Const.isEmpty(pv.getKatNamn())) pv.setKatNamn(pv.getNamn());
 		
@@ -698,10 +752,7 @@ public class SQLHandler {
 //		return getProdukt(con, klasId, Const.getDefaultKundnr());
 //	}
 	public static Produkt getProdukt(Connection con, Integer klasId, String kundnr) throws SQLException {
-		String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
-				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
-				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
-				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+		String q = "select  " + V_SELECT_COLS
 				+ " from vbutikart v  "
 				+ " where v.k_nummer=? and v.ak_klasid=?"
 				+ " order by v.akl_sortorder, v.nummer, v.lid_lagernr ";
@@ -747,10 +798,7 @@ public class SQLHandler {
 	
 	
 	public static Produkt getProduktFromArtnr(Connection con, String artnr, String kundnr, int lagernr) throws SQLException {
-		String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
-				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
-				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
-				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+		String q = "select  " + V_SELECT_COLS
 				+ " from vbutikart v  "
 				+ " where v.k_nummer=? and v.lid_lagernr=? and v.ak_klasid= "
 				+ " (select min(akl.klasid)  "
@@ -809,14 +857,11 @@ public class SQLHandler {
 	public static ArrayList<Produkt> getToplistaInGrupp(Connection con, Integer gruppId, String kundnr, int lagernr, int maxResults) throws SQLException {
 		ArrayList<Produkt> ret = new ArrayList<>();
 		
-				String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
-				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
-				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
-				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+				String q = "select  " + V_SELECT_COLS
 				+ " from vbutikart v  "
 				+ " where v.k_nummer=? and v.lid_lagernr=? and v.ak_klasid in "
 				+ " (select ak.klasid  "
-				+ " from " + getSQLKatalogGrupper(gruppId, true) + " ag"
+				+ " from " + getSQLKatalogGrupperKort(gruppId, true) + " ag"
 
 				+ "		join artgrplank agl on ag.grpid=agl.grpid "
 				+ "     join artklase ak on ak.klasid=agl.klasid"
@@ -870,10 +915,7 @@ public class SQLHandler {
 	public static ArrayList<Produkt> getRekommenderadeToplistaInGrupp(Connection con, Integer gruppId, String kundnr, int lagernr, int maxResults) throws SQLException {
 		ArrayList<Produkt> ret = new ArrayList<>();
 		
-				String q = "select v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, "
-				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
-				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
-				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
+				String q = "select  " + V_SELECT_COLS
 				+ " from vbutikart v  "
 				+ " where v.k_nummer=? and v.lid_lagernr=? and v.ak_klasid in "
 				+ " (select ak.klasid  "

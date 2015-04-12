@@ -18,6 +18,7 @@ public class Artikel {
     private String namn;
     private String katNamn;
     private Double bruttopris;
+    private String rsk;
 	
     private Double nettoPris=null;
 
@@ -206,6 +207,14 @@ public class Artikel {
 	
 	public String getEnhetStringMedForpackning() {
 		return getAntalSaljpack().equals(1.0) ? getFormatEnhet() : "x " + Const.getAnpassade2Decimaler(getAntalSaljpack()) + getFormatEnhet();
+	}
+
+	public String getRsk() {
+		return rsk;
+	}
+
+	public void setRsk(String rsk) {
+		this.rsk = rsk;
 	}
 
 

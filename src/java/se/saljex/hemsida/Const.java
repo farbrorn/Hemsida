@@ -271,15 +271,21 @@ public class Const {
 	
 	public static String getArtBildURL(String artnr, Integer size) {
 		if (size == null ) size=50;
-		return "http://saljex.se/p/s50/" + artnr + ".png";
+		String bu = getStartupData().getBildURLLocal();
+		if (!bu.endsWith("/")) bu=bu+"/";
+		return bu + "s" + size + "/" + artnr + ".png";
 	}
 	public static String getArtBildURL(String artnr) {
 		return getArtBildURL(artnr, 50);
 	}
 	
 	public static String getArtBildURL(Produkt p) {
-		if (p.getVarianter().size() > 0) return getArtBildURL(p.getVarianter().get(0).getArtnr());
+		if (p.getAutoBildArtnr()!=null) return p.getAutoBildArtnr();
+		else if (p.getVarianter().size() > 0) return getArtBildURL(p.getVarianter().get(0).getArtnr());
 		else return "";
+	}
+	public static String getArtBildURL(ProduktGrund p) {
+		return p.getAutoBildArtnr()!=null ? getArtBildURL(p.getAutoBildArtnr()) : "";
 	}
 
 	

@@ -36,7 +36,13 @@
                         <% int rowCn = 0; %>            
                         <% for (Artikel pv : p.getVarianter()) { %>
                             <div class="t-variant-row kid-variant-odd">
-                                <div class="t-variant-namn"><%= pv.getKatNamn() %></div>
+                                <div class="t-variant-namn"><%= pv.getKatNamn() %> 
+                                    <span class="t-variant-namn-small"> Artnr: <%= pv.getArtnr() %> 
+                                    <% if(!Const.isEmpty(pv.getRsk())) { %>
+                                        <br>RSK: <%= pv.getRsk() %>
+                                    <% } %>
+                                    </span>
+                                </div>
                                 <div class="t-variant-saldo"><%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>
                                 </div>
                                 

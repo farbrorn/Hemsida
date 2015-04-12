@@ -39,7 +39,7 @@ private String cachePath;
 				if (nW>boxSize) nW=boxSize;
 			} else {
 				nW=boxSize;
-				nH=(int)(f/nW);
+				nH=(int)(nW/f);
 				if (nH>boxSize) nH=boxSize;
 			}
 		}

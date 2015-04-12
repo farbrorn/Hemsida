@@ -67,14 +67,26 @@ Connection con = Const.getConnection(request);
                     %><div class="katalog-index-row">
                         <% id=Const.getInitData(request).getNewUniktID(); %>
                         <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() +"/katalog/" + kg.getGrpId() %>">
-                        <%= (kg.getDepth()==startLevel+1 ? "<h3>":"") + (kg.getDepth() > startLevel+2 ? "&nbsp;&nbsp;" :"") +  Const.toHtml(kg.getRubrik()) + (kg.getDepth()==startLevel+1 ? "</h3>":"") %>
                         <% if (kg.getDepth()==startLevel+1) {%>
+                            <%= "<h3>" + Const.toHtml(kg.getRubrik()) + "</h3>" %>
                             <div class="katalog-index-row-imgs" >
                                 <% for (Produkt p : kg.getTopProdukter(con)) { %>
                                 <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(p) %>"></div>
                             <% } %>
                             </div>
-                           <% } %>
+                        <% } else {%>
+                            <% if ( kg.getDepth() > startLevel+2) { %>
+                                <%= (kg.getDepth() > startLevel+2 ? "&nbsp;&nbsp;" :"") +  Const.toHtml(kg.getRubrik()) %>
+                            <% } else { %>
+                            
+                            <% //try { Produkt p = kg.getTopProdukter(con).get(0); %>
+                             <%//   <div class="katalog-index-row-img" ><img src="<%= Const.getArtBildURL(p) "></div> %>
+                            <% //}catch (IndexOutOfBoundsException e) {} %>
+                                
+                               <%=   Const.toHtml(kg.getRubrik())          %>
+                            <% } %>
+                        
+                        <% } %>
                         </a>
                         </div>
                         <%

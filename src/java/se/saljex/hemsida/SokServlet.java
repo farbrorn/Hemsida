@@ -32,19 +32,26 @@ public class SokServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
+		
+		boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
+		
 		try (PrintWriter out = response.getWriter()) {
 			/* TODO output your page here. You may use following sample code. */
 			try {
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
+				
 				String q= request.getParameter("q");
 				SokResult sr = SQLHandler.sok(Const.getConnection(request), q, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr());
 				if (sr!=null) {
 					request.getRequestDispatcher("/WEB-INF/kli-header.jsp").include(request, response);				
-					for (Produkt p : sr.getPl().getProdukter()) {
+					for (ProduktGrund p : sr.getPl()) {
 						request.setAttribute(Const.ATTRIB_PRODUKT, p);
-						request.getRequestDispatcher("/WEB-INF/kli-row.jsp").include(request, response);				
+						request.getRequestDispatcher("/WEB-INF/kli-row-grund.jsp").include(request, response);				
 					}
 					request.getRequestDispatcher("/WEB-INF/kli-footer.jsp").include(request, response);				
 				}
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
+
  			} catch (SQLException e) { out.print("SQL-FEl"); e.printStackTrace(); }
 			
 		}

@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
@@ -43,6 +44,7 @@ public class ImageServerServlet extends HttpServlet {
 
     private String basePath;
 	private String cachePath;
+	private String[] subDirs;
 
     // Actions ------------------------------------------------------------------------------------
 
@@ -58,22 +60,29 @@ public class ImageServerServlet extends HttpServlet {
        // Validate base path.
         if (this.basePath == null || cachePath == null) {
             throw new ServletException("Basepath and cachepath is required.");
-        } else {
-            File path = new File(this.basePath);
-            File pathCache = new File(this.cachePath);
-            if (!path.exists() || !pathCache.exists() || !path.isDirectory() || !pathCache.isDirectory() ) {
-                throw new ServletException("basePath or CachePath does not exist or is not a directory.");
-            } else if (!path.canRead() || !pathCache.canRead()) {
-                throw new ServletException("basePath or CachePath does not exist or is not readable.");
-            } else if (!pathCache.canWrite()) {
-                throw new ServletException("CachePath is not writable.");
-            }
-        }		
+        } 
+		File path = new File(this.basePath);
+		File pathCache = new File(this.cachePath);
+		if (!pathCache.exists()) pathCache.mkdir();
+		if (!path.exists() || !pathCache.exists() || !path.isDirectory() || !pathCache.isDirectory() ) {
+			throw new ServletException("basePath or CachePath does not exist or is not a directory.");
+		} else if (!path.canRead() || !pathCache.canRead()) {
+			throw new ServletException("basePath or CachePath does not exist or is not readable.");
+		} else if (!pathCache.canWrite()) {
+			throw new ServletException("CachePath is not writable.");
+		}
+        
+		subDirs = path.list(new FilenameFilter() {
+		  @Override
+		  public boolean accept(File current, String name) {
+			return new File(current, name).isDirectory();
+		  }
+		});		
     }
 
     /**
      * Process HEAD request. This returns the same headers as GET request, but without content.
-	 * @param request
+	 * @zparam request
 	 * @param response
 	 * @throws javax.servlet.ServletException
 	 * @throws java.io.IOException
@@ -173,8 +182,14 @@ public class ImageServerServlet extends HttpServlet {
 
 		// Check if file actually exists in filesystem.
         if (!file.exists()) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
+			for (String subDir : subDirs) {
+				file = new File(basePath + "/" + subDir, requestedFile + fileType);
+				if (file.exists()) { break; }
+			}
+            if (!file.exists()) {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				return;
+			}
         }
 		
 		File cacheFile;

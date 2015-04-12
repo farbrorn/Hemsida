@@ -13,47 +13,17 @@ import java.util.List;
  *
  * @author Ulf
  */
-public class Produkt {
+public class Produkt extends ProduktGrund{
     
-	private Integer klasid;
-    private String rubrik;
-    private String kortBeskrivning;
-    private String beskrivningHTML;
     private final List<Artikel> varianter = new ArrayList<>();
 	private final List<Produkt> vanligaTillbehor = new ArrayList<>();
 	private final List<Produkt> liknandeProdukter = new ArrayList<>();
+
+	public Produkt() {
+		super();
+	}
+
 	
-    public String getRubrik() {
-	return rubrik;
-    }
-
-	public Integer getKlasid() {
-		return klasid;
-	}
-
-	public void setKlasid(Integer klasid) {
-		this.klasid = klasid;
-	}
-
-    public void setRubrik(String rubrik) {
-	this.rubrik = rubrik;
-    }
-
-    public String getKortBeskrivning() {
-	return kortBeskrivning;
-    }
-
-    public void setBeskrivning(String kortBeskrivning) {
-	this.kortBeskrivning = kortBeskrivning;
-    }
-
-	public String getBeskrivningHTML() {
-		return beskrivningHTML;
-	}
-
-	public void setBeskrivningHTML(String beskrivningHTML) {
-		this.beskrivningHTML = beskrivningHTML;
-	}
     
     public List<Artikel> getVarianter() { return varianter; }
     

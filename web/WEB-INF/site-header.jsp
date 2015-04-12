@@ -39,7 +39,7 @@
             
             
             function sokare(v) {
-                ajaxRequest("<%= request.getContextPath() + "/sok" %>" + "?q=" + encodeURIComponent(v),"content");
+                ajaxRequest("<%= request.getContextPath() + "/sok" %>" + "?g=c&q=" + encodeURIComponent(v),"content");
             }
             
             function vk_add(klasid, variantid, antalid) {
@@ -221,7 +221,7 @@ function renderAjaxContentOnLoaded() {
                     <div class="site-header-logo"><img src="<%= Const.getStartupData().getLogoUrl() %>" alt="Logga"></div>
                 </a>
                 <div class="site-header-sok">
-                    <form action="<%= request.getContextPath() + "/s" %>" method="get">
+                    <form action="<%= request.getContextPath() + "/sok" %>" method="get">
                         <!--<table><tr>     <td> -->
                                     <input name="q" class="site-header-sok-input" onkeyup="sokare(this.value)">
                                 <!-- </td>  <td> -->
