@@ -38,8 +38,8 @@ private String cachePath;
 				nW=(int)(nH/f);
 				if (nW>boxSize) nW=boxSize;
 			} else {
-				nW=boxSize;
-				nH=(int)(nW/f);
+				nW=boxSize;	
+				nH=(int)(nW*h/w);
 				if (nH>boxSize) nH=boxSize;
 			}
 		}

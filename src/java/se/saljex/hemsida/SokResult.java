@@ -14,13 +14,13 @@ import java.util.List;
  * @author Ulf
  */
 public class SokResult {
-	private ArrayList<ProduktGrund> pl = new ArrayList<>();
+	private ArrayList<Produkt> pl = new ArrayList<>();
 
-	public List<ProduktGrund> getPl() {
+	public List<Produkt> getPl() {
 		return pl;
 	}
-	public void add(ProduktGrund produktGrund) {
-		pl.add(produktGrund);
+	public void add(Produkt produkt) {
+		pl.add(produkt);
 	}
 
 	

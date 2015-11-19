@@ -280,7 +280,7 @@ public class Const {
 	}
 	
 	public static String getArtBildURL(Produkt p) {
-		if (p.getAutoBildArtnr()!=null) return p.getAutoBildArtnr();
+		if (p.getAutoBildArtnr()!=null) return getArtBildURL(p.getAutoBildArtnr());
 		else if (p.getVarianter().size() > 0) return getArtBildURL(p.getVarianter().get(0).getArtnr());
 		else return "";
 	}

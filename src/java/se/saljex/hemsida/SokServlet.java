@@ -44,9 +44,9 @@ public class SokServlet extends HttpServlet {
 				SokResult sr = SQLHandler.sok(Const.getConnection(request), q, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr());
 				if (sr!=null) {
 					request.getRequestDispatcher("/WEB-INF/kli-header.jsp").include(request, response);				
-					for (ProduktGrund p : sr.getPl()) {
+					for (Produkt p : sr.getPl()) {
 						request.setAttribute(Const.ATTRIB_PRODUKT, p);
-						request.getRequestDispatcher("/WEB-INF/kli-row-grund.jsp").include(request, response);				
+						request.getRequestDispatcher("/WEB-INF/kli-row.jsp").include(request, response);				
 					}
 					request.getRequestDispatcher("/WEB-INF/kli-footer.jsp").include(request, response);				
 				}

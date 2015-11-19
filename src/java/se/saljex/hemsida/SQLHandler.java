@@ -327,7 +327,7 @@ public class SQLHandler {
 		
 		 from 
 		 (with recursive kataloggrupper as ( 
-		 select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[sortorder, grpid] as sortpath, grpid as avdelning from artgrp where prevgrpid = 0
+		 select grpid, 0 as prevgrpid, r-ubrik, text, sortorder, html, 0 as depth , array[sortorder, grpid] as sortpath, grpid as avdelning from artgrp where prevgrpid = 0
 		 union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, depth+1 , sortpath || a.sortorder || a.grpid, avdelning from artgrp a 
 		 join kataloggrupper  on kataloggrupper.grpid=a.prevgrpid) 
 		 select * from kataloggrupper order by sortpath) ag
@@ -354,20 +354,21 @@ public class SQLHandler {
 
 
 		String q =
-				"select ak_klasid, ak_rubrik, ak_text, ak_html, ak_auto_bildartnr " +
+"select " + V_SELECT_COLS + ", sortvikt"
++ " from ( "
++ "select ak_klasid, sortvikt " +
 " from " +
 " ( " +
 "" +
 " select ak.klasid as ak_klasid, ak.rubrik as ak_rubrik, ak.text as ak_text, ak.html as ak_html, " +
-" sum(case when upper(ak.rubrik) like '%'||upper(terms.term)||'%' then 1 else 0 end) as cnt_ag_rubrik, " +
-" sum(case when upper(ak.rubrik) like '%'||upper(terms.term)||'%' then 1 else 0 end) as cnt_ak_rubrik, " +
-" sum(case when upper(ak.rubrik) like upper(terms.term)||'%' then 1 else 0 end) as cnt_ak_rubrik_start, " +
-" sum(case when upper(ak.text) like '%'||upper(terms.term)||'%' then 1 else 0 end) as cnt_ak_text, " +
-" sum(case when ak.auto_sokartnr like '%-'||upper(terms.term)||'-%' then 1 else 0 end) as cnt_artnr, " +
-" sum(case when ak.auto_sokrefnr  like '%-'||upper(terms.term)||'-%' then 1 else 0 end) as cnt_refnr , " +
-" sum(case when ak.auto_sokartnr like '%-'||upper(terms.term)||'%' then 1 else 0 end) as cnt_artnr_start, " +
-" ak.autosortvikt as autosortvikt, " +
-" ak.auto_bildartnr as ak_auto_bildartnr " +
+" ak.auto_bildartnr as ak_auto_bildartnr, " +
+" (sum(case when upper(ak.rubrik) like '%'||upper(terms.term)||'%' then 1 else 0 end) * 1 + " +
+"sum(case when upper(ak.rubrik) like '%'||upper(terms.term)||'%' then 1 else 0 end) * 2 + " +
+"sum(case when upper(ak.rubrik) like upper(terms.term)||'%' then 1 else 0 end) * 4 +  +" +
+"sum(case when upper(ak.text) like '%'||upper(terms.term)||'%' then 1 else 0 end)  * 1 + " +
+"sum(case when ak.auto_sokartnr like '%-'||upper(terms.term)||'-%' then 1 else 0 end) * 400 +" +
+"sum(case when ak.auto_sokartnr like '%-'||upper(terms.term)||'%' then 1 else 0 end) * 200 +" +
+"sum(case when ak.auto_sokrefnr  like '%-'||upper(terms.term)||'-%' then 1 else 0 end) * 100) * autosortvikt as sortvikt " +
 " from artklase ak " +
 " join ( values" + valueString.toString() + " ) as terms (term) on 1=1 " +
 " join artgrplank agl on ak.klasid=agl.klasid " +
@@ -378,15 +379,11 @@ public class SQLHandler {
 " group by ak.klasid " +
 " having count(distinct terms.term)=? " +
 " ) aa " +
-" order by " +
-"(cnt_ag_rubrik * 1 + " +
-"cnt_ak_rubrik * 2 + " +
-"cnt_ak_rubrik_start * 4 + " +
-"cnt_ak_text  * 1 + " +
-"cnt_artnr * 400 + " +
-"cnt_artnr_start * 200 + " +
-"cnt_refnr * 100) * autosortvikt desc "
-+ " offset ? limit ?";
+" order by sortvikt desc" +
+" offset ? limit ?"
++ " ) aar "
++ " left outer join vbutikart v on v.k_nummer=? and v.lid_lagernr=? and v.ak_klasid=aar.ak_klasid "	
++" order by sortvikt desc, v.ak_klasid, v.akl_sortorder, v.nummer"				;
 		/*-
 		String q = 
 				" select v.ak_klasid, v.ak_rubrik, v.ak_text,v.ak_html, "
@@ -562,16 +559,20 @@ public class SQLHandler {
 		i++;
 		ps.setInt(i, limit);
 		i++;
+		ps.setString(i, kundnr);
+		i++;
+		ps.setInt(i, lagernr);
+		i++;
 		
 		ResultSet rs = ps.executeQuery();
 		SokResult sokResultat = new SokResult();
 		SokResultRow row;
-		ProduktGrund p=null;
+		Produkt p=null;
 		Artikel pv=null;
 		
 		while (rs.next()) {
-			if (p==null || !p.getKlasid().equals(rs.getInt(1))) {
-				p = new ProduktGrund();
+			if (p==null || !p.getKlasid().equals(rs.getInt("ak_klasid"))) {
+				p = new Produkt();
 				sokResultat.add(p);
 				p.setKlasid(rs.getInt(1));
 				p.setRubrik(rs.getString(2));
@@ -580,7 +581,7 @@ public class SQLHandler {
 				p.setAutoBildArtnr(rs.getString(5));
 			}
 			
-/*			pv = getArtikelFromSQL2(rs);
+			pv = getArtikelFromSQL2(rs);
 			p.getVarianter().add(pv);
 			
 			LagerSaldo ls = new LagerSaldo();
@@ -591,7 +592,7 @@ public class SQLHandler {
 			ls.setLagernamn(rs.getString("lid_bnamn"));
 			ls.setLagernr(rs.getInt("lid_lagernr"));
 			pv.addLagerSaldoRow(ls);
-*/			
+			
 		}
 		return sokResultat;
 	}
