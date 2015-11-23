@@ -147,6 +147,13 @@ public class VarukorgServlet extends HttpServlet {
 			
 			
 		}		
+		//Sätt session timeout så att den blir längre när det är fler rader i varukorgen
+		if (vk!=null) {
+			int tempRader = vk.getVarukorgProdukter().size();
+			if (tempRader > 8) tempRader=8;
+			if (tempRader <= 2) tempRader=1;
+			request.getSession().setMaxInactiveInterval(tempRader*60*60*3);
+		}
 	}
 
 	private HttpServletResponseWrapper getResponseWrapper(HttpServletResponse response) {

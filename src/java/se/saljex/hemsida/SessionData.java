@@ -47,8 +47,13 @@ public class SessionData {
 				}
 				if (autoLoginId!=null) {
 					inloggadUser = SQLHandler.autoLogin(con, autoLoginId);
-					if (inloggadUser!=null && varukorg!=null) varukorg.mergeSQLVarukorg(request);
-					if (inloggadUser!=null) inkMoms=inloggadUser.isDefaultInkMoms();
+					if (inloggadUser!=null) {
+						PreparedStatement ps = con.prepareStatement("update butikautologin set autologinexpire=current_date+30 where uuid=?");
+						ps.setString(1, autoLoginId);
+						ps.executeUpdate();
+						if (varukorg!=null) varukorg.mergeSQLVarukorg(request);
+						inkMoms=inloggadUser.isDefaultInkMoms();
+					}
 				}
 			}
 		
@@ -65,13 +70,13 @@ public class SessionData {
 						String autoLoginId = (Long.toString(Math.abs(r.nextLong()), 36) + Long.toString(Math.abs(r.nextLong()), 36)).trim();
 
 						
-						u = con.prepareStatement("insert into butikautologin (uuid, kontaktid, expiredate) values (?,?, current_date+30)");
+						u = con.prepareStatement("insert into butikautologin (uuid, kontaktid, expiredate) values (?,?,current_date+30)");
 						u.setString(1, autoLoginId);
 						u.setInt(2, inloggadUser.getKontaktId());
 						u.executeUpdate();
 						
 						Cookie c2 = new Cookie(Const.COOKIEAUTOINLOGID, autoLoginId);
-						c2.setMaxAge(30*24*60*60);
+						c2.setMaxAge(365*24*60*60);
 						response.addCookie(c2);
 			} catch (SQLException e) {e.printStackTrace();}
 		}

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import static se.saljex.hemsida.Const.getStartupData;
+import se.saljex.sxlibrary.SXUtil;
 
 /**
  *
@@ -42,6 +43,8 @@ public class StartupData {
 	private String imageServerCacheAbsolutPath = null;
 	private String imageServerOriginlAbsolutPath = null;
 	private String bildUrl = null;
+	private String defaultHTMLTitle = null;
+	private String favIconName = null;
 			
 	
 	public StartupData(	DataSource sxadm) {
@@ -86,6 +89,23 @@ public class StartupData {
 		return !"false".equals(Const.getStartupData().getConfig("Hemsida-Testlage", "true"));
 	}
 
+	public static String getDefaultHTMLTitle() {
+		return SXUtil.toHtml(Const.getStartupData().getDefultHTMLTitleLocal());
+	}
+	public String getDefultHTMLTitleLocal() {
+		return defaultHTMLTitle;
+	}
+	
+	public static String getFavIconName() {
+		return Const.getStartupData().getFavIvonNameLocal();
+	}
+	public String getFavIvonNameLocal() {
+		return favIconName;
+	}
+	public static String getFavIconUrl() {
+		return getBildURL() + "/" + getFavIconName();
+	}
+	
 	public static boolean isFirstTradLevelAvdelning() {
 		return "true".equals(Const.getStartupData().getConfig("Hemsida-IsFirstTradLevelAvdelning", "true"));
 	}
@@ -291,6 +311,8 @@ public class StartupData {
 			imageServerCacheAbsolutPath = getConfig("Hemsida-Imageserver-CachePath", "/home/adminuser/imageserver/cache");
 			imageServerOriginlAbsolutPath = getConfig("Hemsida-Imageserver-OriginalPath", "/home/adminuser/Dropbox/imageserver/album");
 			bildUrl = getConfig("Hemsida-BildURL", "http://saljex.se/p/");
+			defaultHTMLTitle = getConfig("Hemsida-DefaultHTMLTitle", "Säljex");
+			favIconName = getConfig("Hemsida-FavIconName", "favcion-saljex.png");
 			
 		} finally {
 			try { con.close(); }catch (Exception e) {}

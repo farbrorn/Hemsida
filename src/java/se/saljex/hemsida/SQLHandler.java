@@ -5,6 +5,7 @@
  */
 package se.saljex.hemsida;
 
+import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -627,7 +628,7 @@ public class SQLHandler {
 	
 	public static void logoutAutoLogin(Connection con, User u) throws SQLException {
 		if (u!=null && u.getAutoLoginUuid()!=null) {
-			String q = "delete from butikautologin where expiredate > current_date or uuid=?";
+			String q = "delete from butikautologin where expiredate < current_date or uuid=?";
 			PreparedStatement ps = con.prepareStatement(q);
 			ps.setString(1, u.getAutoLoginUuid());
 			ps.executeUpdate();
@@ -640,8 +641,8 @@ public class SQLHandler {
 		if (autoLoginId!=null) {
 			String q = "select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn "
 					+ " from kund k, kundkontakt kk, kundlogin kl, butikautologin bl "
-					+ " where k.nummer = kk.kundnr and kk.kontaktid = kl.kontaktid "
-					+ " and kl.kontaktid=bl.kontaktid and bl.uuid=? and kl.autologinexpire >= current_date";
+					+ " where k.nummer = kk.kundnr and kk.kontaktid = kl.kontaktid and bl.kontaktid=kl.kontaktid "
+					+ " and bl.uuid=? and bl.expiredate >= current_date";
 			
 			PreparedStatement ps = con.prepareStatement(q);
 			ps.setString(1, autoLoginId);
@@ -657,7 +658,7 @@ public class SQLHandler {
 				u.setLoguinNamn(rs.getString(7));
 				u.setAutoLoginUuid(autoLoginId);
 				u.setDefaultInkMoms(false);
-							}
+			}
 		}
 		return u;
 	}
@@ -969,5 +970,24 @@ public class SQLHandler {
 		return ret;
 		
 	}
+
 	
+	public static ArrayList<Integer> getAllaProduktIds(Connection con) throws SQLException {
+		String q = "select distinct agl.klasid " //+ V_SELECT_COLS
+				+ " from artgrplank agl  "
+				+ " join  "
+				+  getSQLKatalogGrupper() + " ag"
+				+ " on ag.grpid=agl.grpid ";
+		PreparedStatement ps = con.prepareStatement(q);
+		ResultSet rs = ps.executeQuery();
+		ArrayList<Integer> ret = new ArrayList<>();
+		while (rs.next()) {
+			ret.add(rs.getInt(1));
+		}
+
+		return ret;
+		
+	}
+
+
 }

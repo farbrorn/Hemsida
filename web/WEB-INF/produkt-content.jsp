@@ -19,15 +19,17 @@
                     <div class="kid-order">
                         <div>
                             <div class="pris-stor" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                                <span class="kid-pris" itemprop="price" content="<%= p.getVarianter().get(0).getNettoPris(inkMoms) %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris(inkMoms)) %> kr</span>/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet())%>
+                                <% Artikel lagstaPrisArtikel = p.getLagstaPrisArtikel(); %>
+                                Pris från <span class="kid-pris" itemprop="price" content="<%= lagstaPrisArtikel.getNettoPris(inkMoms) %>"><%= Const.getAnpassatPrisFormat(lagstaPrisArtikel.getNettoPris(inkMoms)) %> kr</span>/<%= Const.getFormatEnhet(lagstaPrisArtikel.getEnhet())%>
                             </div>
                         </div>
-                        <div>
+<% /*                        <div>
                             <div class="kop-antal">Antal:
                                 <input maxlength="4" size="4">
                             </div>
                             <div class="kop-stor a-btn" onclick="javascript">KÖP</div>
                         </div>
+   */ %>
                         <div class="kid-share">
                             <jsp:include page="/WEB-INF/share-buttons.jsp" />
                         </div>

@@ -74,6 +74,7 @@ tinymce.init({
                 </tr>
                 <input type="hidden" name="ac" value="save">
             </table>
+                <p>special element <<sx- value="">>> -kbl (klasid) -asl (klasid,artnr) </p>
                 <input type="submit">
                 <br>
         <textarea id="textarea" rows="30" style="width: 100%" name="html"><%= Const.toHtmlNotLineBreak(sida.getHtml()) %></textarea>

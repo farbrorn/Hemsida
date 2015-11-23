@@ -1,3 +1,4 @@
+<%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="se.saljex.hemsida.SQLHandler"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
@@ -16,7 +17,7 @@ List<KatalogGrupp> kglChildren = khInfo.getChildren();
 long id=0;
 Connection con = Const.getConnection(request);
 %>
-<div class="katalog-head">
+<div class="katalog-head" itemscope itemtype="http://schema.org/WebPage">
     <div class="katalog-head-nav">
         <div class="katalog-head-nav-prev">
             <% if (khInfo.getPrevGrp() != null) { %>
@@ -39,6 +40,9 @@ Connection con = Const.getConnection(request);
         
     <div class="katalog-head-sokvag">
             <h2><%= Const.toHtml(khInfo.getKatalogGrupp().getRubrik()) %></h2>
+            <meta itemprop="name" content="<%= StartupData.getDefaultHTMLTitle() + " - " + Const.toHtml(khInfo.getKatalogGrupp().getRubrik()) %>">
+            <meta itemprop="description" content="">
+            
         <% for (KatalogGrupp g : khInfo.getSokvag()) { %>
             <div class="katalog-head-sokvag-grp">
                 <% id=Const.getInitData(request).getNewUniktID(); %>                

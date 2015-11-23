@@ -1,8 +1,11 @@
+<%@page import="se.saljex.hemsida.SessionData"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <html>
     <head>
+        <title><%= StartupData.getDefaultHTMLTitle() %></title>
+        <link rel="icon" type="image/png" href="<%= StartupData.getFavIconUrl()%>">
 <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
 <% if (StartupData.isHemsidaTestlage()) { %> <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"> <% } %>
@@ -234,8 +237,9 @@ function renderAjaxContentOnLoaded() {
                         <% if (Const.getSessionData(request).getInloggadKontaktId()==null) {
                             %> <div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/login">Logga in</a></div><%
                         } else {
-                            %> <div class="site-header-userinfo-namn"><%= Const.toHtml(Const.getSessionData(request).getInloggadKontaktNamn()) %></div><div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/logout">Logga ut</a></div><%                            
+                            %> <div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/logout">Logga ut</a></div><%                            
                         } %>
+                        <% //<div class="site-header-userinfo-namn"><%= Const.toHtml(Const.getSessionData(request).getInloggadKontaktNamn()) ></div> %>
                     </div>
                 <a href="<%= request.getContextPath() %>/varukorg">
                     <div class="site-header-kassa-btn a-btn" >
