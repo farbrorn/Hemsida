@@ -72,6 +72,10 @@
         <servlet-name>SitemapServlet</servlet-name>
         <servlet-class>se.saljex.hemsida.SitemapServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RobotsServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.RobotsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>t1</servlet-name>
         <url-pattern>/t1</url-pattern>
@@ -115,6 +119,10 @@
     <servlet-mapping>
         <servlet-name>SitemapServlet</servlet-name>
         <url-pattern>/sitemap.txt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RobotsServlet</servlet-name>
+        <url-pattern>/robots.txt</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -11,7 +11,7 @@
     <form method="post" action="<%= request.getContextPath() %>/login">
         <table>
             <tr><td><labe for="<%= Const.PARAM_LOGINNAMN %>">Användarnamn: </labe></td><td><input name="<%= Const.PARAM_LOGINNAMN %>" id="<%= Const.PARAM_LOGINNAMN %>" autofocus ></td></tr>
-            <tr><td><labe for="<%= Const.PARAM_LOGINLOSENL %>">Lösen: </labe></td><td><input name="<%= Const.PARAM_LOGINLOSENL %>" id="<%= Const.PARAM_LOGINLOSENL %>"></td></tr>   
+            <tr><td><labe for="<%= Const.PARAM_LOGINLOSENL %>">Lösen: </labe></td><td><input type="password" name="<%= Const.PARAM_LOGINLOSENL %>" id="<%= Const.PARAM_LOGINLOSENL %>"></td></tr>   
         </table>
         <input type="submit" value="Logga in" >
     </form>

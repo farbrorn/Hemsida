@@ -6,7 +6,7 @@
     <head>
         <title><%= StartupData.getDefaultHTMLTitle() %></title>
         <link rel="icon" type="image/png" href="<%= StartupData.getFavIconUrl()%>">
-<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
 <% if (StartupData.isHemsidaTestlage()) { %> <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"> <% } %>
 <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">

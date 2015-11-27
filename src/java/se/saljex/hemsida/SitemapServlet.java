@@ -36,19 +36,20 @@ public class SitemapServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/text;charset=UTF-8");
+		String scheme = StartupData.redirectToHttps() ? "https://" : request.getScheme()+"://";
 		try (PrintWriter out = response.getWriter()) {
 			/* TODO output your page here. You may use following sample code. */
-			out.println(request.getScheme()+"://"+request.getServerName() + request.getContextPath());			
+			out.println(scheme+request.getServerName() + request.getContextPath());			
 			ResultSet rs;
 			Connection con = Const.getConnection(request);
 			rs = con.createStatement().executeQuery("select sidid from hemsidasidor where status like 'sida' and sidid<>'hem' order by sidid" );
 			while (rs.next()) {
-				out.println(request.getScheme()+"://"+request.getServerName() + request.getContextPath() + "/s/" + rs.getString(1));			
+				out.println(scheme+request.getServerName() + request.getContextPath() + "/s/" + rs.getString(1));			
 			}
 	
 			ArrayList<Integer> ids = SQLHandler.getAllaProduktIds(con);
 			for (Integer i : ids) {
-				out.println(request.getScheme()+"://"+request.getServerName() + request.getContextPath() + "/produkt/" + i);			
+				out.println(scheme+request.getServerName() + request.getContextPath() + "/produkt/" + i);			
 				
 			}
 			
