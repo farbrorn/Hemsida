@@ -39,10 +39,7 @@ public class PageServlet extends HttpServlet {
 		boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
 		Connection con = Const.getConnection(request);
 		try (PrintWriter out = response.getWriter()) {
-
-			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 			String html=null;
-
 			try {
 				String sid=request.getPathInfo();
 				if (sid!=null) {
@@ -53,16 +50,18 @@ public class PageServlet extends HttpServlet {
 				Const.log("sql-fel i pageservlet " + e.toString());
 				e.printStackTrace();
 			}
-			if (html!=null) {
+
+			if (html==null) {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			} else {
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
+
 				out.print("<div class=\"sid\">");
 				out.print(PageHandler.parsePage(request, response, html));
-				
+
 				out.print("</div>");
-			} else {
-				request.getRequestDispatcher("/WEB-INF/pagenotfound.jsp").include(request, response);
-			}
-			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
-		
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
+			}		
 		}
 	}
 

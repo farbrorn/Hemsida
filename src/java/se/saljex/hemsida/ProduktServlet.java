@@ -48,41 +48,40 @@ public class ProduktServlet extends HttpServlet {
 //			request.setAttribute(Const.ATTRIB_KATALOGGRUPPLISTA, kgl);
 
 			request.setAttribute(Const.ATTRIB_PRODUKT, p);
-			if (p!=null) {
-				//request.setAttribute(Const.ATTRIB_LIKNANDE_PRODUKTER, SQLHandler.getLiknandeProdukterInGrp(Const.getConnection(request), klasid));
-			}
 			
-			if (p!=null && p.getAutoSamkoptaKlasarAsArray()!=null) {
-				Produkt tempProdukt;
-				ArrayList<Produkt> arrSamkopta = new ArrayList<>();
-				for (Integer i : p.getAutoSamkoptaKlasarAsArray()) {
-					tempProdukt = SQLHandler.getProdukt(Const.getConnection(request), i, Const.getSessionData(request).getAvtalsKundnr());
-					if (tempProdukt!=null) arrSamkopta.add(tempProdukt);
-				}
-				request.setAttribute(Const.ATTRIB_SAMKOPTA_PRODUKTER, arrSamkopta);
-			}
-			
-			if (p==null) response.sendError(HttpServletResponse.SC_NOT_FOUND);
-			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
-			
-			if (p!=null) {
-				request.getRequestDispatcher("/WEB-INF/produkt-content.jsp").include(request, response);
+			if (p==null) {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			} else {
-				request.getRequestDispatcher("/WEB-INF/produkt-ej-hittad.jsp").include(request, response);				
-				request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
-				/*
-				ArrayList<Produkt> produkter = SQLHandler.getProdukterCloseToID(Const.getConnection(request), klasid);
-
-					for (Produkt pp : produkter) {
-						request.setAttribute(Const.ATTRIB_PRODUKT, pp);
-						request.getRequestDispatcher("/WEB-INF/kbl-block-content.jsp").include(request, response);				
+				if (p.getAutoSamkoptaKlasarAsArray()!=null) {
+					Produkt tempProdukt;
+					ArrayList<Produkt> arrSamkopta = new ArrayList<>();
+					for (Integer i : p.getAutoSamkoptaKlasarAsArray()) {
+						tempProdukt = SQLHandler.getProdukt(Const.getConnection(request), i, Const.getSessionData(request).getAvtalsKundnr());
+						if (tempProdukt!=null) arrSamkopta.add(tempProdukt);
 					}
-					request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
-				*/
-			}
-			
-			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
-		
+					request.setAttribute(Const.ATTRIB_SAMKOPTA_PRODUKTER, arrSamkopta);
+				}
+				
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
+
+				if (p!=null) {
+					request.getRequestDispatcher("/WEB-INF/produkt-content.jsp").include(request, response);
+				} else {
+					request.getRequestDispatcher("/WEB-INF/produkt-ej-hittad.jsp").include(request, response);				
+					request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
+					/*
+					ArrayList<Produkt> produkter = SQLHandler.getProdukterCloseToID(Const.getConnection(request), klasid);
+
+						for (Produkt pp : produkter) {
+							request.setAttribute(Const.ATTRIB_PRODUKT, pp);
+							request.getRequestDispatcher("/WEB-INF/kbl-block-content.jsp").include(request, response);				
+						}
+						request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
+					*/
+				}
+
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
+			}		
 		}
 		catch (SQLException e) { e.printStackTrace(); throw new ServletException("SQL-Fel"); }
 	}

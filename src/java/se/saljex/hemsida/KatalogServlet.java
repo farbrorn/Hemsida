@@ -69,45 +69,44 @@ public class KatalogServlet extends HttpServlet {
 //			request.setAttribute(Const.ATTRIB_KATALOGGRUPPLISTA, kgl);
 			request.setAttribute(Const.ATTRIB_KATALOGAVDELNING, avdelning);
 			request.setAttribute(Const.ATTRIB_KATALOGREQUESTEDGRUPP, kg);
-		
-			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
-			if (showIndexPage) {
-				request.getRequestDispatcher("/WEB-INF/katalog-index.jsp").include(request, response);
-				
-			} else if (grpid==null) {
-				out.print("hittar inte grupp");
+			if (grpid==null && !showIndexPage) {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			} else {
-				
-				KatalogHeaderInfo khInfo = kgl.getKatalogHeaderInfo(grpid);
-				
-				request.setAttribute(Const.ATTRIB_KATALOGHEADERINFO, khInfo);
-				request.getRequestDispatcher("/WEB-INF/katalog-gruppchildren.jsp").include(request, response);				
-				
-				ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr());
-				if (prod==null || prod.size()<1) { 
-					ArrayList<Produkt> rekProd = SQLHandler.getRekommenderadeToplistaInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
-					if (rekProd!=null && rekProd.size() > 0) {
-						out.print("<h3>Rekommenderat</h3>");
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
+				if (showIndexPage) {
+					request.getRequestDispatcher("/WEB-INF/katalog-index.jsp").include(request, response);
+
+				} else {
+
+					KatalogHeaderInfo khInfo = kgl.getKatalogHeaderInfo(grpid);
+
+					request.setAttribute(Const.ATTRIB_KATALOGHEADERINFO, khInfo);
+					request.getRequestDispatcher("/WEB-INF/katalog-gruppchildren.jsp").include(request, response);				
+
+					ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr());
+					if (prod==null || prod.size()<1) { 
+						ArrayList<Produkt> rekProd = SQLHandler.getRekommenderadeToplistaInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
+						if (rekProd!=null && rekProd.size() > 0) {
+							out.print("<h3>Rekommenderat</h3>");
+							request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
+							for (Produkt p : rekProd) {
+								request.setAttribute(Const.ATTRIB_PRODUKT, SQLHandler.getProdukt(Const.getConnection(request), p.getKlasid(), Const.getSessionData(request).getAvtalsKundnr()));
+								request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
+							}
+							request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
+						}
+					} else {
 						request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
-						for (Produkt p : rekProd) {
-							request.setAttribute(Const.ATTRIB_PRODUKT, SQLHandler.getProdukt(Const.getConnection(request), p.getKlasid(), Const.getSessionData(request).getAvtalsKundnr()));
+						for (Produkt p : prod) {
+							request.setAttribute(Const.ATTRIB_PRODUKT, p);
 							request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
 						}
 						request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 					}
-				} else {
-					request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
-					for (Produkt p : prod) {
-						request.setAttribute(Const.ATTRIB_PRODUKT, p);
-						request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
-					}
-					request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 				}
-			}
-			
-			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
-			
+
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
+			}			
 			
 			
 			
