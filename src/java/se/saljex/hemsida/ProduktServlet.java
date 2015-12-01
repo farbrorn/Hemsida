@@ -52,6 +52,7 @@ public class ProduktServlet extends HttpServlet {
 				//request.setAttribute(Const.ATTRIB_LIKNANDE_PRODUKTER, SQLHandler.getLiknandeProdukterInGrp(Const.getConnection(request), klasid));
 			}
 		
+			if (p==null) response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 			
 			if (p!=null) {
