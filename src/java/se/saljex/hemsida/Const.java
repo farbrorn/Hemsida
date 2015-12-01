@@ -30,6 +30,8 @@ public class Const {
     public static final String ATTRIB_PRODUKT = "produkt";
     public static final String ATTRIB_ROWCN = "radraknare";
     public static final String ATTRIB_LIKNANDE_PRODUKTER = "liknande-produkter";
+    public static final String ATTRIB_TILLBEHOR_PRODUKTER = "tillbehor-produkter";
+    public static final String ATTRIB_SAMKOPTA_PRODUKTER = "samkopta-produkter";
     public static final String ATTRIB_KATALOGGRUPPLISTA = "kataloggrupplista";
     public static final String ATTRIB_KATALOGHEADERINFO = "katalogheaderinfo";
     public static final String ATTRIB_KATALOGAVDELNING = "katalogavdelning";
@@ -279,11 +281,18 @@ public class Const {
 		return getArtBildURL(artnr, 50);
 	}
 	
-	public static String getArtBildURL(Produkt p) {
-		if (p.getAutoBildArtnr()!=null) return getArtBildURL(p.getAutoBildArtnr());
-		else if (p.getVarianter().size() > 0) return getArtBildURL(p.getVarianter().get(0).getArtnr());
+	public static String getArtBildURL(Produkt p, int size) {
+		if (p.getAutoBildArtnr()!=null) return getArtBildURL(p.getAutoBildArtnr(),size);
+		else if (p.getVarianter().size() > 0) return getArtBildURL(p.getVarianter().get(0).getArtnr(),size);
 		else return "";
 	}
+	public static String getArtBildURL(Produkt p) {
+		return getArtBildURL(p,50);
+	}
+	public static String getArtStorBildURL(Produkt p) {
+		return getArtBildURL(p,200);
+	}
+	
 	public static String getArtBildURL(ProduktGrund p) {
 		return p.getAutoBildArtnr()!=null ? getArtBildURL(p.getAutoBildArtnr()) : "";
 	}

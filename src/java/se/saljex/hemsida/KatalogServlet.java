@@ -41,7 +41,7 @@ public class KatalogServlet extends HttpServlet {
 			boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
 			
 			Integer grpid = null;
-			String[] pathArr = request.getPathInfo().split("/");
+			String[] pathArr = request.getPathInfo() != null ? request.getPathInfo().split("/") : null;
 
 			KatalogGruppLista kgl = Const.getSessionData(request).getKatalogGruppLista(Const.getConnection(request));
 			
@@ -76,6 +76,7 @@ public class KatalogServlet extends HttpServlet {
 				
 			} else if (grpid==null) {
 				out.print("hittar inte grupp");
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			} else {
 				
 				KatalogHeaderInfo khInfo = kgl.getKatalogHeaderInfo(grpid);

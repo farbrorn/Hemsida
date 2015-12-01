@@ -48,7 +48,7 @@ public class SessionData {
 				if (autoLoginId!=null) {
 					inloggadUser = SQLHandler.autoLogin(con, autoLoginId);
 					if (inloggadUser!=null) {
-						PreparedStatement ps = con.prepareStatement("update butikautologin set autologinexpire=current_date+30 where uuid=?");
+						PreparedStatement ps = con.prepareStatement("update butikautologin set expiredate=current_date+30 where uuid=?");
 						ps.setString(1, autoLoginId);
 						ps.executeUpdate();
 						if (varukorg!=null) varukorg.mergeSQLVarukorg(request);

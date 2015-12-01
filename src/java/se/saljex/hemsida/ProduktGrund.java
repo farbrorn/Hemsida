@@ -6,6 +6,9 @@
 
 package se.saljex.hemsida;
 
+import java.util.ArrayList;
+import se.saljex.sxlibrary.SXUtil;
+
 
 /**
  *
@@ -18,7 +21,7 @@ public class ProduktGrund {
     private String kortBeskrivning;
     private String beskrivningHTML;
 	private String autoBildArtnr;
-	
+	private String autoSamkoptaKlasar;
     public String getRubrik() {
 	return rubrik;
     }
@@ -58,5 +61,31 @@ public class ProduktGrund {
 	public void setAutoBildArtnr(String autoBildArtnr) {
 		this.autoBildArtnr = autoBildArtnr;
 	}
+
+	public String getAutoSamkoptaKlasar() {
+		return autoSamkoptaKlasar;
+	}
+
+	public ArrayList<Integer> getAutoSamkoptaKlasarAsArray() {
+		if (SXUtil.isEmpty(autoSamkoptaKlasar)) return null;
+		String[] split = autoSamkoptaKlasar.split(",");
+		if (split==null || split.length < 1) return null;
+		ArrayList<Integer> ret = new ArrayList<>();
+		Integer i;
+		for (String s : split) {
+			try {
+				i = new Integer(s);
+				ret.add(i);
+			} catch (Exception e) {}
+		}
+		if (ret.size() < 1) return null;
+		return ret;
+	}
+
+	
+	public void setAutoSamkoptaKlasar(String autoSamkoptaKlasar) {
+		this.autoSamkoptaKlasar = autoSamkoptaKlasar;
+	}
+	
     
 }

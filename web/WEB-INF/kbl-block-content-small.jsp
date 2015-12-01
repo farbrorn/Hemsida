@@ -7,7 +7,8 @@
     long rowCn = Const.getInitData(request).getNewUniktID();
     long id=0;
     boolean inkMoms=Const.getSessionData(request).isInkMoms();
-
+    Artikel forvaldVariant = p.getVarianter().size() > 0 ? p.getVarianter().get(0) : null;
+    if (forvaldVariant!=null) {
  %>
 <div class="kbl-block">
     <% id=Const.getInitData(request).getNewUniktID(); %>
@@ -32,15 +33,16 @@
                                 </select>
                             </div>
                             <div class="kbl-t-pris">
-                                <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris(inkMoms)) %></span><span class="kbl-t-pris-per">/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet()) %></span>
-                                <div class="kbl-t-ilager" id="ilager-<%= rowCn %>"><%= p.getVarianter().get(0).getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %></div>
+                                <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(forvaldVariant.getNettoPris(inkMoms)) %></span><span class="kbl-t-pris-per">/<%= Const.getFormatEnhet(forvaldVariant.getEnhet()) %></span>
+                                <div class="kbl-t-ilager" id="ilager-<%= rowCn %>"><%= forvaldVariant.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %></div>
 
                             </div>
                             <div class="kbl-t-antal-kop">
                                 <div class="kbl-t-antal" style="">Antal:
-                                    <input size="4" id="antalinput-<%= rowCn %>" value="<%= p.getVarianter().get(0).getAntalSaljPackIForpack() %>">
+                                    <input size="4" id="antalinput-<%= rowCn %>" value="<%= forvaldVariant.getAntalSaljPackIForpack() %>">
                                 </div> 
                                 <div class="kbl-t-kop a-btn" onclick="vk_add(<%= p.getKlasid() %>,'variant-<%= rowCn %>','antalinput-<%= rowCn %>');">Köp
                                 </div>
                             </div>
                         </div>
+<% } %>

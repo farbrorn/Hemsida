@@ -51,7 +51,17 @@ public class ProduktServlet extends HttpServlet {
 			if (p!=null) {
 				//request.setAttribute(Const.ATTRIB_LIKNANDE_PRODUKTER, SQLHandler.getLiknandeProdukterInGrp(Const.getConnection(request), klasid));
 			}
-		
+			
+			if (p!=null && p.getAutoSamkoptaKlasarAsArray()!=null) {
+				Produkt tempProdukt;
+				ArrayList<Produkt> arrSamkopta = new ArrayList<>();
+				for (Integer i : p.getAutoSamkoptaKlasarAsArray()) {
+					tempProdukt = SQLHandler.getProdukt(Const.getConnection(request), i, Const.getSessionData(request).getAvtalsKundnr());
+					if (tempProdukt!=null) arrSamkopta.add(tempProdukt);
+				}
+				request.setAttribute(Const.ATTRIB_SAMKOPTA_PRODUKTER, arrSamkopta);
+			}
+			
 			if (p==null) response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 			

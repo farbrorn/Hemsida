@@ -14,7 +14,7 @@
                         <span itemprop="description"><%= Const.toHtml(p.getKortBeskrivning()) %></span>
                     </div>
                     <div class="kid-img">
-                        <img itemprop="image" src="http://saljex.se/p/s200/<%= p.getVarianter().get(0).getArtnr()%>.png">
+                        <img itemprop="image" src="<%= Const.getArtStorBildURL(p) %>.png">
                     </div>
                     <div class="kid-order">
                         <div>
@@ -52,7 +52,8 @@
                                     <% if (pv.getNettoPrisStaf2ExMoms()> 0.0) { %>
                                         <% rowCn++; %>
                                         <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms)%>" frp="<%= pv.getAntalSaljpack() %>">
-                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPrisStaf2(inkMoms)) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
+                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPrisStaf2(inkMoms)*pv.getAntalSaljpack()) %>
+                                                /<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %></div>
                                             <div class="t-variant-antal">Antal:
                                                 <input disabled id="antalinput-<%= rowCn %>" size="4" maxlength="4" value="<%= Const.getFormatNumber(Math.ceil(pv.getAntalStaf2()/pv.getAntalSaljpackForDivision()),0) %>">
                                             </div>
@@ -62,7 +63,8 @@
                                     <% if (pv.getNettoPrisStaf1ExMoms()> 0.0) { %>
                                         <% rowCn++; %>
                                         <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms)%>" frp="<%= pv.getAntalSaljpack() %>">
-                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPrisStaf1(inkMoms)) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
+                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPrisStaf1(inkMoms)*pv.getAntalSaljpack()) %>
+                                                /<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %></div>
                                             <div class="t-variant-antal">Antal:
                                                 <input disabled id="antalinput-<%= rowCn %>" size="4" maxlength="4" value="<%= Const.getFormatNumber(Math.ceil(pv.getAntalStaf1()/pv.getAntalSaljpackForDivision()),0) %>">
                                             </div>
@@ -71,9 +73,10 @@
                                     <% } %>
                                     <% rowCn++; %>
                                         <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms)%>" frp="<%= pv.getAntalSaljpack() %>">
-                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPris(inkMoms)) %>/<%= Const.getFormatEnhet(pv.getEnhet()) %></div>
+                                            <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPris(inkMoms)*pv.getAntalSaljpack()) %>
+                                                /<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %></div>
                                             <div class="t-variant-antal">Antal:
-                                                <input id="antalinput-<%= rowCn %>" size="4" maxlength="4" >
+                                                <input id="antalinput-<%= rowCn %>" size="4" maxlength="4" value="1">
                                             </div>
                                             <div class="t-variant-kop a-btn" onclick="vk_add(<%= p.getKlasid() %>,'variant-<%= rowCn %>','antalinput-<%= rowCn %>');">Köp</div>
                                         </div>
@@ -89,10 +92,22 @@
                         </div>
                         
                     </div>
-                    <h3>Tillbehör</h3>
-                    <jsp:include page="/WEB-INF/kbl-header.jsp" />
-                    <jsp:include page="/WEB-INF/kbl-block-content.jsp" />
+                    <%
+                    ArrayList<Produkt> tillbehor = (ArrayList<Produkt>)request.getAttribute(Const.ATTRIB_SAMKOPTA_PRODUKTER);
+                    if (tillbehor!=null && tillbehor.size()>0) {    
+                    %>
+                    <h3>Andra köpte samtidigt</h3>
+                    <%
+                    %>
+                        <jsp:include page="/WEB-INF/kbl-header.jsp" />
+                    <% 
+                        for (Produkt pp : tillbehor) {
+                            request.setAttribute(Const.ATTRIB_PRODUKT, pp);
+                    %>
+                       <jsp:include page="/WEB-INF/kbl-block-content.jsp" />
+                    <%     } %>
                     <jsp:include page="/WEB-INF/kbl-footer.jsp" />
+                   <% } %> 
 
                     <h3>Specifikationer</h3>
                     <div class="kid-info">

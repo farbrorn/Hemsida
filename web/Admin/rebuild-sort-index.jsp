@@ -35,22 +35,50 @@
 	+" from artklase ak3 join artklaselank akl3 on akl3.klasid=ak3.klasid join artikel a3 on a3.nummer=akl3.artnr where ak3.klasid = aak.klasid group by ak3.klasid ), "
     +" auto_bildartnr = ( "
 	+" select a4.nummer "
-	+" from artklase ak4 join artklaselank akl4 on akl4.klasid=ak4.klasid join artikel a4 on a4.nummer=akl4.artnr where ak4.klasid = aak.klasid order by akl4.sortorder, akl4.artnr limit 1); ";
+	+" from artklase ak4 join artklaselank akl4 on akl4.klasid=ak4.klasid join artikel a4 on a4.nummer=akl4.artnr where ak4.klasid = aak.klasid order by akl4.sortorder, akl4.artnr limit 1); "
+           
+// Bygg "Andra köpte samtidigt"
++" update artklase set auto_samkopta_klasar=null; "
++" create temp table t on commit drop as ( "
++" with f as ( "
++" select  "
++" f2.ordernr as ordernr, akl.klasid as klasid, count(f2.artnr) as antal "
++" from artklaselank akl  "
++" join faktura2 f2 on akl.artnr=f2.artnr and f2.ordernr<>0 and f2.lev>0 "
++" join faktura1 f1 on f1.faktnr=f2.faktnr and f1.datum > current_date-600 "
++" group by f2.ordernr, akl.klasid "
++" ), o as( "
++" select f.klasid as klasid, ordernr as ordernr from f"
++" ) "
+ 
++" select klasidf,  string_agg(klasido::varchar,',')::varchar as klasar from ( "
++" select f.klasid as klasidf, o.klasid as klasido, sum(f.antal) as antal, row_number() over (partition by f.klasid order by sum(f.antal) desc ) "
++" from f join o on o.ordernr=f.ordernr and f.klasid<>o.klasid "
++" group by f.klasid, o.klasid"
++" ) q"
++" where row_number <= 4"
++" group by klasidf"
++" order by klasidf"
++" );"
+
++" update artklase ak set auto_samkopta_klasar = ("
++" select klasar from t where t.klasidf = ak.klasid); ";
+           
 
    
    
    
    con.createStatement().executeUpdate(q);
-   
+
 %>
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Rebuild sort index</title>
+        <title>Rebuild  index</title>
     </head>
     <body>
-        <h1>ebuild sort index</h1>
+        <h1>Rebuild  index</h1>
     </body>
 </html>
