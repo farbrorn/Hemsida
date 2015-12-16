@@ -14,7 +14,7 @@
                         <span itemprop="description"><%= Const.toHtml(p.getKortBeskrivning()) %></span>
                     </div>
                     <div class="kid-img">
-                        <img itemprop="image" src="<%= Const.getArtStorBildURL(p) %>.png">
+                        <img itemprop="image" src="<%= Const.getArtStorBildURL(p) %>">
                     </div>
                     <div class="kid-order">
                         <div>

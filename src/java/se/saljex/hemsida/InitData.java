@@ -15,6 +15,7 @@ import javax.servlet.ServletRequest;
  */
 public class InitData {
 
+	private boolean metaRobotsNoIndex = false;
 	boolean hideVarukorg=false;
 	private long uniktID=0;
 	private ServletRequest request;
@@ -47,6 +48,15 @@ public class InitData {
 	public void setHideVarukorg(boolean hideVarukorg) {
 		this.hideVarukorg = hideVarukorg;
 	}
+
+	public boolean isMetaRobotsNoIndex() {
+		return metaRobotsNoIndex;
+	}
+
+	public void setMetaRobotsNoIndex(boolean metaRobotsNoIndex) {
+		this.metaRobotsNoIndex = metaRobotsNoIndex;
+	}
+
 	
 	
 

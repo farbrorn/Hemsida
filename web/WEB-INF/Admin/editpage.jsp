@@ -4,6 +4,8 @@
     Author     : Ulf
 --%>
 
+<%@page import="se.saljex.sxlibrary.SXUtil"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page import="se.saljex.hemsida.Page"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.PageHandler"%>
@@ -100,3 +102,11 @@ tinymce.init({
 });*/
 </script>
 <% } %>
+<h4>Tillgängliga sidor</h4>
+<table>
+<%  ResultSet rs = Const.getConnection(request).createStatement().executeQuery("select sidid, status, rubrik from hemsidasidor order by sidid"); %>
+        <% while (rs.next()) { %>
+        <tr><td><a href="<%= request.getContextPath() %>/Admin/EditPage/<%= rs.getString(1) %>"><%= rs.getString(1) %></a></td><td><%= rs.getString(3) %></td><td><%= SXUtil.toHtml(rs.getString(2)) %></td></tr>
+        <% } %>
+
+</table>

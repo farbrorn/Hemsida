@@ -76,6 +76,10 @@
         <servlet-name>RobotsServlet</servlet-name>
         <servlet-class>se.saljex.hemsida.RobotsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>KontoServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.KontoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>t1</servlet-name>
         <url-pattern>/t1</url-pattern>
@@ -123,6 +127,10 @@
     <servlet-mapping>
         <servlet-name>RobotsServlet</servlet-name>
         <url-pattern>/robots.txt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KontoServlet</servlet-name>
+        <url-pattern>/konto/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

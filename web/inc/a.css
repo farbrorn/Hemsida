@@ -332,6 +332,11 @@
             .site-header a {
                 text-decoration: none;
             }
+            .site-header-inner {
+                margin-left: auto; 
+                margin-right: auto; 
+                max-width: 1280px;
+            }
             .site-header-logo {
                 width: 180px;
                 display: inline-block;
@@ -346,15 +351,17 @@
                 max-width: 180px;
                 vertical-align: middle;
             }
-            .site-header-menu-btn {
+            .site-header-menu-btn, .site-header-konto-btn{
                 width: 60px;
                 display: inline-block;
                 font-size: 14px;
                 font-weight:bold;
-                height: 30px;
-                line-height: 30px;
+                height: 32px;
+                line-height: 32px;
                 margin: 0px 4px 0px 4px;
                 font-family:'Segoe UI', Helvetica, Arial, sans-serif;
+                vertical-align: top;
+                cursor: pointer;
             }
             .site-header-sok {
                 margin-left: 40px;
@@ -373,24 +380,31 @@
                 display: inline-block;
             }
             .site-header-userinfo {
-                width: 90px;
+                width: 120px;
                 display: inline-block;
             }
             .site-header-userinfo-namn {
                 font-size: 70%;
             }
             .site-header-userinfo-login {
-                line-height: 30px;
+                line-height: 32px;
+                font-size: 16px;
+                color: blue;
             }
+            .site-header-userinfo-logout {
+             
+            }
+            
             .site-header-kassa-btn {
                 width: 120px;
                 display: inline-block;
                 font-size: 120%;
                 font-weight:bold;
-                height: 30px;
-                line-height: 30px;
+                height: 32px;
+                line-height: 32px;
                 margin: 0px 4px 0px 4px;
                 font-family:'Segoe UI', Helvetica, Arial, sans-serif;
+                vertical-align: top;
             }
             
             
@@ -1142,6 +1156,9 @@
                 }
             }
             @media all and (max-width: 500px) {
+                .main {
+                    padding-top: 98px;
+                }
                 .site-header-sok {
                     width: 200px;
                 }
@@ -1150,12 +1167,7 @@
                 }
                 .site-header-kassa-btn {
                     width: 80px;
-                    display: inline-block;
                     font-size: 80%;
-                    font-weight:bold;
-                    height: 30px;
-                    line-height: 30px;
-                    font-family:'Segoe UI', Helvetica, Arial, sans-serif;
                 }
             }
 
@@ -1179,5 +1191,8 @@
             @media all and (max-width: 1020px) {
                 .col-l {
                     display:none;
+                }
+                .main {
+                    padding-top: 78px;
                 }
             }

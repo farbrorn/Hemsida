@@ -8,10 +8,6 @@ package se.saljex.hemsida;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Ulf
  */
-public class PageServlet extends HttpServlet {
+public class KontoServlet extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,36 +31,31 @@ public class PageServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
-		boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
-		Connection con = Const.getConnection(request);
 		try (PrintWriter out = response.getWriter()) {
-			String html=null;
-			try {
-				String sid=request.getPathInfo();
-				if (sid!=null) {
-					Page page = PageHandler.getPage(request, sid);
-					if (page!=null) html=page.getHtml();
-				}
-			} catch (SQLException e) {
-				Const.log("sql-fel i pageservlet " + e.toString());
-				e.printStackTrace();
-			}
+			boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
+			Const.getInitData(request).setMetaRobotsNoIndex(true);
 
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 
-			if (html==null) {
+			if (Const.getSessionData(request).getInloggadUser()==null) {
 				Const.getInitData(request).setMetaRobotsNoIndex(true);
-				request.getRequestDispatcher("/WEB-INF/pagenotfound.jsp").include(request, response);
+				request.getRequestDispatcher("/WEB-INF/konto-ejinloggad.jsp").include(request, response);
 			} else {
-				out.print("<div class=\"sid\">");
-				out.print(PageHandler.parsePage(request, response, html));
-				out.print("</div>");
+				String sid=request.getPathInfo();
+				if (sid==null) {
+					
+					request.getRequestDispatcher("/WEB-INF/konto-hem.jsp").include(request, response);
+				} 
+				else {
+					Const.getInitData(request).setMetaRobotsNoIndex(true);
+					request.getRequestDispatcher("/WEB-INF/pagenotfound.jsp").include(request, response);
+				}
+			
 			}
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
-		}		
+
+		}
 	}
-	
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**

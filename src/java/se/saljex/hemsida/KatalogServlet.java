@@ -70,14 +70,17 @@ public class KatalogServlet extends HttpServlet {
 			request.setAttribute(Const.ATTRIB_KATALOGAVDELNING, avdelning);
 			request.setAttribute(Const.ATTRIB_KATALOGREQUESTEDGRUPP, kg);
 			if (grpid==null && !showIndexPage) {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				Const.getInitData(request).setMetaRobotsNoIndex(true);
+			}
+			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
+			if (showIndexPage) {
+				request.getRequestDispatcher("/WEB-INF/katalog-index.jsp").include(request, response);
+
 			} else {
-				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
-				if (showIndexPage) {
-					request.getRequestDispatcher("/WEB-INF/katalog-index.jsp").include(request, response);
 
+				if (grpid==null) {
+					request.getRequestDispatcher("/WEB-INF/pagenotfound.jsp").include(request, response);				
 				} else {
-
 					KatalogHeaderInfo khInfo = kgl.getKatalogHeaderInfo(grpid);
 
 					request.setAttribute(Const.ATTRIB_KATALOGHEADERINFO, khInfo);
@@ -104,9 +107,9 @@ public class KatalogServlet extends HttpServlet {
 						request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 					}
 				}
+			}
 
-				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
-			}			
+			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
 			
 			
 			
