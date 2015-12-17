@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletRequest;
@@ -51,9 +52,13 @@ public class Const {
 	public static final String PARAM_ARTNR = "aid";
 	public static final String PARAM_KLASID = "kid";
 	public static final String PARAM_ANTAL = "qty";
+	public static final String PARAM_ACTION = "ac";
 
 	public static final String PARAM_LOGINNAMN = "loginnamn";
 	public static final String PARAM_LOGINLOSENL = "loginlosen";
+
+	public static final String ACTION_GLOMTLOSEN = "glomt";
+	public static final String ACTION_SKICKANYTTLOSEN = "nyttlosen";
 	
 		public final static String COOKIEAUTOINLOGID="loginuuid";
 		private static final Logger logger = Logger.getLogger("Hemsida");	
@@ -315,6 +320,14 @@ public class Const {
 		Const.startupData = startupData;
 	}
 	
+	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	static Random rnd = new Random();
+	static String getRandomString( int len ){
+	   StringBuilder sb = new StringBuilder( len );
+	   for( int i = 0; i < len; i++ ) 
+		  sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+	   return sb.toString();
+	}		
 	
 	
 }

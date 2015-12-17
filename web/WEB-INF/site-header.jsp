@@ -84,7 +84,7 @@
                     </div>
                     
                     <% if (Const.getSessionData(request).getInloggadKontaktId()!=null) { %>
-                        <a href="<% out.print(request.getContextPath()) %>/konto">
+                        <a href="<% out.print(request.getContextPath()); %>/konto">
                             <div class="site-header-konto-btn"  ><img src="/inc/konto.png"></div>
                         </a>
                     <% } %>

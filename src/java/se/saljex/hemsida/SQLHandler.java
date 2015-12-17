@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import se.saljex.sxlibrary.SXUtil;
 
@@ -624,6 +625,31 @@ public class SQLHandler {
 			}
 		}
 		return u;
+	}
+
+		
+	public static String loginSkapaNyttLosen(Connection con, String anvandarnamn) throws SQLException{
+		String nyttLosen = null;
+
+		if (anvandarnamn!=null) {
+			String q = 
+					"select kl.loginnamn " +
+					" from kund k join kundkontakt kk on kk.kundnr=k.nummer join kundlogin kl on kl.kontaktid=kk.kontaktid " +
+					" where kl.loginnamn=?";
+			PreparedStatement ps = con.prepareStatement(q);
+			ps.setString(1, anvandarnamn);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				nyttLosen = Const.getRandomString(8);
+				q = "update kundlogin set loginlosen=? where loginnamn=?";
+				ps = con.prepareStatement(q);
+				ps.setString(1, nyttLosen);
+				ps.setString(2, anvandarnamn);
+				int res = ps.executeUpdate();
+				if (res == 0) return null;
+			}
+		}
+		return nyttLosen;
 	}
 	
 	

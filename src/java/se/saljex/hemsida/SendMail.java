@@ -26,7 +26,6 @@ import javax.naming.NamingException;
 import javax.mail.internet.InternetAddress;
 import java.io.UnsupportedEncodingException;
 import java.io.ByteArrayOutputStream; 
-import java.sql.Connection;
 import javax.mail.util.ByteArrayDataSource;
 import javax.activation.DataHandler;
 import javax.mail.Part;
@@ -42,7 +41,7 @@ public class SendMail {
 	private Integer port;
 	private String transport;
 
-	public SendMail(Connection con, Session s) {
+	public SendMail(Session s) {
 		this(s, StartupData.getSxServSmtpUser(), StartupData.getSxServSmtpPassword(), 
 				StartupData.getSxServSmtpServerPort(), StartupData.getSxServSmtpTransport());
 	}
@@ -61,24 +60,24 @@ public class SendMail {
 	
 
 
-	public void sendOrderSimpleMail(Connection con, String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
+	public void sendOrderSimpleMail(String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
 		sendMailTextHtml(	new InternetAddress(StartupData.getSxServMailFromAddress()), StartupData.getSxServOrderMail(),
 				subject, text,text);
 	}
-	public void sendOrderSimpleMail(Connection con, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
-		sendAdminSimpleMail(con, "Order från webbutiken", text);
+	public void sendOrderSimpleMail(String text) throws NamingException, MessagingException, UnsupportedEncodingException {
+		sendAdminSimpleMail("Order från webbutiken", text);
 	}
 	
-	public void sendAdminSimpleMail(Connection con, String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
+	public void sendAdminSimpleMail(String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
 		sendMailTextHtml(	new InternetAddress(StartupData.getSxServMailFromAddress()), StartupData.getSxServAdminMail(),
 				subject, text,text);
 	}
-	public void sendAdminSimpleMail(Connection con, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
-		sendAdminSimpleMail(con, "Meddelande från SxServer", text);
+	public void sendAdminSimpleMail(String text) throws NamingException, MessagingException, UnsupportedEncodingException {
+		sendAdminSimpleMail("Meddelande från SxServer", text);
 	}
 
 
-	public void sendSimpleMail(Connection con, String mailTo, String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
+	public void sendSimpleMail(String mailTo, String subject, String text) throws NamingException, MessagingException, UnsupportedEncodingException {
 		sendMailTextHtml(	new InternetAddress(StartupData.getSxServMailFromAddress())
 				, mailTo, subject, text,text);
 	}
