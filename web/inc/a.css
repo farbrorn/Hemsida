@@ -558,6 +558,9 @@
                 width:120px;
                 display:inline-block;
             }
+            .t-variant-artnr {
+                font-weight: bold;
+            }
             .t-variant-pris-kop-hold {
                 display:inline-block;
                 vertical-align: top;

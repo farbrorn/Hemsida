@@ -39,7 +39,7 @@
                         <% for (Artikel pv : p.getVarianter()) { %>
                             <div class="t-variant-row kid-variant-odd">
                                 <div class="t-variant-namn"><%= pv.getKatNamn() %> 
-                                    <span class="t-variant-namn-small"> Artnr: <%= pv.getArtnr() %> 
+                                    <span class="t-variant-namn-small"> Artnr: <span class="t-variant-artnr"><%= pv.getArtnr() %></span> 
                                     <% if(!Const.isEmpty(pv.getRsk())) { %>
                                         <br>RSK: <%= pv.getRsk() %>
                                     <% } %>
@@ -96,7 +96,7 @@
                     ArrayList<Produkt> tillbehor = (ArrayList<Produkt>)request.getAttribute(Const.ATTRIB_SAMKOPTA_PRODUKTER);
                     if (tillbehor!=null && tillbehor.size()>0) {    
                     %>
-                    <h3>Andra köpte samtidigt</h3>
+                    <h3>Relaterade produkter</h3>
                     <%
                     %>
                         <jsp:include page="/WEB-INF/kbl-header.jsp" />
@@ -113,11 +113,12 @@
                     <div class="kid-info">
                         <%= p.getBeskrivningHTML() %>
                     </div>
-                    <h3>Liknande produkter</h3>
+                    
                     <%
                     ArrayList<Produkt> lProdukter = (ArrayList<Produkt>)request.getAttribute(Const.ATTRIB_LIKNANDE_PRODUKTER);
                     if (lProdukter!= null) {
                     %>
+                    <h3>Liknande produkter</h3>
                         <jsp:include page="/WEB-INF/kbl-header.jsp" />
                     <% 
                         for (Produkt pp : lProdukter) {

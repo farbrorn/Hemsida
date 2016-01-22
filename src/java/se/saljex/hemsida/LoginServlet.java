@@ -49,6 +49,7 @@ public class LoginServlet extends HttpServlet {
 			String losen = request.getParameter(Const.PARAM_LOGINLOSENL);
 			String ac = request.getParameter(Const.PARAM_ACTION);
 			Integer inloggadId = sd.getInloggadKontaktId();
+			Const.getInitData(request).setMetaRobotsNoIndex(true);
 			if (inloggadId!=null) {
 				request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 				request.getRequestDispatcher("/WEB-INF/login-inloggad.jsp").include(request, response);												

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -214,12 +215,19 @@ public class Const {
 		return sb.toString();
 	}
 
-	public static final DecimalFormat DecimalFormatter2Dec = new DecimalFormat("###,###.00");
-	public static final DecimalFormat DecimalFormatter0Dec = new DecimalFormat("###,###");
+	public static final Locale locale = new Locale("sv","SE");
+	
+	public static final DecimalFormat DecimalFormatter2Dec = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+	public static final DecimalFormat DecimalFormatter0Dec = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+	static{
+		DecimalFormatter0Dec.applyPattern("###,###");
+		DecimalFormatter2Dec.applyPattern("###,###.00");
+}
+//	new DecimalFormat("###,###.00");
+//	public static final DecimalFormat DecimalFormatter0Dec = new DecimalFormat("###,###");
 	public static String getAnpassade2Decimaler(Double tal) {
 		if (tal==null) return "";
 		DecimalFormat myFormatter;
-		
 		
 		Long l = Math.round(tal*100);
 		Long p = l/100;
@@ -230,8 +238,8 @@ public class Const {
 			myFormatter = DecimalFormatter2Dec;
 		}
 		
-		myFormatter.getDecimalFormatSymbols().setDecimalSeparator(',');
-		myFormatter.getDecimalFormatSymbols().setGroupingSeparator(' ');
+		//myFormatter.getDecimalFormatSymbols().setDecimalSeparator(',');
+		//myFormatter.getDecimalFormatSymbols().setGroupingSeparator(' ');
 		return myFormatter.format(new Double(l)/100);
 		
 	}
@@ -249,8 +257,8 @@ public class Const {
 			myFormatter = DecimalFormatter2Dec;
 		}
 		
-		myFormatter.getDecimalFormatSymbols().setDecimalSeparator(',');
-		myFormatter.getDecimalFormatSymbols().setGroupingSeparator(' ');
+		//myFormatter.getDecimalFormatSymbols().setDecimalSeparator(',');
+		//myFormatter.getDecimalFormatSymbols().setGroupingSeparator(' ');
 		return myFormatter.format(new Double(l)/100);
 	}
 	

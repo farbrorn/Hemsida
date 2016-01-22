@@ -8,7 +8,7 @@
         <link rel="icon" type="image/png" href="<%= StartupData.getFavIconUrl()%>">
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
-        <% if (StartupData.isHemsidaTestlage() || Const.getInitData(request).isContentOnlyCall()) { %> <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"> <% } %>
+        <% if (StartupData.isHemsidaTestlage() || Const.getInitData(request).isMetaRobotsNoIndex()) { %> <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"> <% } %>
         <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
         <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
         <meta name="viewport" content="width=320, initial-scale=1.0">

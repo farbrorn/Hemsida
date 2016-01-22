@@ -31,6 +31,7 @@ public class Artikel {
     private Integer levVillkor;
 	private	Double antalSaljpack;
 	private Integer antalSaljPackIForpack;
+	private Double forpack;
 	private HashMap<Integer,LagerSaldo> lagerSaldon = new HashMap<>();
 
 	public String getLagerSaldoString(Integer lagernr) {		
@@ -215,6 +216,14 @@ public class Artikel {
 
 	public void setRsk(String rsk) {
 		this.rsk = rsk;
+	}
+
+	public Double getForpack() {
+		return forpack;
+	}
+
+	public void setForpack(Double forpack) {
+		this.forpack = forpack;
 	}
 
 

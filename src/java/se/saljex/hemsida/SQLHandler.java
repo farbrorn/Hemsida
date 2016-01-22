@@ -748,7 +748,8 @@ public class SQLHandler {
 		forpack = rs.getDouble("forpack");
 		minSaljPack = rs.getDouble("minsaljpack");
 		if (forpack.compareTo(0.0) == 0) forpack=1.0;
-		antalSaljPack = forpack;
+		//antalSaljPack = forpack;
+		antalSaljPack=1.0;
 		if (minSaljPack.compareTo(0.0) > 0) {
 			antalSaljPack = minSaljPack;
 		}
@@ -758,6 +759,8 @@ public class SQLHandler {
 		} else {
 			antalSaljPackIForpack = 1;
 		}
+		
+		pv.setForpack(forpack);
 		pv.setAntalSaljpack(antalSaljPack);
 		pv.setEnhet(rs.getString("enhet"));
 		pv.setLevVillkor(rs.getInt("fraktvillkor"));
