@@ -8,8 +8,8 @@
 <%
   InitData initData = Const.getInitData(request);
   SessionData sd = Const.getSessionData(request);
-  StartupData sData = Const.getStartupData();
-  LagerEnhet le = sData.getLagerEnhet(sd.getLagerNr());
+//  StartupData sData = Const.getStartupData();
+  LagerEnhet le = sd.getLager();
 %>
 </div>
 
@@ -38,7 +38,7 @@ for (String s : cards) { %>
                     <% } else { %>
                         Gäst
                     <% } %>
-                    <% if (sData.getLagerEnhetList().size() > 1) { %>
+                    <% if (le!=null) { %>
                     <table>
                         <tr><td>Lager</td><td><%= Const.toHtml(le.getNamn()) %></td></tr>
                         <tr><td>Tel</td><td><%= Const.toHtml(le.getTel()) %></td></tr>

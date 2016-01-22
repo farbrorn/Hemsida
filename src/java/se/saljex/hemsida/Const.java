@@ -75,6 +75,7 @@ public class Const {
 		SessionData sd = (SessionData)request.getSession().getAttribute(ATTRIB_SESSIONDATA);
 		if (sd==null) {
 			sd = new SessionData();
+			sd.setLager();
 			request.getSession().setAttribute(ATTRIB_SESSIONDATA, sd);
 		}
 		return sd;

@@ -34,7 +34,7 @@
                             <jsp:include page="/WEB-INF/share-buttons.jsp" />
                         </div>
                     </div>
-                                <div class="kid-variant">Alla varianter  <div class="kid-variant-lagerfor">(Visar lagersaldo för <%= Const.getSessionData(request).getLagerNr() %>)</div>
+                                <div class="kid-variant">Alla varianter  <div class="kid-variant-lagerfor">(Visar lagersaldo för <%= Const.getSessionData(request).getLagerNamn() %>)</div>
                         <% int rowCn = 0; %>            
                         <% for (Artikel pv : p.getVarianter()) { %>
                             <div class="t-variant-row kid-variant-odd">

@@ -8,6 +8,7 @@ package se.saljex.hemsida;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 import javax.servlet.http.Cookie;
@@ -23,7 +24,7 @@ public class SessionData {
 	private User inloggadUser=null;
 
 	private Integer lagernr=null;
-	
+	private LagerEnhet lagerEnhet=null;
 	
 	boolean inkMoms = true;
 
@@ -90,9 +91,30 @@ public class SessionData {
 	}
 
 	public Integer getLagerNr() {
-		return lagernr==null? inloggadUser!=null ? inloggadUser.getDefultLagernr() : StartupData.getDefultLagernr() : lagernr;
+		return lagerEnhet==null? inloggadUser!=null ? inloggadUser.getDefultLagernr() : StartupData.getDefultLagernr() : lagerEnhet.getLagernr();
 	}
-	public void setLagernr(Integer lagernr) { this.lagernr=lagernr; }
+
+	public void setLager() { 
+		setLager(inloggadUser!=null ? inloggadUser.getDefultLagernr() : StartupData.getDefultLagernr());
+	}
+	public LagerEnhet getLager() {
+		return lagerEnhet;
+	}
+	
+	public void setLager(Integer lagernr) { 
+		StartupData sData = Const.getStartupData();
+		LagerEnhet le = sData.getLagerEnhet(lagernr);
+		if (le!=null) {
+			this.lagerEnhet = le;
+		} else {
+			this.lagerEnhet=null;
+		}
+	}
+
+	public String getLagerNamn() {
+		return lagerEnhet==null ? getLagerNr().toString() : lagerEnhet.getNamn();
+	}
+
 	
 	public Varukorg getVarukorg(HttpServletRequest request) {
 		if (varukorg==null) {
