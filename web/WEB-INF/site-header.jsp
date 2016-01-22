@@ -48,7 +48,7 @@
             }
             
         </script>
-    
+        <%= Const.getInitData(request).getExtraHTMLHeaderContent() %>
     </head>
 
     <body>

@@ -57,6 +57,19 @@ public class ProduktServlet extends HttpServlet {
 					if (tempProdukt!=null) arrSamkopta.add(tempProdukt);
 				}
 				request.setAttribute(Const.ATTRIB_SAMKOPTA_PRODUKTER, arrSamkopta);
+				
+				
+				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:title\" content=\"");
+				Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(p.getRubrik()));
+				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:type\" content=\"product\">");
+				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:image\" content=\"");
+				Const.getInitData(request).addExtraHTMLHeaderContent(Const.getArtStorBildURL(p));
+				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:description\" content=\"");
+				Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(p.getKortBeskrivning()));
+				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+				
 			}
 
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);

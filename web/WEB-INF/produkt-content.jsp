@@ -6,7 +6,7 @@
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     boolean inkMoms=Const.getSessionData(request).isInkMoms();
-
+    
 %>
                 <div class="kid" itemscope itemtype="http://schema.org/Product">
                     <div class="kid-head">

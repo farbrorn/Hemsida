@@ -23,6 +23,7 @@ public class InitData {
 		this.request=request;
     }
     
+	private StringBuilder extraHTMLHeadContent = new StringBuilder(400);
     java.sql.Connection con = null;
 
     public Connection getCon() {
@@ -57,6 +58,12 @@ public class InitData {
 		this.metaRobotsNoIndex = metaRobotsNoIndex;
 	}
 
+	public void addExtraHTMLHeaderContent(String s) {
+		if (s!=null) extraHTMLHeadContent.append(s);
+	}
+	public String getExtraHTMLHeaderContent() {
+		return extraHTMLHeadContent.toString();
+	}
 	
 	
 
