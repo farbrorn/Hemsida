@@ -74,7 +74,7 @@ public class SessionData {
 						u.setString(1, autoLoginId);
 						u.setInt(2, inloggadUser.getKontaktId());
 						u.executeUpdate();
-						
+						inloggadUser.setAutoLoginUuid(autoLoginId);
 						Cookie c2 = new Cookie(Const.COOKIEAUTOINLOGID, autoLoginId);
 						c2.setMaxAge(365*24*60*60);
 						response.addCookie(c2);
