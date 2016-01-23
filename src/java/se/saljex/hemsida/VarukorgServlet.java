@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.mail.Session;
@@ -115,7 +116,10 @@ public class VarukorgServlet extends HttpServlet {
 					if (StartupData.isHemsidaTestlage()) {
 						sm.sendSimpleMail("ulf.hemma@gmail.com", "Inkommande testorder " + StartupData.getForetagNamn(), responseContent);
 					} else {
-						sm.sendSimpleMail(StartupData.getSxServOrderMail(), "Inkommande order från "  + StartupData.getForetagNamn() + " webbutik", responseContent);
+						String orderMail;
+						orderMail = sd.getLager().getEpost();
+						if (orderMail==null || orderMail.length() < 5) orderMail = StartupData.getSxServOrderMail();
+						sm.sendSimpleMail(StartupData.getSxServOrderMail(), "Inkommande order från "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), responseContent);
 					}
 
 					try {

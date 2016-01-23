@@ -50,7 +50,7 @@
                 var e = document.getElementById("lagerselector");
                 var lagernr = e.options[e.selectedIndex].value;
                 var AJAX = getHttpRequest(); 
-                AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_LAGERNR %>="+lagernr, false); 
+                AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_SETLAGERNR %>="+lagernr, false); 
                 AJAX.send(null); 
                 location.reload(true);            
 }

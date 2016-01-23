@@ -55,7 +55,8 @@ public class Const {
 	public static final String PARAM_ANTAL = "qty";
 	public static final String PARAM_ACTION = "ac";
 
-	public static final String PARAM_LAGERNR = "lagernr";
+	public static final String PARAM_SETLAGERNR = "setlagernr";
+	public static final String PARAM_SETINKMOMS = "setinkmoms";
 	public static final String PARAM_LOGINNAMN = "loginnamn";
 	public static final String PARAM_LOGINLOSENL = "loginlosen";
 

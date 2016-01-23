@@ -33,18 +33,28 @@ public class SetPropertyServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
 			/* TODO output your page here. You may use following sample code. */
-			String resp = "Error";
+			String resp = "";
+			SessionData sd = Const.getSessionData(request);
+			
+			//Lagernr
 			Integer lagernr = null;
-			try { lagernr = Integer.parseInt(request.getParameter(Const.PARAM_LAGERNR)); } catch (Exception e) {}
+			try { lagernr = Integer.parseInt(request.getParameter(Const.PARAM_SETLAGERNR)); } catch (Exception e) {}
 			if (lagernr!=null) {
-				SessionData sData = Const.getSessionData(request);
 				LagerEnhet lh = Const.getStartupData().getLagerEnhet(lagernr);
 				if (lh!=null) {
-					sData.setLager(request, lagernr);				
-					resp = "OK " + lagernr.toString();
+					sd.setLager(request, lagernr);				
+					resp = resp+"Lagernr=" + lagernr.toString();
 					response.addCookie(Const.getInitData(request).getDataCookie().getCookie());
 				}
 			}
+			
+			//InkMoms
+			String inkmomsStr = request.getParameter(Const.PARAM_SETINKMOMS);
+			if (inkmomsStr!=null) {
+				if ("true".equals(inkmomsStr.toLowerCase())) { sd.setInkMoms(request, true); resp=resp+"inkmoms=true";}
+				if ("false".equals(inkmomsStr.toLowerCase())){ sd.setInkMoms(request, false); resp=resp+"inkmoms=false";}
+			}
+			
 			out.println(resp);
 		}
 	}

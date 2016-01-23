@@ -25,13 +25,14 @@ public class SessionData {
 
 	private Integer lagernr=null;
 	private LagerEnhet lagerEnhet=null;
-	
+
 	
 	public User login(Connection con, HttpServletRequest request, String anvandarnamn, String losen) {
 		inloggadUser=null;
 		try {
 			inloggadUser = SQLHandler.login(con, anvandarnamn, losen);
 			if (inloggadUser!=null && varukorg!=null) varukorg.mergeSQLVarukorg(request);
+			setLager(request);
 		} catch (SQLException e) {}
 		return inloggadUser;
 	}
@@ -51,7 +52,7 @@ public class SessionData {
 						ps.setString(1, autoLoginId);
 						ps.executeUpdate();
 						if (varukorg!=null) varukorg.mergeSQLVarukorg(request);
-						
+						setLager(request);
 					}
 				}
 			}
@@ -113,8 +114,11 @@ public class SessionData {
 		StartupData sData = Const.getStartupData();
 		LagerEnhet le = sData.getLagerEnhet(lagernr);
 		if (inloggadUser!=null) {
-			this.lagerEnhet = le;
-			inloggadUser.setDefaultLagernr(lagernr);
+			try {
+				SQLHandler.setKundloginLagernr(Const.getConnection(request), inloggadUser.getLoguinNamn(), lagernr);
+				this.lagerEnhet = le;
+				inloggadUser.setDefaultLagernr(lagernr);
+			} catch (SQLException e) { e.printStackTrace();}
 		} else {
 			this.lagerEnhet = le;			
 			Const.getInitData(request).getDataCookie().setLagernr(lagernr);			
@@ -182,7 +186,10 @@ public class SessionData {
 
 	public void setInkMoms(HttpServletRequest request, boolean inkMoms) {
 		if (inloggadUser!=null) {
-			inloggadUser.setDefaultInkMoms(inkMoms);
+			try {
+				SQLHandler.setKundloginInkmoms(Const.getConnection(request), inloggadUser.getLoguinNamn(), inkMoms);
+				inloggadUser.setDefaultInkMoms(inkMoms);
+			} catch (SQLException e) { e.printStackTrace();}
 		} else {
 			Const.getInitData(request).getDataCookie().setInkmoms(inkMoms);
 		}

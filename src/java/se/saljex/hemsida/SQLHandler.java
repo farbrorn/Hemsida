@@ -605,7 +605,7 @@ public class SQLHandler {
 		User u = null;
 		if (anvandarnamn!=null && losen!=null) {
 			String q = 
-					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn, kl.dafaultlagernr, kl.defaultinkmoms " +
+					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn, kl.defaultlagernr, kl.defaultinkmoms " +
 					" from kund k join kundkontakt kk on kk.kundnr=k.nummer join kundlogin kl on kl.kontaktid=kk.kontaktid " +
 					" where kl.loginnamn=? and kl.loginlosen=?";
 			PreparedStatement ps = con.prepareStatement(q);
@@ -1026,5 +1026,17 @@ public class SQLHandler {
 		
 	}
 
+	public static void setKundloginLagernr(Connection con, String loginNamn, Integer lagernr) throws SQLException{
+		PreparedStatement ps = con.prepareStatement("update kundlogin set defaultlagernr=? where loginnamn=?");
+		ps.setInt(1, lagernr);
+		ps.setString(2, loginNamn);
+		if (ps.executeUpdate()<1) throw new SQLException("Loginnamnet hittades inte");		
+	}
+	public static void setKundloginInkmoms(Connection con, String loginNamn, Boolean inkmoms) throws SQLException{
+		PreparedStatement ps = con.prepareStatement("update kundlogin set defaultinkmoms=? where loginnamn=?");
+		ps.setBoolean(1, inkmoms);
+		ps.setString(2, loginNamn);
+		if (ps.executeUpdate()<1) throw new SQLException("Loginnamnet hittades inte");		
+	}
 
 }
