@@ -26,15 +26,13 @@ public class SessionData {
 	private Integer lagernr=null;
 	private LagerEnhet lagerEnhet=null;
 	
-	boolean inkMoms = true;
-
+	
 	public User login(Connection con, HttpServletRequest request, String anvandarnamn, String losen) {
 		inloggadUser=null;
 		try {
 			inloggadUser = SQLHandler.login(con, anvandarnamn, losen);
 			if (inloggadUser!=null && varukorg!=null) varukorg.mergeSQLVarukorg(request);
 		} catch (SQLException e) {}
-		if (inloggadUser!=null) inkMoms=inloggadUser.isDefaultInkMoms();
 		return inloggadUser;
 	}
 	public User autoLogin(Connection con, HttpServletRequest request) {
@@ -53,7 +51,7 @@ public class SessionData {
 						ps.setString(1, autoLoginId);
 						ps.executeUpdate();
 						if (varukorg!=null) varukorg.mergeSQLVarukorg(request);
-						inkMoms=inloggadUser.isDefaultInkMoms();
+						
 					}
 				}
 			}
@@ -87,27 +85,39 @@ public class SessionData {
 		try { SQLHandler.logoutAutoLogin(con, inloggadUser); } catch (SQLException e) { e.printStackTrace(); }
 		varukorg=null;
 		inloggadUser=null;
-		inkMoms=true;
+//		inkMoms=true;
 	}
 
 	public Integer getLagerNr() {
-		return lagerEnhet==null? inloggadUser!=null ? inloggadUser.getDefultLagernr() : StartupData.getDefultLagernr() : lagerEnhet.getLagernr();
+		if (inloggadUser!=null) {
+			return inloggadUser.getDefultLagernr();
+		} else {
+			return lagerEnhet==null?  StartupData.getDefultLagernr() : lagerEnhet.getLagernr();
+		}
 	}
 
-	public void setLager() { 
-		setLager(inloggadUser!=null ? inloggadUser.getDefultLagernr() : StartupData.getDefultLagernr());
+	public void setLager(HttpServletRequest request) {
+		if (inloggadUser!=null) {
+			setLager(request,inloggadUser.getDefultLagernr());
+		} else {
+			Integer lagernr = Const.getInitData(request).getDataCookie().getLagernr();
+			if (lagernr==null) lagernr = StartupData.getDefultLagernr();
+			setLager(request, lagernr);			
+		}
 	}
 	public LagerEnhet getLager() {
 		return lagerEnhet;
 	}
 	
-	public void setLager(Integer lagernr) { 
+	public void setLager(HttpServletRequest request, Integer lagernr) { 
 		StartupData sData = Const.getStartupData();
 		LagerEnhet le = sData.getLagerEnhet(lagernr);
-		if (le!=null) {
+		if (inloggadUser!=null) {
 			this.lagerEnhet = le;
+			inloggadUser.setDefaultLagernr(lagernr);
 		} else {
-			this.lagerEnhet=null;
+			this.lagerEnhet = le;			
+			Const.getInitData(request).getDataCookie().setLagernr(lagernr);			
 		}
 	}
 
@@ -160,12 +170,22 @@ public class SessionData {
 		return Const.getStartupData().getKatalogGruppLista();
 	}
 
-	public boolean isInkMoms() {
-		return inkMoms;
+	public boolean isInkMoms(HttpServletRequest request) {
+		Boolean inkmoms;
+		if (inloggadUser!=null)  inkmoms = inloggadUser.isDefaultInkMoms(); 
+		else {
+			inkmoms = Const.getInitData(request).getDataCookie().getInkmoms();
+			if (inkmoms==null) inkmoms = true;
+		}
+		return inkmoms;
 	}
 
-	public void setInkMoms(boolean inkMoms) {
-		this.inkMoms = inkMoms;
+	public void setInkMoms(HttpServletRequest request, boolean inkMoms) {
+		if (inloggadUser!=null) {
+			inloggadUser.setDefaultInkMoms(inkMoms);
+		} else {
+			Const.getInitData(request).getDataCookie().setInkmoms(inkMoms);
+		}
 	}
 	
 }

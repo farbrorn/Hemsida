@@ -6,7 +6,7 @@
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     long rowCn = Const.getInitData(request).getNewUniktID();
     long id=0;
-    boolean inkMoms=Const.getSessionData(request).isInkMoms();
+    boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
     Artikel forvaldVariant = p.getVarianter().size() > 0 ? p.getVarianter().get(0) : null;
     if (forvaldVariant!=null) {
  %>

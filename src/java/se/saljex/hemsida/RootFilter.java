@@ -17,6 +17,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
@@ -49,7 +50,20 @@ public class RootFilter implements Filter {
             throws IOException, ServletException {
         
         InitData initDat = new InitData(request);
-	Const.setInitdata(request, initDat);
+		Const.setInitdata(request, initDat);
+	
+		String data=null;
+		Cookie[] cookies = ((HttpServletRequest)request).getCookies();
+		if (cookies!=null) for(Cookie cookie : cookies){
+			if(DataCookieHandler.COOKIENAME.equals(cookie.getName())) {
+				data = cookie.getValue();
+				break;
+			}
+		}
+		initDat.setDataCookie(new DataCookieHandler(data));
+		
+	
+	
         try {
 	    initDat.setCon(sxadm.getConnection());
 		Const.getSessionData((HttpServletRequest)request).autoLogin(Const.getConnection(request), (HttpServletRequest)request);

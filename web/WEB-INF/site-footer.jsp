@@ -39,13 +39,29 @@ for (String s : cards) { %>
                         Gäst
                     <% } %>
                     <% if (le!=null) { %>
-                    <table>
-                        <tr><td>Lager</td><td><%= Const.toHtml(le.getNamn()) %></td></tr>
+                    <table cellpadding="0" style="border-collapse: collapse;">
+                        <tr><td>Lager</td><td>
+                                <select id="lagerselector" onchange="setLager()">
+                                    <option value="<%= le.getLagernr() %>"><%= Const.toHtml(le.getNamn()) %></option>
+                                    <% 
+                                    StartupData sData = Const.getStartupData();
+                                    java.util.Map<Integer, LagerEnhet> ll = sData.getLagerEnhetList();
+                                    for (java.util.Map.Entry<Integer, LagerEnhet> lle : ll.entrySet()) {
+                                        if (!lle.getKey().equals(le.getLagernr())) {
+                                    %><option value="<%= lle.getKey()%>"><%= Const.toHtml(lle.getValue().getNamn()) %></option>
+                                        <% }
+                                       
+                                    }
+                                    %>
+                                </select>   
+                                
+                            
+                            </td></tr>
                         <tr><td>Tel</td><td><%= Const.toHtml(le.getTel()) %></td></tr>
-                        <tr><td>E-post</td><td><%= Const.toHtml(le.getEpost()) %></td></tr>
+                        <tr><td>E-post </td><td><%= Const.toHtml(le.getEpost()) %></td></tr>
                     </table>
                     <% } %>
-                    <%= sd.isInkMoms() ? "Priser inklusive moms." : "Priser exklusive moms" %><br>
+                    <%= sd.isInkMoms(request) ? "Priser inklusive moms." : "Priser exklusive moms" %><br>
                 </div>
             <% if (!initData.isHideVarukorg()) { %>
                 <div class="card vk" id="vk">

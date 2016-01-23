@@ -80,6 +80,10 @@
         <servlet-name>KontoServlet</servlet-name>
         <servlet-class>se.saljex.hemsida.KontoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SetPropertyServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.SetPropertyServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>t1</servlet-name>
         <url-pattern>/t1</url-pattern>
@@ -131,6 +135,10 @@
     <servlet-mapping>
         <servlet-name>KontoServlet</servlet-name>
         <url-pattern>/konto/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetPropertyServlet</servlet-name>
+        <url-pattern>/SetProperty</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

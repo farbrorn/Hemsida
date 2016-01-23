@@ -13,7 +13,7 @@
 <%@page import="se.saljex.hemsida.SessionData"%>
 <%
     SessionData sd = Const.getSessionData(request);
-    boolean inkMoms=Const.getSessionData(request).isInkMoms();
+    boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
 
  //   Varukorg vk = sd.getVarukorg(Const.getConnection(request));
     VarukorgFormHandler vkf = (VarukorgFormHandler)request.getAttribute(VarukorgFormHandler.PARAMETER_NAME);

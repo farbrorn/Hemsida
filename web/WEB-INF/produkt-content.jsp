@@ -5,7 +5,7 @@
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
-    boolean inkMoms=Const.getSessionData(request).isInkMoms();
+    boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
     
 %>
                 <div class="kid" itemscope itemtype="http://schema.org/Product">

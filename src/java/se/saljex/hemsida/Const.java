@@ -55,6 +55,7 @@ public class Const {
 	public static final String PARAM_ANTAL = "qty";
 	public static final String PARAM_ACTION = "ac";
 
+	public static final String PARAM_LAGERNR = "lagernr";
 	public static final String PARAM_LOGINNAMN = "loginnamn";
 	public static final String PARAM_LOGINLOSENL = "loginlosen";
 
@@ -75,7 +76,7 @@ public class Const {
 		SessionData sd = (SessionData)request.getSession().getAttribute(ATTRIB_SESSIONDATA);
 		if (sd==null) {
 			sd = new SessionData();
-			sd.setLager();
+			sd.setLager(request);
 			request.getSession().setAttribute(ATTRIB_SESSIONDATA, sd);
 		}
 		return sd;

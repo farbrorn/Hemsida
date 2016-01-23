@@ -605,7 +605,7 @@ public class SQLHandler {
 		User u = null;
 		if (anvandarnamn!=null && losen!=null) {
 			String q = 
-					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn " +
+					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn, kl.dafaultlagernr, kl.defaultinkmoms " +
 					" from kund k join kundkontakt kk on kk.kundnr=k.nummer join kundlogin kl on kl.kontaktid=kk.kontaktid " +
 					" where kl.loginnamn=? and kl.loginlosen=?";
 			PreparedStatement ps = con.prepareStatement(q);
@@ -621,7 +621,8 @@ public class SQLHandler {
 				u.setKundnr(rs.getString(4));
 				u.setKundSaljare(rs.getString(6));
 				u.setLoguinNamn(rs.getString(7));
-				u.setDefaultInkMoms(false);				
+				u.setDefaultLagernr(rs.getInt(8));
+				u.setDefaultInkMoms(rs.getBoolean(9));				
 			}
 		}
 		return u;
@@ -666,7 +667,7 @@ public class SQLHandler {
 	public static User autoLogin(Connection con, String autoLoginId) throws SQLException{
 		User u = null;
 		if (autoLoginId!=null) {
-			String q = "select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn "
+			String q = "select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn, kl.defaultlagernr, kl.defaultinkmoms "
 					+ " from kund k, kundkontakt kk, kundlogin kl, butikautologin bl "
 					+ " where k.nummer = kk.kundnr and kk.kontaktid = kl.kontaktid and bl.kontaktid=kl.kontaktid "
 					+ " and bl.uuid=? and bl.expiredate >= current_date";
@@ -683,8 +684,9 @@ public class SQLHandler {
 				u.setKundnr(rs.getString(4));
 				u.setKundSaljare(rs.getString(6));
 				u.setLoguinNamn(rs.getString(7));
+				u.setDefaultLagernr(rs.getInt(8));
 				u.setAutoLoginUuid(autoLoginId);
-				u.setDefaultInkMoms(false);
+				u.setDefaultInkMoms(rs.getBoolean(9));
 			}
 		}
 		return u;

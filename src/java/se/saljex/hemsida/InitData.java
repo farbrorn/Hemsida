@@ -26,6 +26,16 @@ public class InitData {
 	private StringBuilder extraHTMLHeadContent = new StringBuilder(400);
     java.sql.Connection con = null;
 
+	private DataCookieHandler dataCookie;
+
+	public DataCookieHandler getDataCookie() {
+		return dataCookie;
+	}
+
+	public void setDataCookie(DataCookieHandler dataCookie) {
+		this.dataCookie = dataCookie;
+	}
+	
     public Connection getCon() {
         return con;
     }

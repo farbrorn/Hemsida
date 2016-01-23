@@ -6,7 +6,7 @@
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     long rowCn = Const.getInitData(request).getNewUniktID();
     long id=0;
-        boolean inkMoms=Const.getSessionData(request).isInkMoms();
+        boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
 
  %>
                     <div>

@@ -6,6 +6,8 @@
 
 package se.saljex.hemsida;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author Ulf
@@ -99,6 +101,7 @@ public class User {
 	}
 
 	public void setDefaultInkMoms(boolean defaultInkMoms) {
+		
 		this.defaultInkMoms = defaultInkMoms;
 	}
 	
