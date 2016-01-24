@@ -44,7 +44,6 @@ public class SetPropertyServlet extends HttpServlet {
 				if (lh!=null) {
 					sd.setLager(request, lagernr);				
 					resp = resp+"Lagernr=" + lagernr.toString();
-					response.addCookie(Const.getInitData(request).getDataCookie().getCookie());
 				}
 			}
 			
@@ -54,6 +53,8 @@ public class SetPropertyServlet extends HttpServlet {
 				if ("true".equals(inkmomsStr.toLowerCase())) { sd.setInkMoms(request, true); resp=resp+"inkmoms=true";}
 				if ("false".equals(inkmomsStr.toLowerCase())){ sd.setInkMoms(request, false); resp=resp+"inkmoms=false";}
 			}
+
+			response.addCookie(Const.getInitData(request).getDataCookie().getCookie());
 			
 			out.println(resp);
 		}

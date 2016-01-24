@@ -61,7 +61,11 @@ for (String s : cards) { %>
                         <tr><td>E-post </td><td><%= Const.toHtml(le.getEpost()) %></td></tr>
                     </table>
                     <% } %>
-                    <%= sd.isInkMoms(request) ? "Priser inklusive moms." : "Priser exklusive moms" %><br>
+                    Priser 
+                    <select id="inkmomsselector" onchange="setInkmoms()">
+                        <option value="true">inkl. moms.</option>
+                        <option value="false" <%= sd.isInkMoms(request) ? "" : "selected=\"selected\"" %>>exkl. moms.</option>
+                    </select>
                 </div>
             <% if (!initData.isHideVarukorg()) { %>
                 <div class="card vk" id="vk">

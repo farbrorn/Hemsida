@@ -200,9 +200,10 @@ public class ImageServerServlet extends HttpServlet {
 				BufferedImage bufferedImage = ImageIO.read(file);
 				if (bufferedImage==null) { //We have no imagefile
 					response.sendError(HttpServletResponse.SC_NOT_FOUND);
-					return;				
+					return;				 
 				}
-				bufferedImage = ImageServer.resize(bufferedImage, bufferedImage.getType(),size);
+//				bufferedImage = ImageServer.resize(bufferedImage, bufferedImage.getType(),size);
+				bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.ULTRA_QUALITY, size);
 				ImageIO.write(bufferedImage, "png", cacheFile);
 				cleanCache(cachePath, requestedFile, fileType);
 				

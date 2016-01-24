@@ -53,7 +53,16 @@
                 AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_SETLAGERNR %>="+lagernr, false); 
                 AJAX.send(null); 
                 location.reload(true);            
-}
+            }
+            function setInkmoms() {
+                var e = document.getElementById("inkmomsselector");
+                var varde = e.options[e.selectedIndex].value;
+                var AJAX = getHttpRequest(); 
+                AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_SETINKMOMS %>="+varde, false); 
+                AJAX.send(null); 
+                location.reload(true);            
+            }
+            
         </script>
         <%= Const.getInitData(request).getExtraHTMLHeaderContent() %>
     </head>
