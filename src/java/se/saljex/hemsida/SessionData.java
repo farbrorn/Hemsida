@@ -151,6 +151,9 @@ public class SessionData {
 		return inloggadUser;
 	}
 
+	public boolean isUserInloggad() {
+		return inloggadUser!=null;
+	}
 	public void setInloggadUser(User user) {
 		this.inloggadUser = user;
 	}
@@ -191,7 +194,6 @@ public class SessionData {
 				inloggadUser.setDefaultInkMoms(inkMoms);
 			} catch (SQLException e) { e.printStackTrace();}
 		} else {
-System.out.print("h1");
 			Const.getInitData(request).getDataCookie().setInkmoms(inkMoms);
 		}
 	}

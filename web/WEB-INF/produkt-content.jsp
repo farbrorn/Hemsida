@@ -1,3 +1,4 @@
+<%@page import="se.saljex.hemsida.SessionData"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="se.saljex.hemsida.Artikel"%>
@@ -5,8 +6,8 @@
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
-    boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
-    
+    SessionData sd = Const.getSessionData(request);
+    boolean inkMoms=sd.isInkMoms(request);
 %>
                 <div class="kid" itemscope itemtype="http://schema.org/Product">
                     <div class="kid-head">
@@ -34,7 +35,7 @@
                             <jsp:include page="/WEB-INF/share-buttons.jsp" />
                         </div>
                     </div>
-                                <div class="kid-variant">Alla varianter  <div class="kid-variant-lagerfor">(Visar lagersaldo för <%= Const.getSessionData(request).getLagerNamn() %>)</div>
+                                <div class="kid-variant">Alla varianter  
                         <% int rowCn = 0; %>            
                         <% for (Artikel pv : p.getVarianter()) { %>
                             <div class="t-variant-row kid-variant-odd">
@@ -45,7 +46,7 @@
                                     <% } %>
                                     </span>
                                 </div>
-                                <div class="t-variant-saldo"><%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>
+                                <div class="t-variant-saldo"><%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr(),sd.isUserInloggad()) %>
                                 </div>
                                 
                                 <div class="t-variant-pris-kop-hold">
@@ -89,8 +90,8 @@
                             <% } else { %>
                                 Priser exklusive moms.
                             <% } %>
+                            Preliminära lagersaldon för <%= Const.getSessionData(request).getLagerNamn() %>.
                         </div>
-                        
                     </div>
                     <%
                     ArrayList<Produkt> tillbehor = (ArrayList<Produkt>)request.getAttribute(Const.ATTRIB_SAMKOPTA_PRODUKTER);

@@ -8,6 +8,7 @@ package se.saljex.hemsida;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import se.saljex.sxlibrary.SXUtil;
 
 /**
  *
@@ -34,17 +35,39 @@ public class Artikel {
 	private Double forpack;
 	private HashMap<Integer,LagerSaldo> lagerSaldon = new HashMap<>();
 
-	public String getLagerSaldoString(Integer lagernr) {		
+	public String getLagerSaldoString(Integer lagernr) {
+		return getLagerSaldoString(lagernr, false);
+	}
+	
+	public String getLagerSaldoString(Integer lagernr, boolean exaktLagersaldo) {		
 		LagerSaldo ls = lagerSaldon.get(lagernr);
 		String r=null;
 		if (ls==null) return "";
 		Double ilager = ls.getTillgangliga()/getAntalSaljpackForDivision();
-		if (ilager>=1000) r= "1000+ i lager";
-		else if (ilager>=100) r= "100+ i lager";
-		else if (ilager>=10) r= "10+ i lager";
-		else if (ilager>=1) r= "Fåtal i lager";
-		else if ((ls.getMaxlager()==null ? 0.0 : ls.getMaxlager()) <=0.0) r="Beställning";
-		else r="Slut";
+		if (ilager <= 0.0) {
+			if ((ls.getMaxlager()==null ? 0.0 : ls.getMaxlager()) <=0.0) r="Beställningsvara";
+			else r="Tillfälligt slut";
+		} else {
+			if (exaktLagersaldo) {
+				long floorValue = (new Double(Math.floor(ls.getIlager()))).longValue();
+				long decimalValue = Math.round(ls.getIlager()*100) - floorValue*100;
+				int antalDecimaler = 0;
+				if (decimalValue > 0)  { //Vi har decimaler
+					if (decimalValue % 10 > 0) antalDecimaler = 2; else antalDecimaler = 1;
+				}
+				r = SXUtil.getFormatNumber(ls.getIlager(), antalDecimaler) + " " + getFormatEnhet() + " i lager";
+			} else {
+				if (ls.getIlager().compareTo(ls.getMaxlager()*0.1) < 0) r = "Fåtal kvar";
+				else r="Finns i lager";
+			}
+		}
+		
+//		if (ilager>=1000) r= "1000+ i lager";
+//		else if (ilager>=100) r= "100+ i lager";
+//		else if (ilager>=10) r= "10+ i lager";
+//		else if (ilager>=1) r= "Fåtal i lager";
+//		else if ((ls.getMaxlager()==null ? 0.0 : ls.getMaxlager()) <=0.0) r="Beställning";
+//		else r="Slut";
 		return r;
 	}
 	
