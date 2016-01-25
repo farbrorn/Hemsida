@@ -99,6 +99,9 @@
       width: 100%;
       padding: 4px 2px 4px 4px;
   }
+  .card select {
+      font-size: 100%;      
+  }
   .card h1, h2, h3, h4 {
       margin: 0px 0px 2px 0px;
   }
