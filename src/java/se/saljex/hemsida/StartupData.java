@@ -103,7 +103,7 @@ public class StartupData {
 		return favIconName;
 	}
 	public static String getFavIconUrl() {
-		return getBildURL() + "/" + getFavIconName();
+		return getBildURL() + getFavIconName();
 	}
 	
 	public static boolean isFirstTradLevelAvdelning() {
