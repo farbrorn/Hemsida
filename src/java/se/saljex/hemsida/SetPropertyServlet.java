@@ -54,6 +54,13 @@ public class SetPropertyServlet extends HttpServlet {
 				if ("false".equals(inkmomsStr.toLowerCase())){ sd.setInkMoms(request, false); resp=resp+"inkmoms=false";}
 			}
 
+			//Coookies accepted
+			String cStr = request.getParameter(Const.PARAM_SETCOOKIEACCEPTED);
+			if (cStr!=null) {
+				if ("true".equals(cStr.toLowerCase())) { Const.getInitData(request).getDataCookie().setCookiesAccepted(true); resp=resp+"cookiesaccept=true";}
+				if ("false".equals(cStr.toLowerCase())) { Const.getInitData(request).getDataCookie().setCookiesAccepted(false); resp=resp+"cookiesaccept=false";}
+			}
+
 			response.addCookie(Const.getInitData(request).getDataCookie().getCookie());
 			
 			out.println(resp);
