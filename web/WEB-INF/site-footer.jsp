@@ -32,11 +32,11 @@ for (String s : cards) { %>
     </div>    
 <% } %>
                 <div class="card">
-                    <h4>Inloggad</h4>
                     <% if (sd.getInloggadUser()!=null) { %>
+                        <h4>Inloggad</h4>
                         <%= sd.getInloggadKontaktNamn() %>, <%= sd.getInloggadKundNamn() %>
                     <% } else { %>
-                        Gäst
+                    <h4>Gäst</h4>
                     <% } %>
                     <% if (le!=null) { %>
                     <table cellpadding="0" style="border-collapse: collapse;">
@@ -58,14 +58,15 @@ for (String s : cards) { %>
                             
                             </td></tr>
                         <tr><td>Tel</td><td><%= Const.toHtml(le.getTel()) %></td></tr>
-                        <tr><td>E-post </td><td><%= Const.toHtml(le.getEpost()) %></td></tr>
+                        <tr><td style="padding-right: 12px">E-post</td><td><%= Const.toHtml(le.getEpost()) %></td></tr>
+                        <tr><td>Priser</td><td>                   
+                            <select id="inkmomsselector" onchange="setInkmoms()">
+                                <option value="true">Inkl. moms.</option>
+                                <option value="false" <%= sd.isInkMoms(request) ? "" : "selected=\"selected\"" %>>Exkl. moms.</option>
+                            </select>
+                        </td></tr>
                     </table>
                     <% } %>
-                    Priser 
-                    <select id="inkmomsselector" onchange="setInkmoms()">
-                        <option value="true">inkl. moms.</option>
-                        <option value="false" <%= sd.isInkMoms(request) ? "" : "selected=\"selected\"" %>>exkl. moms.</option>
-                    </select>
                 </div>
             <% if (!initData.isHideVarukorg()) { %>
                 <div class="card vk" id="vk">
