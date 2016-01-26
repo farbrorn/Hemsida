@@ -6,6 +6,9 @@
 
 package se.saljex.hemsida;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 /**
  *
  * @author Ulf
@@ -63,6 +66,14 @@ public class VarukorgArtikel {
 
 	public void setHtmlFormErrorMessage(String htmlFormErrorMessage) {
 		this.htmlFormErrorMessage = htmlFormErrorMessage;
+	}
+	public LagerSaldo getSQLLookupLagerSaldo(Connection con, int lagernr) {
+		LagerSaldo ls = null;
+		try {
+			ls = SQLHandler.getLagerSaldo(con, getArtnr(), lagernr);
+		} catch(SQLException e) { e.printStackTrace(); }
+		
+		return ls;
 	}
 	
 }

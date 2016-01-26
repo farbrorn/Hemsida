@@ -254,7 +254,36 @@
                 padding: 0px 0px 1px 1px;
                 min-width: 160px;
                 max-width: 640px;
-                font-size: 130%;
+                font-size: 100%;
+            }
+            .vkf-header-row {
+                display: block;
+                vertical-align: middle;
+                padding: 0px 0px 1px 1px;
+                min-width: 160px;
+                max-width: 640px;
+                font-size: 80%;
+                font-weight: bold;
+                background: rgb(245, 245, 245);
+            }
+            .vkf-summa-row {
+                display: block;
+                vertical-align: middle;
+                padding: 0px 0px 1px 1px;
+                min-width: 160px;
+                max-width: 640px;
+                font-size: 120%;
+                font-weight: bold;
+            }
+            .vkf-summa-text {
+                display: inline-block;
+                width: 360px;
+                text-align: right;
+            }
+            .vkf-summa-belopp {
+                display: inline-block;
+                width: 120px;
+                text-align: right;
             }
             .vkf-img {
                 width: 30px;
@@ -274,7 +303,7 @@
             .vkf-kl-namn {
                 font-weight: bold;
                 display: block;
-                width: 160px;
+                width: 100%;
             }
             .vkf-art {
                 display: block;
@@ -284,9 +313,13 @@
                 display: inline-block;
                 width: 600px
             }
+            .vkf-artnr {
+                display: inline-block;
+                width: 80px;
+            }
             .vkf-variant {
                 display: inline-block;
-                width: 240px;
+                width: 140px;
             }
             .vkf-pris {
                 display: inline-block;
@@ -297,6 +330,19 @@
                 display: inline-block;
                 width: 52px;
             }
+            .vkf-lagerstatus {
+                display: inline-block;
+                width: 100px;
+                padding-left: 4px;
+            }
+            .vkf-not {
+                display: inline-block;
+                width: 20px;
+            }
+            .vkf-notbeskrivning {
+                color: red;
+            }
+            
             .vkf-change {
                 display: inline-block;
                 width: 44px;
@@ -1141,7 +1187,15 @@
             .momsinfo {
                 font-style: italic;
             }
-            
+
+            .kreditvarning {
+                color: red;
+                font-weight: bold;
+                font-size: 100%;
+                background-color: #FFC66D;
+                min-height: 50px;
+                line-height: 50px;
+            }
             
             @media all and (max-width: 400px) {
                 .kbl-block {

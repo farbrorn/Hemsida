@@ -740,6 +740,34 @@ public class SQLHandler {
 
 		return produkter;
 	}
+
+	
+	public static LagerSaldo getLagerSaldo(Connection con, String artnr, int lagernr) throws SQLException {
+		String q = "select lid.bnamn as lid_bnamn, l.lagernr as lid_lagernr, l.ilager as l_ilager, l.maxlager as l_maxlager, l.best as l_best, l.iorder as l_iorder from lager l join lagerid lid on lid.lagernr=l.lagernr where l.artnr=? and l.lagernr=?";
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setString(1, artnr);
+		ps.setInt(2, lagernr);
+		ResultSet rs = ps.executeQuery();
+		LagerSaldo ls=new LagerSaldo();
+		if (rs.next()) {
+			ls = new LagerSaldo();
+			ls.setBest(rs.getDouble("l_best"));
+			ls.setIlager(rs.getDouble("l_ilager"));
+			ls.setIorder(rs.getDouble("l_iorder"));
+			ls.setLagernr(rs.getInt("lid_lagernr"));
+			ls.setLagernamn(rs.getString("lid_bnamn"));
+		} else {
+			ls.setBest(0.0);
+			ls.setIlager(0.0);
+			ls.setIorder(0.0);
+			ls.setLagernamn("");
+			ls.setLagernr(lagernr);
+			ls.setMaxlager(0.0);
+		}
+		return ls;
+	}
+	
+	
 	
 	public static Artikel getArtikelFromSQL2(ResultSet rs) throws SQLException {
 		Double forpack;
@@ -1037,6 +1065,52 @@ public class SQLHandler {
 		ps.setBoolean(1, inkmoms);
 		ps.setString(2, loginNamn);
 		if (ps.executeUpdate()<1) throw new SQLException("Loginnamnet hittades inte");		
+	}
+	
+	
+	public static Kund getKund(Connection con, String kundnr) throws SQLException {
+		String q = " select k.nummer, k.namn, k.adr1, k.adr2, k.adr3, k.lnamn, k.ladr2, k.ladr3, k.saljare, k.tel, k.biltel, k.regnr, k.kgrans, k.ktid, " +
+" k.nettolst, k.bonus, k.mottagarfrakt, k.fraktbolag, k.fraktfrigrans, k.distrikt, k.kravordermarke, k.linjenr1, k.linjenr2, k.linjenr3, k.skickafakturaepost " +
+" , coalesce(sum(kr.tot),0) as reskontra, coalesce(sum(case when kr.falldat < current_date-30 then kr.tot else 0 end), 0) as reskontr30 " +
+" , coalesce(sum(case when kr.falldat >= current_date-30 and kr.tot < 0 then kr.tot else 0 end), 0) as reskontrkreditEjforfallen30 " +				
+" from kund k left outer join kundres kr on kr.kundnr=k.nummer " +
+" where kundnr=? group by k.nummer";
+		Kund k = null;
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setString(1, kundnr);
+		ResultSet rs= ps.executeQuery();
+		if (rs.next()) {
+			k = new Kund();
+			k.setKundnr(rs.getString(1));
+			k.setNamn(rs.getString(2));
+			k.setAdr1(rs.getString(3));
+			k.setAdr2(rs.getString(4));
+			k.setAdr3(rs.getString(5));
+			k.setLnamn(rs.getString(6));
+			k.setLadr2(rs.getString(7));
+			k.setLadr3(rs.getString(8));
+			k.setSaljare(rs.getString(9));
+			k.setTel(rs.getString(10));
+			k.setBiltel(rs.getString(11));
+			k.setRegnr(rs.getString(12));
+			k.setKgrans(rs.getDouble(13));
+			k.setKtid(rs.getInt(14));
+			k.setNettolst(rs.getString(15));
+			k.setBonus(rs.getInt(16));
+			k.setMottagarfrakt(rs.getInt(17)!=0);
+			k.setFraktbolag(rs.getString(18));
+			k.setFraktfrigrans(rs.getDouble(19));
+			k.setDistrikt(rs.getInt(20));
+			k.setKravordermarke(rs.getInt(21)!=0);
+			k.setLinjenr1(rs.getString(22));
+			k.setLinjenr2(rs.getString(23));
+			k.setLinjenr3(rs.getString(24));
+			k.setSkickafakturaepost(rs.getInt(25)!=0);
+			k.setReskontra(rs.getDouble(26));
+			k.setReskontraForfall30(rs.getDouble(27));
+			k.setReskontraKreditEjForfallen30(rs.getDouble(28));
+		}
+		return k;
 	}
 
 }

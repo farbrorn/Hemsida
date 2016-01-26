@@ -42,7 +42,7 @@ public class Artikel {
 	public String getLagerSaldoString(Integer lagernr, boolean exaktLagersaldo) {		
 		LagerSaldo ls = lagerSaldon.get(lagernr);
 		String r=null;
-		if (ls==null) return "";
+		if (ls==null) return "Beställningsvara";
 		Double ilager = ls.getTillgangliga()/getAntalSaljpackForDivision();
 		if (ilager <= 0.0) {
 			if ((ls.getMaxlager()==null ? 0.0 : ls.getMaxlager()) <=0.0) r="Beställningsvara";

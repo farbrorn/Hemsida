@@ -6,6 +6,7 @@
 
 package se.saljex.hemsida;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import sun.nio.cs.HistoricallyNamedCharset;
@@ -57,6 +58,5 @@ public class VarukorgProdukt {
 		}
 		return row;
 	}
-	
 	
 }
