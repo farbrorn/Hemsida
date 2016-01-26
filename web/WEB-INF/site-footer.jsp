@@ -41,7 +41,7 @@ for (String s : cards) { %>
                     <% if (le!=null) { %>
                     <table cellpadding="0" style="border-collapse: collapse;">
                         <tr><td>Lager</td><td>
-                                <select id="lagerselector" onchange="setLager()">
+                                <select id="lagerselector" onchange="setLager(document.getElementById('lagerselector'))">
                                     <option value="<%= le.getLagernr() %>"><%= Const.toHtml(le.getNamn()) %></option>
                                     <% 
                                     StartupData sData = Const.getStartupData();

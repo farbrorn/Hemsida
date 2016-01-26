@@ -46,8 +46,7 @@
             function vk_del(klasid, artnr) {
                 ajaxRequest("<%= request.getContextPath() + "/varukorg" %>" + "?<%= Const.PARAM_VARUKORG_AC + "=" + Const.PARAM_VARUKORG_AC_SET + "&" + Const.PARAM_VARUKORG_GET + "=" + Const.PARAM_VARUKORG_GET_AJAX + "&" + Const.PARAM_KLASID + "=" %>" + klasid +"<%= "&" + Const.PARAM_ARTNR +"=" %>" + encodeURIComponent(artnr) + "<%= "&" + Const.PARAM_ANTAL + "=" %>" + 0,"vk-content");
             }
-            function setLager() {
-                var e = document.getElementById("lagerselector");
+            function setLager(e) {
                 var lagernr = e.options[e.selectedIndex].value;
                 var AJAX = getHttpRequest(); 
                 AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_SETLAGERNR %>="+lagernr, false); 

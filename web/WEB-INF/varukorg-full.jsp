@@ -3,6 +3,8 @@
     Created on : 2014-nov-30, 09:47:46
     Author     : Ulf
 --%>
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.LagerEnhet"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="se.saljex.hemsida.SQLHandler"%>
 <%@page import="se.saljex.hemsida.Kund"%>
@@ -33,6 +35,9 @@
             kund = SQLHandler.getKund(Const.getConnection(request),sd.getInloggadKundnr());
         }catch (SQLException e) { e.printStackTrace(); }
     }
+    
+  LagerEnhet le = sd.getLager();
+    
 %>
 <% VarukorgProdukt vkProdukt; %>
 <h1>Varukorg</h1>
@@ -120,6 +125,25 @@
     
     <table>
         <% se.saljex.hemsida.User u = Const.getSessionData(request).getInloggadUser();  %>
+        <tr><td>Valt lager</td><td>
+                <select id="lagerselector1" onchange="setLager(document.getElementById('lagerselector1'))">
+                    <option value="<%= le.getLagernr() %>"><%= Const.toHtml(le.getNamn()) %></option>
+                    <% 
+                    StartupData sData = Const.getStartupData();
+                    java.util.Map<Integer, LagerEnhet> ll = sData.getLagerEnhetList();
+                    for (java.util.Map.Entry<Integer, LagerEnhet> lle : ll.entrySet()) {
+                        if (!lle.getKey().equals(le.getLagernr())) {
+                    %><option value="<%= lle.getKey()%>"><%= Const.toHtml(lle.getValue().getNamn()) %></option>
+                        <% }
+
+                    }
+                    %>
+                </select>   
+
+
+            </td></tr>
+                
+            </td></tr>
         <tr><td>Kundnummer</td><td><input name="<%= VarukorgFormHandler.FORMNAME_KUNDNR %>" value="<%= Const.toHtml(vkf.getKundnr()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
         <tr><td>Företag</td><td><input name="<%= VarukorgFormHandler.FORMNAME_FORETAG %>" value="<%= Const.toHtml(vkf.getForetag()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
         <tr><td>Kontaktperson</td><td><input name="<%= VarukorgFormHandler.FORMNAME_KONTAKTPERSON %>" value="<%= Const.toHtml(vkf.getKontaktperson()) %>"></td></tr>
