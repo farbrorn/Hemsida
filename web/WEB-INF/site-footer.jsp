@@ -92,7 +92,7 @@ for (String s : cards) { %>
     <% if (!Const.getInitData(request).getDataCookie().getCookiesAccepted()) { %>
         <div class="" STYLE = "position: fixed;left: 0px;right: 0px; bottom: 0px; min-height: 40px; line-height: 40px; text-align: center; color: white; background: black; z-index: 1000;" id="cookiesaccept"></div>
         <script>
-        document.getElementById('cookiesaccept').innerHTML='Vi använder cookies för ökad nvändarupplevelse. <button onclick="setCookiesAccept()" style="margin-left:12px">OK</button>';
+        document.getElementById('cookiesaccept').innerHTML='Vi använder cookies för ökad användarupplevelse. <button onclick="setCookiesAccept()" style="margin-left:12px">OK</button>';
             function setCookiesAccept() {
                 var AJAX = getHttpRequest(); 
                 AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_SETCOOKIEACCEPTED %>=true", false); 
