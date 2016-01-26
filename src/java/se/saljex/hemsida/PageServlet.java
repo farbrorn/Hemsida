@@ -40,8 +40,9 @@ public class PageServlet extends HttpServlet {
 		Connection con = Const.getConnection(request);
 		try (PrintWriter out = response.getWriter()) {
 			String html=null;
+			String sid=null;
 			try {
-				String sid=request.getPathInfo();
+				sid=request.getPathInfo();
 				if (sid!=null) {
 					Page page = PageHandler.getPage(request, sid);
 					if (page!=null) html=page.getHtml();
@@ -62,6 +63,7 @@ public class PageServlet extends HttpServlet {
 				out.print("</div>");
 			}
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
+			Const.loggaSidvisning(request, "page", sid);
 		}		
 	}
 	

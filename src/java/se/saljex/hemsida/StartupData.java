@@ -45,6 +45,8 @@ public class StartupData {
 	private String bildUrl = null;
 	private String defaultHTMLTitle = null;
 	private String favIconName = null;
+	private boolean loggaSidvisningar;
+	private boolean loggaSidvisningarEjInloggad;
 			
 	
 	public StartupData(	DataSource sxadm) {
@@ -94,6 +96,18 @@ public class StartupData {
 	}
 	public String getDefultHTMLTitleLocal() {
 		return defaultHTMLTitle;
+	}
+	public static boolean isLoggaSidvisningar() {
+		return Const.getStartupData().isLoggaSidvisningarLocal();
+	}
+	public boolean isLoggaSidvisningarLocal() {
+		return loggaSidvisningar;
+	}
+	public static boolean isLoggaSidvisningarEjInloggad() {
+		return Const.getStartupData().isLoggaSidvisningarEjInloggadLocal();
+	}
+	public boolean isLoggaSidvisningarEjInloggadLocal() {
+		return loggaSidvisningarEjInloggad;
 	}
 	
 	public static String getFavIconName() {
@@ -313,6 +327,8 @@ public class StartupData {
 			bildUrl = getConfig("Hemsida-BildURL", "http://saljex.se/p/");
 			defaultHTMLTitle = getConfig("Hemsida-DefaultHTMLTitle", "Säljex");
 			favIconName = getConfig("Hemsida-FavIconName", "favcion-saljex.png");
+			loggaSidvisningar = "true".equals(getConfig("Hemsida-LoggaSidvisningar","true"));
+			loggaSidvisningarEjInloggad = "true".equals(getConfig("Hemsida-LoggaSidvisningarEjInloggad","false"));
 			
 		} finally {
 			try { con.close(); }catch (Exception e) {}

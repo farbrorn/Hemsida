@@ -1112,5 +1112,14 @@ public class SQLHandler {
 		}
 		return k;
 	}
+	public static void log(Connection con, Integer kontaktId, String servlet, String id) {
+		try {
+			PreparedStatement ps = con.prepareStatement("insert into hemsidalog (kontaktid, servlet, id) values (?,?,?)");
+			ps.setInt(1, kontaktId);
+			ps.setString(2, servlet);
+			ps.setString(3, id);
+			ps.executeUpdate();
+		} catch (SQLException e) { e.printStackTrace(); }
+	}
 
 }

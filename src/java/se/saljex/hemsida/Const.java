@@ -342,5 +342,14 @@ public class Const {
 	   return sb.toString();
 	}		
 	
+	public static void loggaSidvisning(HttpServletRequest request, String servlet, Integer id) {
+		loggaSidvisning(request, servlet, id!=null ? id.toString() : null);
+	}
+	
+	public static void loggaSidvisning(HttpServletRequest request, String servlet, String id) {
+		if (StartupData.isLoggaSidvisningar() && (Const.getSessionData(request).isUserInloggad() || startupData.isLoggaSidvisningarEjInloggadLocal())) {
+			SQLHandler.log(Const.getConnection(request), Const.getSessionData(request).getInloggadKontaktId(), servlet, id);
+		}
+	}
 	
 }

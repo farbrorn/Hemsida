@@ -47,11 +47,13 @@ public class KatalogServlet extends HttpServlet {
 			
 			KatalogGrupp kg = null;
 			KatalogGrupp avdelning=null;
+			String logID=null;
 			boolean showIndexPage=false;
 			if (pathArr!=null) {
 				try { 
 					pathArr = request.getPathInfo().split("/");
 					if ("index".equals(pathArr[1]))  {
+						logID="index";
 						showIndexPage=true;
 						try {
 							if (pathArr.length>1) avdelning = kgl.getGrupper().get(new Integer(pathArr[2]));
@@ -59,11 +61,15 @@ public class KatalogServlet extends HttpServlet {
 						} catch (Exception e) {showIndexPage=false;}
 					} else {
 						grpid = new Integer(pathArr[1]); 
+						logID=pathArr[1];
 						kg = kgl.getGrupper().get(grpid);
 						if (kg==null) grpid=null;
 					}
 				} catch (Exception e) { grpid=null; } 
-			} else  grpid = 0;
+			} else  {
+				grpid = 0;
+				logID="0";
+			}
 			
 
 //			request.setAttribute(Const.ATTRIB_KATALOGGRUPPLISTA, kgl);
@@ -111,11 +117,7 @@ public class KatalogServlet extends HttpServlet {
 
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
 			
-			
-			
-			
-			
-			
+			Const.loggaSidvisning(request, "katalog", logID);
 			
 			
 		} catch (SQLException e) { e.printStackTrace(); throw new ServletException("SQL-Fel");}

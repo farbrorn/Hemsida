@@ -37,10 +37,11 @@ public class SokServlet extends HttpServlet {
 		
 		try (PrintWriter out = response.getWriter()) {
 			/* TODO output your page here. You may use following sample code. */
+			String q=null;
 			try {
 				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 				
-				String q= request.getParameter("q");
+				q= request.getParameter("q");
 				SokResult sr = SQLHandler.sok(Const.getConnection(request), q, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr());
 				if (sr!=null) {
 					request.getRequestDispatcher("/WEB-INF/kli-header.jsp").include(request, response);				
@@ -53,6 +54,8 @@ public class SokServlet extends HttpServlet {
 				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
 
  			} catch (SQLException e) { out.print("SQL-FEl"); e.printStackTrace(); }
+			
+			if (!contentOnly) Const.loggaSidvisning(request, "sok", q);
 			
 		}
 	}

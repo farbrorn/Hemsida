@@ -81,7 +81,8 @@ public class ProduktServlet extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/produkt-ej-hittad.jsp").include(request, response);				
 			}
 
-			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
+			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);
+			Const.loggaSidvisning(request, "produkt", klasid);
 		}
 		catch (SQLException e) { e.printStackTrace(); throw new ServletException("SQL-Fel"); }
 	}
