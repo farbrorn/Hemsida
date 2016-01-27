@@ -86,7 +86,7 @@
                                         <div class="vkf-pris"><%= Const.getAnpassatPrisFormat(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms)) %></div>
                                         <div class="vkf-pris"><%= Const.getAnpassatPrisFormat(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms) * a.getAntal() * a.getArt().getAntalSaljpack()) %></div>
                                         <% LagerSaldo ls = a.getSQLLookupLagerSaldo(Const.getConnection(request), sd.getLagerNr()); %>
-                                        <div class="vkf-lagerstatus"><%= ls.getTillgangliga() >= a.getAntal()*a.getArt().getAntalSaljpack() ? "OK" : "Saknas " + SXUtil.getFormatNumber(a.getAntal()*a.getArt().getAntalSaljpack() - ls.getTillgangliga(),0)  %></div>
+                                        <div class="vkf-lagerstatus"><%= ls.getTillgangliga() >= a.getAntal()*a.getArt().getAntalSaljpack() ? "OK" : "Saknas " + SXUtil.getFormatNumber(Math.floor((a.getAntal()*a.getArt().getAntalSaljpack() - ls.getTillgangliga())/a.getArt().getAntalSaljpackForDivision()),0)  %></div>
                                         <input type="hidden" name="vkf-aid-<%= vkrcn %>" value="<%= a.getArtnr() %>">
                                         <input type="hidden" name="vkf-kid-<%= vkrcn %>" value="<%= vkProdukt.getProdukt().getKlasid() %>">
                                 </div>
