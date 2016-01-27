@@ -19,7 +19,7 @@ public class LagerSaldo {
 	String lagernamn;
 
 	public Double getMaxlager() {
-		return maxlager;
+		return maxlager!=null ? maxlager : 0.0 ;
 	}
 
 	public void setMaxlager(Double maxlager) {
@@ -27,7 +27,7 @@ public class LagerSaldo {
 	}
 
 	
-	public Double getTillgangliga() { return ilager-iorder; }
+	public Double getTillgangliga() { return getIlager()-getIorder(); }
 	public Integer getLagernr() {
 		return lagernr;
 	}
@@ -37,7 +37,7 @@ public class LagerSaldo {
 	}
 
 	public Double getIorder() {
-		return iorder;
+		return iorder!=null ? iorder : 0.0;
 	}
 
 	public void setIorder(Double iorder) {
@@ -45,7 +45,7 @@ public class LagerSaldo {
 	}
 
 	public Double getIlager() {
-		return ilager;
+		return ilager!=null ? ilager : 0.0;
 	}
 
 	public void setIlager(Double ilager) {
@@ -53,7 +53,7 @@ public class LagerSaldo {
 	}
 
 	public Double getBest() {
-		return best;
+		return best!=null ? best : 0.0;
 	}
 
 	public void setBest(Double best) {
