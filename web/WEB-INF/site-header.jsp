@@ -3,7 +3,7 @@
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <html>
-    <head>
+    <head profile="http://www.w3.org/2005/10/profile">
         <title><%= StartupData.getDefaultHTMLTitle() %></title>
         <link rel="icon" type="image/png" href="<%= StartupData.getFavIconUrl()%>">
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
