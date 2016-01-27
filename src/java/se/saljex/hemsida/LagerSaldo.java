@@ -27,7 +27,7 @@ public class LagerSaldo {
 	}
 
 	
-	public Double getTillgangliga() { return getIlager()-getIorder(); }
+	public Double getTillgangliga() { return getIlager()-getIorder()<0 ? 0.0 : getIlager()-getIorder(); }
 	public Integer getLagernr() {
 		return lagernr;
 	}
