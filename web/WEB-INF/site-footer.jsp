@@ -60,7 +60,7 @@ for (String s : cards) { %>
                         <tr><td>Tel</td><td><%= Const.toHtml(le.getTel()) %></td></tr>
                         <tr><td style="padding-right: 12px">E-post</td><td><%= Const.toHtml(le.getEpost()) %></td></tr>
                         <tr><td>Priser</td><td>                   
-                            <select id="inkmomsselector" onchange="setInkmoms()">
+                                <select id="inkmomsselector" onchange="setInkmoms(document.getElementById('inkmomsselector'))">
                                 <option value="true">Inkl. moms.</option>
                                 <option value="false" <%= sd.isInkMoms(request) ? "" : "selected=\"selected\"" %>>Exkl. moms.</option>
                             </select>

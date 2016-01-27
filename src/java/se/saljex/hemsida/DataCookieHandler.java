@@ -22,10 +22,13 @@ private static final int inkmomsStart = 4;
 private static final int inkmomsLen = 1;
 private static final int cookiesAcceptedStart = 5;
 private static final int cookiesAcceptedLen = 1;
+private static final int fraktsattStart = 6;
+private static final int fraktsattLen = 1;
 
 private Integer lagernr;
 private Boolean inkmoms;
 private Boolean cookiesAccepted;
+private String fraktsatt;
 
 	public DataCookieHandler() {
 	}
@@ -39,7 +42,8 @@ private Boolean cookiesAccepted;
 		if (inkmoms!=null) inkmomsS = inkmoms ? "T" : "F";
 		String cookiesAcceptedS=" ";
 		if (cookiesAccepted!=null) cookiesAcceptedS = cookiesAccepted ? "T" : "F";
-		return String.format("%04d", lagernr) + inkmomsS + cookiesAcceptedS;
+		String fraktsattS = (fraktsatt!=null && fraktsatt.length()==1 ? fraktsatt  : " ");
+		return String.format("%04d", lagernr) + inkmomsS + cookiesAcceptedS + fraktsattS;
 	}
 	public Cookie getCookie() {
 		Cookie c  = new Cookie(COOKIENAME, getVarde());
@@ -64,6 +68,11 @@ private Boolean cookiesAccepted;
 		s=null;
 		try { s = varde.substring(cookiesAcceptedStart, cookiesAcceptedStart+cookiesAcceptedLen); } catch (Exception e) {}
 		cookiesAccepted = "T".equals(s);
+		
+		//Fraktsätt
+		fraktsatt=null;
+		try { fraktsatt = varde.substring(fraktsattStart, fraktsattStart+fraktsattLen); } catch (Exception e) {}
+		
 	}
 
 	public void setLagernr(Integer lagernr) {
@@ -88,6 +97,14 @@ private Boolean cookiesAccepted;
 
 	public Boolean getCookiesAccepted() {
 		return cookiesAccepted;
+	}
+
+	public String getFraktsatt() {
+		return fraktsatt;
+	}
+
+	public void setFraktsatt(String fraktsatt) {
+		this.fraktsatt = fraktsatt;
 	}
 	
 	

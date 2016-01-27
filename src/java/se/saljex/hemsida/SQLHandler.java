@@ -605,7 +605,7 @@ public class SQLHandler {
 		User u = null;
 		if (anvandarnamn!=null && losen!=null) {
 			String q = 
-					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn, kl.defaultlagernr, kl.defaultinkmoms " +
+					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn, kl.defaultlagernr, kl.defaultinkmoms, kl.defaultfraktsatt " +
 					" from kund k join kundkontakt kk on kk.kundnr=k.nummer join kundlogin kl on kl.kontaktid=kk.kontaktid " +
 					" where kl.loginnamn=? and kl.loginlosen=?";
 			PreparedStatement ps = con.prepareStatement(q);
@@ -622,7 +622,8 @@ public class SQLHandler {
 				u.setKundSaljare(rs.getString(6));
 				u.setLoguinNamn(rs.getString(7));
 				u.setDefaultLagernr(rs.getInt(8));
-				u.setDefaultInkMoms(rs.getBoolean(9));				
+				u.setDefaultInkMoms(rs.getBoolean(9));
+				u.setDefaultFraktsatt(rs.getString(10));
 			}
 		}
 		return u;
@@ -1066,6 +1067,12 @@ public class SQLHandler {
 		ps.setString(2, loginNamn);
 		if (ps.executeUpdate()<1) throw new SQLException("Loginnamnet hittades inte");		
 	}
+	public static void setKundloginFraktsatt(Connection con, String loginNamn, String fraktsatt) throws SQLException{
+		PreparedStatement ps = con.prepareStatement("update kundlogin set defaultfraktsatt=? where loginnamn=?");
+		ps.setString(1, fraktsatt);
+		ps.setString(2, loginNamn);
+		if (ps.executeUpdate()<1) throw new SQLException("Loginnamnet hittades inte");		
+	}
 	
 	
 	public static Kund getKund(Connection con, String kundnr) throws SQLException {
@@ -1122,4 +1129,24 @@ public class SQLHandler {
 		} catch (SQLException e) { e.printStackTrace(); }
 	}
 
+	public static VeckodagarSet getTurbilsdagar(Connection con, String kundnr, int lagernr) throws SQLException {
+		//Returnerar vilka veckodagar som det går en tirbil från vald filial till kunden
+		String q = "select sum(t.d1) as d1, sum(t.d2) as d2, sum(t.d3) as d3, sum(t.d4) as d4, sum(t.d5) as d5 from turlinje t join kund k on t.linjenr=k.linjenr1 or t.linjenr=k.linjenr2 or t.linjenr=k.linjenr3 " +
+		" where k.nummer = ? and t.franfilial=? " +
+		" group by t.franfilial order by t.franfilial";
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setString(1, kundnr);
+		ps.setInt(2,lagernr);
+		ResultSet rs= ps.executeQuery();
+		VeckodagarSet dagar = null;
+		if (rs.next()) {
+			dagar = new VeckodagarSet();
+			dagar.setMandag(rs.getInt(1)>0);
+			dagar.setTisdag(rs.getInt(2)>0);
+			dagar.setOnsdag(rs.getInt(3)>0);
+			dagar.setTorsdag(rs.getInt(4)>0);
+			dagar.setFredag(rs.getInt(5)>0);
+		}
+		return dagar;
+	}
 }

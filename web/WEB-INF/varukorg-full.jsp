@@ -3,6 +3,7 @@
     Created on : 2014-nov-30, 09:47:46
     Author     : Ulf
 --%>
+<%@page import="se.saljex.hemsida.VeckodagarSet"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.LagerEnhet"%>
 <%@page import="java.sql.SQLException"%>
@@ -22,6 +23,10 @@
     SessionData sd = Const.getSessionData(request);
     boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
 
+    VeckodagarSet turbilDagar = SQLHandler.getTurbilsdagar(Const.getConnection(request), sd.getInloggadKundnr(), sd.getLagerNr());
+    String fraktsatt = sd.getFraktsatt(request, turbilDagar!=null && turbilDagar.isAnyDay() );
+    
+    
  //   Varukorg vk = sd.getVarukorg(Const.getConnection(request));
     VarukorgFormHandler vkf = (VarukorgFormHandler)request.getAttribute(VarukorgFormHandler.PARAMETER_NAME);
     long rowCn = Const.getInitData(request).getNewUniktID();
@@ -87,7 +92,7 @@
                                 </div>
                                 <% if (a.getArt().getLevVillkor() > 0 && kund!=null && !kund.getMottagarfrakt()) { %>
                                     <% if (a.getArt().getLevVillkor() == 1) {// 1=skrymme som kan gå fritt turbil %>
-                                        <% if(kund.getDistrikt()>1) { // distrikt 0 är ospecat, t.ex. hämt, distrikt 1 = turbil %>
+                                    <% if(!Const.FRAKTSATT_TURBIL.equals(fraktsatt) && !Const.FRAKTSATT_HAMT.equals(fraktsatt) ) { // distrikt 0 är ospecat, t.ex. hämt, distrikt 1 = turbil %>
                                             <div class="vkf-notbeskrivning">Skrymmefrakt tillkommer på denna artikel.</div>
                                         <% } else { %>
                                         <% }%>
@@ -141,9 +146,19 @@
                 </select>   
 
 
-            </td></tr>
-                
-            </td></tr>
+        </td></tr>
+
+        <tr><td>Transportsätt</td><td>                
+                <select id="transportselector1" onchange="setTransportsatt(document.getElementById('transportselector1'))">
+                    <% if (turbilDagar!=null && turbilDagar.isAnyDay()) { %>
+                        <option>
+                            Turbil <%= (turbilDagar.isMandag() ? "Måndagar " : "") + (turbilDagar.isTisdag()? "Tisdagar " : "") + (turbilDagar.isOnsdag()? "Onsdagar " : "") + (turbilDagar.isTorsdag()? "Tordagar " : "") + (turbilDagar.isFredag()? "Fredagar " : "") %>
+                        </option>
+                    <% } %>
+                    <option <%= Const.FRAKTSATT_HAMT.equals(fraktsatt) ? " selected=\"selected\"" : "" %>>Hämtas</option>
+                    <option <%= Const.FRAKTSATT_SKICKA.equals(fraktsatt) ? " selected=\"selected\"" : "" %>>Skickas med lämplig speditör</option>
+                </select>
+        </td></tr>
         <tr><td>Kundnummer</td><td><input name="<%= VarukorgFormHandler.FORMNAME_KUNDNR %>" value="<%= Const.toHtml(vkf.getKundnr()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
         <tr><td>Företag</td><td><input name="<%= VarukorgFormHandler.FORMNAME_FORETAG %>" value="<%= Const.toHtml(vkf.getForetag()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
         <tr><td>Kontaktperson</td><td><input name="<%= VarukorgFormHandler.FORMNAME_KONTAKTPERSON %>" value="<%= Const.toHtml(vkf.getKontaktperson()) %>"></td></tr>

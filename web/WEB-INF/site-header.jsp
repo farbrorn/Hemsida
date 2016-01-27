@@ -53,11 +53,17 @@
                 AJAX.send(null); 
                 location.reload(true);            
             }
-            function setInkmoms() {
-                var e = document.getElementById("inkmomsselector");
+            function setInkmoms(e) {
                 var varde = e.options[e.selectedIndex].value;
                 var AJAX = getHttpRequest(); 
                 AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_SETINKMOMS %>="+varde, false); 
+                AJAX.send(null); 
+                location.reload(true);            
+            }
+            function setTransportsatt(e) {
+                var ts = e.options[e.selectedIndex].value;
+                var AJAX = getHttpRequest(); 
+                AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_SETFRAKTSATT %>="+ts, false); 
                 AJAX.send(null); 
                 location.reload(true);            
             }

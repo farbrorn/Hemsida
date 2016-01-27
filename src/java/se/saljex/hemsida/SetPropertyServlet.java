@@ -61,6 +61,12 @@ public class SetPropertyServlet extends HttpServlet {
 				if ("false".equals(cStr.toLowerCase())) { Const.getInitData(request).getDataCookie().setCookiesAccepted(false); resp=resp+"cookiesaccept=false";}
 			}
 
+			//Fraktsätt
+			String tmp = request.getParameter(Const.PARAM_SETFRAKTSATT);
+			if (tmp!=null && tmp.length()>0) {
+				sd.setFraktsatt(request, tmp.substring(0, 1).toLowerCase());
+			}
+			
 			response.addCookie(Const.getInitData(request).getDataCookie().getCookie());
 			
 			out.println(resp);

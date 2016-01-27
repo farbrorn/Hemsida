@@ -58,6 +58,7 @@ public class Const {
 	public static final String PARAM_SETLAGERNR = "setlagernr";
 	public static final String PARAM_SETINKMOMS = "setinkmoms";
 	public static final String PARAM_SETCOOKIEACCEPTED = "setcookieaccepted";
+	public static final String PARAM_SETFRAKTSATT = "setfraktsatt";
 
 	public static final String PARAM_LOGINNAMN = "loginnamn";
 	public static final String PARAM_LOGINLOSENL = "loginlosen";
@@ -68,6 +69,9 @@ public class Const {
 		public final static String COOKIEAUTOINLOGID="loginuuid";
 		private static final Logger logger = Logger.getLogger("Hemsida");	
 
+	public static final String FRAKTSATT_TURBIL = "t";
+	public static final String FRAKTSATT_HAMT = "h";
+	public static final String FRAKTSATT_SKICKA = "s";
 		
 	private static StartupData startupData=null;
 	

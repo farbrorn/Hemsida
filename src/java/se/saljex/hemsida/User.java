@@ -22,6 +22,7 @@ public class User {
 	Integer lagernr;
 	String loguinNamn;
 	String autoLoginUuid;
+	String defaultFraktsatt;
 	boolean defaultInkMoms=false;
 	
 	public Integer getKontaktId() {
@@ -103,6 +104,14 @@ public class User {
 	public void setDefaultInkMoms(boolean defaultInkMoms) {
 		
 		this.defaultInkMoms = defaultInkMoms;
+	}
+
+	public String getDefaultFraktsatt() {
+		return defaultFraktsatt;
+	}
+
+	public void setDefaultFraktsatt(String defaultFraktsatt) {
+		this.defaultFraktsatt = defaultFraktsatt;
 	}
 	
 		

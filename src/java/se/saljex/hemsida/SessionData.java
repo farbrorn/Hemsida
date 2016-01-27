@@ -197,5 +197,36 @@ public class SessionData {
 			Const.getInitData(request).getDataCookie().setInkmoms(inkMoms);
 		}
 	}
+	public void setFraktsatt(HttpServletRequest request, String fraktsatt) {
+		if (inloggadUser!=null) {
+			try {
+				SQLHandler.setKundloginFraktsatt(Const.getConnection(request), inloggadUser.getLoguinNamn(), fraktsatt);
+				inloggadUser.setDefaultFraktsatt(fraktsatt);
+			} catch (SQLException e) { e.printStackTrace();}
+		} else {
+			Const.getInitData(request).getDataCookie().setFraktsatt(fraktsatt);
+		}
+	}
+	
+	//Returnerar ett giltigt fraktsätt. Hänsyn tas till vad kunden har inställt, med defult fallover för händelse att turbil inte finns 
+	public String getFraktsatt(HttpServletRequest request, boolean isTurbilAvailable ) {
+		String ret;
+		if (isUserInloggad()) {
+			ret = getInloggadUser().getDefaultFraktsatt();
+			if (!(Const.FRAKTSATT_HAMT.equals(ret) || Const.FRAKTSATT_SKICKA.equals(ret)))  { // 
+				// Nu hr vi turbl eller något okänt.
+				if (isTurbilAvailable) ret=Const.FRAKTSATT_TURBIL; else ret=Const.FRAKTSATT_SKICKA;
+			}
+				
+		} else {
+			ret = Const.getInitData(request).getDataCookie().getFraktsatt();
+			//Bara dess fraktsätt accepteras oinloggat
+			if (!(Const.FRAKTSATT_HAMT.equals(ret) || Const.FRAKTSATT_SKICKA.equals(ret)))  { // 
+				ret = Const.FRAKTSATT_SKICKA;
+			}
+		}
+		if (ret==null) ret="t"; //Turbil
+		return ret;
+	}
 	
 }
