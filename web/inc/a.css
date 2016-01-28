@@ -1110,7 +1110,7 @@
             }
             
             .katalog-head-nav-prev , .katalog-head-nav-next, .katalog-head-nav-index {
-                width: 33%;
+                width: 32%;
                 display: inline-block;
             }
             .katalog-head-nav-next {
@@ -1210,6 +1210,11 @@
                 .kbl {
                     text-align: center;
                 }
+                .katalog-index-root {
+                    padding-left: 0px;
+                    padding-right: 0px;
+                }
+
             }
             @media all and (max-width: 500px) {
                 .main {
