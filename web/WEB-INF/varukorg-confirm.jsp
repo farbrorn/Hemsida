@@ -42,7 +42,7 @@
             <tr><td>Organisationsnummer</td><td><%= Const.toHtml(vkf.getOrgnr()) %></td></tr>
         <% } %>
         <tr><td>Order registrerad på lager</td><td><%= Const.toHtml(sd.getLagerNamn()) %></td></tr>
-        <tr><td>Valt transportsätt</td><td><%= Const.toHtml(sd.getFraktsattBeskrivning(vkf.getFraktsatt()) %></td></tr>
+        <tr><td>Valt transportsätt</td><td><%= Const.toHtml(sd.getFraktsattBeskrivning(vkf.getFraktsatt())) %></td></tr>
 
         <tr><td>Godsmärke</td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>
         <tr><td>Meddelande</td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>
