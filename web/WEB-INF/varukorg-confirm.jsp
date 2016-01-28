@@ -24,8 +24,7 @@
     <% se.saljex.hemsida.User u = Const.getSessionData(request).getInloggadUser();  %>
         <%if (u==null) { %>
             Tack för din order!
-            <div style="color: red">Ordern är registrerad utan inloggad användare. Avtalspriser visas inte i denna bekräftelse.</div>
-            Tänk på att eventuella fraktkostnader och expeditionskostnader tillkommer. Vi kontaktar dig med uppgifter för betalning via e-post, och du har då möjlighet att ångra din order.
+            Tänk på att fraktkostnader och expeditionskostnader tillkommer.
         <% } else { %>
             Tack för din order!
         <% } %>
@@ -35,11 +34,15 @@
         <tr><td>Företag</td><td><%= Const.toHtml(vkf.getForetag()) %></td></tr>
         <tr><td>Kontaktperson</td><td><%= Const.toHtml(vkf.getKontaktperson()) %></td></tr>
         <tr><td>E-Post</td><td><%= Const.toHtml(vkf.getEpost()) %></td></tr>
-        <tr><td>Adress</td><td><%= Const.toHtml(vkf.getAdress()) %></td></tr>
-        <tr><td>Postnr</td><td><%= Const.toHtml(vkf.getPostnr()) %></td></tr>
-        <tr><td>Ort</td><td><%= Const.toHtml(vkf.getOrt()) %></td></tr>
-        <tr><td>Telefon</td><td><%= Const.toHtml(vkf.getTel()) %></td></tr>
-        <tr><td>Organisationsnummer</td><td><%= Const.toHtml(vkf.getOrgnr()) %></td></tr>
+        <% if (!sd.isUserInloggad()) { %>
+            <tr><td>Adress</td><td><%= Const.toHtml(vkf.getAdress()) %></td></tr>
+            <tr><td>Postnr</td><td><%= Const.toHtml(vkf.getPostnr()) %></td></tr>
+            <tr><td>Ort</td><td><%= Const.toHtml(vkf.getOrt()) %></td></tr>
+            <tr><td>Telefon</td><td><%= Const.toHtml(vkf.getTel()) %></td></tr>
+            <tr><td>Organisationsnummer</td><td><%= Const.toHtml(vkf.getOrgnr()) %></td></tr>
+        <% } %>
+        <tr><td>Order registrerad på lager</td><td><%= Const.toHtml(sd.getLagerNamn()) %></td></tr>
+        <tr><td>Valt transportsätt</td><td><%= Const.toHtml(sd.getFraktsattBeskrivning(vkf.getFraktsatt()) %></td></tr>
 
         <tr><td>Godsmärke</td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>
         <tr><td>Meddelande</td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>

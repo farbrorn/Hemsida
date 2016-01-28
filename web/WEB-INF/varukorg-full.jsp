@@ -131,7 +131,7 @@
     <table>
         <% se.saljex.hemsida.User u = Const.getSessionData(request).getInloggadUser();  %>
         <tr><td>Valt lager</td><td>
-                <select id="lagerselector1" onchange="setLager(document.getElementById('lagerselector1'))">
+                <select name="<%= VarukorgFormHandler.FORMNAME_FRAKTSATT %>" id="lagerselector1" onchange="setLager(document.getElementById('lagerselector1'))">
                     <option value="<%= le.getLagernr() %>"><%= Const.toHtml(le.getNamn()) %></option>
                     <% 
                     StartupData sData = Const.getStartupData();

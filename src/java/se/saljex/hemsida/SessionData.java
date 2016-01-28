@@ -208,6 +208,14 @@ public class SessionData {
 		}
 	}
 	
+	//Returnerar valt fraktsätt namn, med default fallower om det inte finns något fraktsätt ngivet
+	public String getFraktsattBeskrivning(String fraktsatt) {
+		if (Const.FRAKTSATT_HAMT.equals(fraktsatt)) return "Hämtas";
+		else if (Const.FRAKTSATT_SKICKA.equals(fraktsatt)) return "Lämpligt";
+		else if (Const.FRAKTSATT_TURBIL.equals(fraktsatt)) return "Turbil";
+		else return fraktsatt;
+	}
+	
 	//Returnerar ett giltigt fraktsätt. Hänsyn tas till vad kunden har inställt, med defult fallover för händelse att turbil inte finns 
 	public String getFraktsatt(HttpServletRequest request, boolean isTurbilAvailable ) {
 		String ret;
