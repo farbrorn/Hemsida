@@ -7,6 +7,7 @@
     long rowCn = Const.getInitData(request).getNewUniktID();
     long id=0;
         boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
+        boolean isBruttopris = Const.getSessionData(request).isUserInloggad() ? Const.getSessionData(request).isVisaBruttopris(request) : false;
 
  %>
                     <div>
@@ -31,7 +32,7 @@
                                             <% 
                                             boolean firstRun=true;
                                             for (Artikel pv : p.getVarianter()) { %>
-                                            <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms) %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
+                                            <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris) %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
 
                                             <%
                                                 firstRun = false;
@@ -40,7 +41,7 @@
                                     </div>
                                     <div class="kli-t-pris-kop">
                                         <div class="kli-t-pris">
-                                             <span class="kli-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getNettoPris(inkMoms)) %></span>
+                                             <span class="kli-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getDisplayPris(inkMoms, isBruttopris)) %></span>
                                              <span class="kli-t-pris-per">/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet()) %></span>
                                              <div class="kli-t-ilager" id="ilager-<%= rowCn %>"><%= p.getVarianter().get(0).getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %></div>
                                         </div>

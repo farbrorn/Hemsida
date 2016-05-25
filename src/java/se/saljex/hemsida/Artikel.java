@@ -19,6 +19,8 @@ public class Artikel {
     private String namn;
     private String katNamn;
     private Double bruttopris;
+    private Double bruttopris_staf1;
+    private Double bruttopris_staf2;
     private String rsk;
 	
     private Double nettoPris=null;
@@ -167,8 +169,9 @@ public class Artikel {
 	public void setAntalSaljPackIForpack(Integer antalSaljPackIForpack) {
 		this.antalSaljPackIForpack = antalSaljPackIForpack;
 	}
-	public Double getNettoPris(boolean inkMoms) {
-		return inkMoms ? nettoPris*Const.getStartupData().getMomsMultiplikator() : nettoPris;
+	public Double getDisplayPris(boolean inkMoms, boolean isBruttopris) {
+		double pris = isBruttopris ? bruttopris : nettoPris;
+		return inkMoms ? pris*Const.getStartupData().getMomsMultiplikator() : pris;
 	}
 	public Double getNettoPrisExMoms() {
 		return nettoPris;
@@ -181,15 +184,18 @@ public class Artikel {
 	public Double getNettoPrisStaf1ExMoms() {
 		return nettoPrisStaf1;
 	}
-	public Double getNettoPrisStaf1(boolean inkMoms) {
-		return inkMoms ? nettoPrisStaf1*Const.getStartupData().getMomsMultiplikator() : nettoPrisStaf1;
+
+	public Double getDisplayPrisStaf1(boolean inkMoms, boolean isBruttopris) {
+		double pris = isBruttopris ? bruttopris_staf1 : nettoPrisStaf1;
+		return inkMoms ? pris*Const.getStartupData().getMomsMultiplikator() : pris;
 	}
 
 	public void setNettoPrisStaf1ExMoms(Double nettoPrisStaf1) {
 		this.nettoPrisStaf1 = nettoPrisStaf1;
 	}
-	public Double getNettoPrisStaf2(boolean inkMoms) {
-		return inkMoms ? nettoPrisStaf2*Const.getStartupData().getMomsMultiplikator() : nettoPrisStaf2;
+	public Double getDisplayPrisStaf2(boolean inkMoms, boolean isBruttopris) {
+		double pris = isBruttopris ? bruttopris_staf2 : nettoPrisStaf2;
+		return inkMoms ? pris*Const.getStartupData().getMomsMultiplikator() : pris;
 	}
 
 	public Double getNettoPrisStaf2ExMoms() {
@@ -216,12 +222,12 @@ public class Artikel {
 		this.antalStaf2 = antalStaf2;
 	}
 	
-	public Double getNettoprisVidAntalSaljpack(int antal, boolean inkMoms) {
+	public Double getNettoprisVidAntalSaljpack(int antal, boolean inkMoms, boolean isBruttopris) {
 		Double antalSaljpack = getAntalSaljpack();
 		if (antalSaljpack==null || antalSaljpack==0.0) antalSaljpack=1.0;
-		if (getAntalStaf2()!=null && getNettoPrisStaf2ExMoms()!=null && getNettoPrisStaf2ExMoms()>0 && antal>=getAntalStaf2()/antalSaljpack) return getNettoPrisStaf2(inkMoms);
-		if (getAntalStaf1()!=null && getNettoPrisStaf1ExMoms()!=null && getNettoPrisStaf1ExMoms()>0 && antal>=getAntalStaf1()/antalSaljpack) return getNettoPrisStaf1(inkMoms);
-		else return getNettoPris(inkMoms);
+		if (getAntalStaf2()!=null && getNettoPrisStaf2ExMoms()!=null && getNettoPrisStaf2ExMoms()>0 && antal>=getAntalStaf2()/antalSaljpack) return getDisplayPrisStaf2(inkMoms, isBruttopris);
+		if (getAntalStaf1()!=null && getNettoPrisStaf1ExMoms()!=null && getNettoPrisStaf1ExMoms()>0 && antal>=getAntalStaf1()/antalSaljpack) return getDisplayPrisStaf1(inkMoms, isBruttopris);
+		else return getDisplayPris(inkMoms, isBruttopris);
 	}
 		
 

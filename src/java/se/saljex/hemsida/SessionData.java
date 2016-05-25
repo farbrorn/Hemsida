@@ -197,6 +197,24 @@ public class SessionData {
 			Const.getInitData(request).getDataCookie().setInkmoms(inkMoms);
 		}
 	}
+
+	public void setVisaBruttopriser(HttpServletRequest request, boolean isBruttopris) {
+			Const.getInitData(request).getDataCookie().setIsBruttopris(isBruttopris);
+	}
+
+	
+	public boolean isVisaBruttopris(HttpServletRequest request) {
+		Boolean isBruttopris;
+		if (inloggadUser==null)  isBruttopris=false; 
+		else {
+			isBruttopris = Const.getInitData(request).getDataCookie().IsBruttopris();
+			if (isBruttopris==null) isBruttopris = false;
+		}
+		return isBruttopris;
+	}
+	
+	
+	
 	public void setFraktsatt(HttpServletRequest request, String fraktsatt) {
 		if (inloggadUser!=null) {
 			try {

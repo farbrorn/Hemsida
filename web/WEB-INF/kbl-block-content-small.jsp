@@ -7,6 +7,7 @@
     long rowCn = Const.getInitData(request).getNewUniktID();
     long id=0;
     boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
+    boolean isBruttopris = Const.getSessionData(request).isUserInloggad() ? Const.getSessionData(request).isVisaBruttopris(request) : false;
     Artikel forvaldVariant = p.getVarianter().size() > 0 ? p.getVarianter().get(0) : null;
     if (forvaldVariant!=null) {
  %>
@@ -25,7 +26,7 @@
                                     <% 
                                     boolean firstRun=true;
                                     for (Artikel pv : p.getVarianter()) { %>
-                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms)%>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
+                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris)%>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
                                         
                                     <%
                                         firstRun = false;
@@ -33,7 +34,7 @@
                                 </select>
                             </div>
                             <div class="kbl-t-pris">
-                                <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(forvaldVariant.getNettoPris(inkMoms)) %></span><span class="kbl-t-pris-per">/<%= Const.getFormatEnhet(forvaldVariant.getEnhet()) %></span>
+                                <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(forvaldVariant.getDisplayPris(inkMoms, isBruttopris)) %></span><span class="kbl-t-pris-per">/<%= Const.getFormatEnhet(forvaldVariant.getEnhet()) %></span>
                                 <div class="kbl-t-ilager" id="ilager-<%= rowCn %>"><%= forvaldVariant.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %></div>
 
                             </div>

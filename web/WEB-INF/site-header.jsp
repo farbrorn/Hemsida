@@ -60,6 +60,13 @@
                 AJAX.send(null); 
                 location.reload(true);            
             }
+            function setIsBruttopris(e) {
+                var varde = e.options[e.selectedIndex].value;
+                var AJAX = getHttpRequest(); 
+                AJAX.open("GET", "<%= request.getContextPath() %>/SetProperty?<%= Const.PARAM_SETISBRUTTO %>="+varde, false); 
+                AJAX.send(null); 
+                location.reload(true);            
+            }
             function setTransportsatt(e) {
                 var ts = e.options[e.selectedIndex].value;
                 var AJAX = getHttpRequest(); 

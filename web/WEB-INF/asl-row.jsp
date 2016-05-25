@@ -7,6 +7,8 @@
     long rowCn = Const.getInitData(request).getNewUniktID();
     long id=0;
         boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
+        boolean isBruttopris = Const.getSessionData(request).isUserInloggad() ? Const.getSessionData(request).isVisaBruttopris(request) : false;
+
         Artikel pv = p.getVariant((String)request.getAttribute(Const.ATTRIB_AID));
         
         if (pv==null) {
@@ -24,14 +26,14 @@
                             <div class="asl-rubrik">
                                 <%= Const.toHtml(p.getRubrik()) %>
                             </div>
-                            <div class="asl-variant" aid="<%= pv.getArtnr() %>" pris="<%= pv.getNettoPris(inkMoms) %>" frpenhet="<%= pv.getEnhetStringMedForpackning() %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>"  %>
+                            <div class="asl-variant" aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris) %>" frpenhet="<%= pv.getEnhetStringMedForpackning() %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>"  %>
                                 <%= Const.toHtml(pv.getKatNamn()) %>
                             </div>
                             <div class="asl-artnr"><%= Const.toHtml(pv.getArtnr()) %></div>
                     </a>
                 </div>
                 <div class="asl-pris">
-                    <span class="asl-pris-pris"><%= Const.getAnpassatPrisFormat(pv.getNettoPris(inkMoms)) %></span>
+                    <span class="asl-pris-pris"><%= Const.getAnpassatPrisFormat(pv.getDisplayPris(inkMoms, isBruttopris)) %></span>
                     <span class="asl-pris-per">/<%= Const.getFormatEnhet(pv.getEnhet()) %></span>
                     <span><%= pv.getEnhetStringMedForpackning() %></span>
                 </div>

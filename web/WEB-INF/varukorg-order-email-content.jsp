@@ -16,6 +16,7 @@
 <%
     SessionData sd = Const.getSessionData(request);
     boolean inkMoms = false;
+    boolean isBruttopris = false;
 //    boolean inkMoms = sd.isInkMoms(request);
 //    Varukorg vk = sd.getVarukorg(Const.getConnection(request));
     VarukorgFormHandler vkf = (VarukorgFormHandler)request.getAttribute(VarukorgFormHandler.PARAMETER_NAME);
@@ -81,8 +82,8 @@
                 <td><%= Const.toHtml(a.getArt().getNamn()) %></td>
                 <td><%= a.getAntal()*a.getArt().getAntalSaljpack() %></td>
                 <td><%= Const.toHtml(a.getArt().getEnhet()) %></td>
-                <td><%= Const.getFormatNumber(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms),2) %></td>
-                <td><%= Const.getFormatNumber(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms) * a.getAntal() * a.getArt().getAntalSaljpack(),2) %></td>
+                <td><%= Const.getFormatNumber(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris),2) %></td>
+                <td><%= Const.getFormatNumber(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris) * a.getAntal() * a.getArt().getAntalSaljpack(),2) %></td>
             </tr>
        <% } %>
                 

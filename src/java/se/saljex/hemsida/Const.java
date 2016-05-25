@@ -57,6 +57,7 @@ public class Const {
 
 	public static final String PARAM_SETLAGERNR = "setlagernr";
 	public static final String PARAM_SETINKMOMS = "setinkmoms";
+	public static final String PARAM_SETISBRUTTO = "setisbrutto";
 	public static final String PARAM_SETCOOKIEACCEPTED = "setcookieaccepted";
 	public static final String PARAM_SETFRAKTSATT = "setfraktsatt";
 

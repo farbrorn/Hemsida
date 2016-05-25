@@ -53,6 +53,12 @@ public class SetPropertyServlet extends HttpServlet {
 				if ("true".equals(inkmomsStr.toLowerCase())) { sd.setInkMoms(request, true); resp=resp+"inkmoms=true";}
 				if ("false".equals(inkmomsStr.toLowerCase())){ sd.setInkMoms(request, false); resp=resp+"inkmoms=false";}
 			}
+			//isBruttopris
+			String isBruttoprisStr = request.getParameter(Const.PARAM_SETISBRUTTO);
+			if (isBruttoprisStr!=null) {
+				if ("true".equals(isBruttoprisStr.toLowerCase())) { sd.setVisaBruttopriser(request, true); resp=resp+"isbruttopris=true";}
+				if ("false".equals(isBruttoprisStr.toLowerCase())){ sd.setVisaBruttopriser(request, false); resp=resp+"isbruttopris=false";}
+			}
 
 			//Coookies accepted
 			String cStr = request.getParameter(Const.PARAM_SETCOOKIEACCEPTED);

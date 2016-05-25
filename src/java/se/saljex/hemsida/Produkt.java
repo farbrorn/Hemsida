@@ -46,11 +46,11 @@ public class Produkt extends ProduktGrund{
 		}
 		return retur;
 	}
-	public Artikel getLagstaPrisArtikel() {
+	public Artikel getLagstaPrisArtikel(boolean isBruttopris) {
 		Artikel returnArtikel = null;
 		for (Artikel a : varianter) {
 			if (returnArtikel==null) returnArtikel=a;
-			else if ( a.getNettoPris(false).compareTo(returnArtikel.getNettoPris(false)) < 0) returnArtikel = a; 
+			else if ( a.getDisplayPris(false, isBruttopris).compareTo(returnArtikel.getDisplayPris(false, isBruttopris)) < 0) returnArtikel = a; 
 		}
 		return returnArtikel;
 	}

@@ -22,6 +22,7 @@
 <%
     SessionData sd = Const.getSessionData(request);
     boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
+        boolean isBruttopris = Const.getSessionData(request).isUserInloggad() ? Const.getSessionData(request).isVisaBruttopris(request) : false;
 
     VeckodagarSet turbilDagar = SQLHandler.getTurbilsdagar(Const.getConnection(request), sd.getInloggadKundnr(), sd.getLagerNr());
     String fraktsatt = sd.getFraktsatt(request, turbilDagar!=null && turbilDagar.isAnyDay() );
@@ -83,8 +84,8 @@
                                         <div class="vkf-enh">
                                             <%= a.getArt().getAntalSaljpack().equals(1.0) ? a.getFormatEnhet() : "x " + Const.getAnpassade2Decimaler(a.getArt().getAntalSaljpack()) + a.getFormatEnhet() %> 
                                         </div>
-                                        <div class="vkf-pris"><%= Const.getAnpassatPrisFormat(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms)) %></div>
-                                        <div class="vkf-pris"><%= Const.getAnpassatPrisFormat(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms) * a.getAntal() * a.getArt().getAntalSaljpack()) %></div>
+                                        <div class="vkf-pris"><%= Const.getAnpassatPrisFormat(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris)) %></div>
+                                        <div class="vkf-pris"><%= Const.getAnpassatPrisFormat(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris) * a.getAntal() * a.getArt().getAntalSaljpack()) %></div>
                                         <% LagerSaldo ls = a.getSQLLookupLagerSaldo(Const.getConnection(request), sd.getLagerNr()); %>
                                         <div class="vkf-lagerstatus"><%= ls.getTillgangliga() >= a.getAntal()*a.getArt().getAntalSaljpack() ? "OK" : "Saknas " + SXUtil.getFormatNumber(Math.floor((a.getAntal()*a.getArt().getAntalSaljpack() - ls.getTillgangliga())/a.getArt().getAntalSaljpackForDivision()),0)  %></div>
                                         <input type="hidden" name="vkf-aid-<%= vkrcn %>" value="<%= a.getArtnr() %>">
@@ -100,7 +101,7 @@
                                             <div class="vkf-notbeskrivning">Särskild fraktkostnad tillkommer på denna artikel.</div>
                                     <% } %>
                                 <% } %>
-                                <% orderSumma += a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms) * a.getAntal() * a.getArt().getAntalSaljpack(); %>
+                                <% orderSumma += a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris) * a.getAntal() * a.getArt().getAntalSaljpack(); %>
                             <% } %>        
                         </div>
                           

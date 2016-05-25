@@ -24,11 +24,14 @@ private static final int cookiesAcceptedStart = 5;
 private static final int cookiesAcceptedLen = 1;
 private static final int fraktsattStart = 6;
 private static final int fraktsattLen = 1;
+private static final int isbruttoprisStart = 7;
+private static final int isbruttoprisLen = 1;
 
 private Integer lagernr;
 private Boolean inkmoms;
 private Boolean cookiesAccepted;
 private String fraktsatt;
+private Boolean isBruttopris;
 
 	public DataCookieHandler() {
 	}
@@ -43,7 +46,9 @@ private String fraktsatt;
 		String cookiesAcceptedS=" ";
 		if (cookiesAccepted!=null) cookiesAcceptedS = cookiesAccepted ? "T" : "F";
 		String fraktsattS = (fraktsatt!=null && fraktsatt.length()==1 ? fraktsatt  : " ");
-		return String.format("%04d", lagernr) + inkmomsS + cookiesAcceptedS + fraktsattS;
+		String isBruttoprisS=" ";
+		if (isBruttopris!=null) isBruttoprisS = isBruttopris ? "T" : "F";
+		return String.format("%04d", lagernr) + inkmomsS + cookiesAcceptedS + fraktsattS + isBruttoprisS;
 	}
 	public Cookie getCookie() {
 		Cookie c  = new Cookie(COOKIENAME, getVarde());
@@ -73,6 +78,13 @@ private String fraktsatt;
 		fraktsatt=null;
 		try { fraktsatt = varde.substring(fraktsattStart, fraktsattStart+fraktsattLen); } catch (Exception e) {}
 		
+		//Visa bruttopris
+		isBruttopris=null;
+		s=null;
+		try { s = varde.substring(isbruttoprisStart, isbruttoprisStart+isbruttoprisLen); } catch (Exception e) {}
+		if (s==null) isBruttopris=null;
+		else isBruttopris= !"F".equals(s);
+		
 	}
 
 	public void setLagernr(Integer lagernr) {
@@ -81,6 +93,9 @@ private String fraktsatt;
 
 	public void setInkmoms(Boolean inkmoms) {
 		this.inkmoms = inkmoms;
+	}
+	public void setIsBruttopris(Boolean isBruttopris) {
+		this.isBruttopris = isBruttopris;
 	}
 
 	public void setCookiesAccepted(Boolean cookiesAccepted) {
@@ -95,6 +110,10 @@ private String fraktsatt;
 		return inkmoms;
 	}
 
+	public Boolean IsBruttopris() {
+		return isBruttopris;
+	}
+	
 	public Boolean getCookiesAccepted() {
 		return cookiesAccepted;
 	}

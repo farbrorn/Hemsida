@@ -65,6 +65,14 @@ for (String s : cards) { %>
                                 <option value="false" <%= sd.isInkMoms(request) ? "" : "selected=\"selected\"" %>>Exkl. moms.</option>
                             </select>
                         </td></tr>
+                        <% if (sd.isUserInloggad()) {%>
+                        <tr><td>Priser</td><td> 
+                                <select id="isbruttoprisselector" onchange="setIsBruttopris(document.getElementById('isbruttoprisselector'))">
+                                <option value="false">Avtalspris</option>
+                                <option value="true" <%= sd.isVisaBruttopris(request) ? "selected=\"selected\"" : "" %>>Listpris</option>
+                            </select>
+                        </td></tr>
+                        <% } %>
                     </table>
                     <% } %>
                 </div>
