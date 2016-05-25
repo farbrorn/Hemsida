@@ -151,12 +151,12 @@
         <tr><td>Transportsätt</td><td>                
                 <select id="transportselector1" onchange="setTransportsatt(document.getElementById('transportselector1'))">
                     <% if (turbilDagar!=null && turbilDagar.isAnyDay()) { %>
-                        <option>
+                        <option value="<%= Const.FRAKTSATT_TURBIL %>">
                             Turbil <%= (turbilDagar.isMandag() ? "Måndagar " : "") + (turbilDagar.isTisdag()? "Tisdagar " : "") + (turbilDagar.isOnsdag()? "Onsdagar " : "") + (turbilDagar.isTorsdag()? "Tordagar " : "") + (turbilDagar.isFredag()? "Fredagar " : "") %>
                         </option>
                     <% } %>
-                    <option <%= Const.FRAKTSATT_HAMT.equals(fraktsatt) ? " selected=\"selected\"" : "" %>>Hämtas</option>
-                    <option <%= Const.FRAKTSATT_SKICKA.equals(fraktsatt) ? " selected=\"selected\"" : "" %>>Skickas med lämplig speditör</option>
+                    <option value="<%= Const.FRAKTSATT_HAMT %>" <%= Const.FRAKTSATT_HAMT.equals(fraktsatt) ? " selected=\"selected\"" : "" %>>Hämtas</option>
+                    <option  value="<%= Const.FRAKTSATT_SKICKA %>"<%= Const.FRAKTSATT_SKICKA.equals(fraktsatt) ? " selected=\"selected\"" : "" %>>Skickas med lämplig speditör</option>
                 </select>
         </td></tr>
         <tr><td>Kundnummer</td><td><input name="<%= VarukorgFormHandler.FORMNAME_KUNDNR %>" value="<%= Const.toHtml(vkf.getKundnr()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
