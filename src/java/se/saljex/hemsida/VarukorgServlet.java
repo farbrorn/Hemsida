@@ -117,9 +117,13 @@ public class VarukorgServlet extends HttpServlet {
 						sm.sendSimpleMail("ulf.hemma@gmail.com", "Inkommande testorder " + StartupData.getForetagNamn(), responseContent);
 					} else {
 						String orderMail;
-						orderMail = sd.getLager().getEpost();
+						orderMail = Const.getStartupData().getLagerEnhetList().get(vkfHandler.getLagernr()).getEpost();
+						//orderMail = sd.getLager().getEpost();
 						if (orderMail==null || orderMail.length() < 5) orderMail = StartupData.getSxServOrderMail();
-						sm.sendSimpleMail(StartupData.getSxServOrderMail(), "Inkommande order från "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), responseContent);
+						sm.sendSimpleMail(orderMail, "Inkommande order från "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), responseContent);
+						if (!orderMail.equals(StartupData.getSxServOrderMail())) {
+							sm.sendSimpleMail(StartupData.getSxServOrderMail(), "*KOPIA* på webborder sickad till annat lager "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), responseContent);
+						}
 					}
 
 					try {
@@ -128,7 +132,7 @@ public class VarukorgServlet extends HttpServlet {
 						request.getRequestDispatcher("/WEB-INF/varukorg-confirm.jsp").include(request, responseWrapper);
 						confirmResponseContent = responseWrapper.toString();
 						sm = new SendMail( mailsxmail);
-						sm.sendSimpleMail(vkfHandler.getEpost(), "Orderbekräftelse " + StartupData.getForetagNamn() + "webborder", confirmResponseContent);
+						sm.sendSimpleMail(vkfHandler.getEpost(), "Orderbekräftelse " + StartupData.getForetagNamn() + " webborder", confirmResponseContent);
 					} catch (Exception e) {Const.log("Fel vid sändning av Orderbekräftelse E-mail. " + vkfHandler.getEpost() + " - " +responseContent); e.printStackTrace(); }
 					
 					
