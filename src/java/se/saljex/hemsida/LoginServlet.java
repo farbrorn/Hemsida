@@ -67,7 +67,8 @@ public class LoginServlet extends HttpServlet {
 								if (StartupData.isHemsidaTestlage()) {
 									sm.sendSimpleMail("ulf.hemma@gmail.com", "Nytt lösenord" , "Här kommer ditt nya lösenord: " + nyttLosen);
 								} else {
-									sm.sendSimpleMail(StartupData.getSxServOrderMail(), "Nytt lösenord för "  + StartupData.getForetagNamn() + " webbutik", "Ditt nya lösenord är: " + nyttLosen);
+									String epost = SQLHandler.getUserEpostFromSQL(Const.getConnection(request), namn);
+									if (epost != null) sm.sendSimpleMail(epost, "Nytt lösenord för "  + StartupData.getForetagNamn() + " webbutik", "Ditt nya lösenord är: " + nyttLosen);
 								}
 							} catch (Exception e) {}
 						} else {

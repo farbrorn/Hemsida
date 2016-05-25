@@ -18,7 +18,7 @@
     +" where  f1.datum > current_date-300 and f2.lev>0  "
     +" group by akl.klasid); "
     +" update artklase ak set autoantalorderrader = coalesce ( ( select cnt from t where t.klasid=ak.klasid ),0); "
-    +" create temp table t2 on commit drop as 	( select max(autoantalorderrader) as mx from artklase); "
+    +" create temp table t2 on commit drop as 	( select case when max(autoantalorderrader) <> 0 then max(autoantalorderrader) else 1 end as mx from artklase); "
            
            
     +" update artklase set autosortvikt = 5000/(select max(mx) from t2)*autoantalorderrader; "
@@ -39,7 +39,7 @@
            
 // Bygg "Andra köpte samtidigt"
 +" update artklase set auto_samkopta_klasar=null; "
-+" create temp table t on commit drop as ( "
++" create temp table t3 on commit drop as ( "
 +" with f as ( "
 +" select  "
 +" f2.ordernr as ordernr, akl.klasid as klasid, count(f2.artnr) as antal "
@@ -62,7 +62,7 @@
 +" );"
 
 +" update artklase ak set auto_samkopta_klasar = ("
-+" select klasar from t where t.klasidf = ak.klasid); ";
++" select klasar from t3 where t3.klasidf = ak.klasid); ";
            
 
    

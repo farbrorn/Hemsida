@@ -653,6 +653,25 @@ public class SQLHandler {
 		}
 		return nyttLosen;
 	}
+
+	public static String getUserEpostFromSQL(Connection con, String anvandarnamn) throws SQLException{
+
+		String epost=null;
+		if (anvandarnamn!=null) {
+			String q = 
+					"select kk.epost " +
+					" from kund k join kundkontakt kk on kk.kundnr=k.nummer join kundlogin kl on kl.kontaktid=kk.kontaktid " +
+					" where kl.loginnamn=?";
+			PreparedStatement ps = con.prepareStatement(q);
+			ps.setString(1, anvandarnamn);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				epost = rs.getString(1);
+				if (SXUtil.isEmpty(epost)) epost=null;
+			}
+		}
+		return epost;
+	}
 	
 	
 	public static void logoutAutoLogin(Connection con, User u) throws SQLException {
