@@ -3,6 +3,8 @@
     Created on : 2014-nov-30, 09:47:46
     Author     : Ulf
 --%>
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.LagerEnhet"%>
 <%@page import="se.saljex.hemsida.VarukorgFormHandler"%>
 <%@page import="se.saljex.hemsida.ReCaptcha"%>
 <%@page import="se.saljex.hemsida.VarukorgArtikel"%>
@@ -43,6 +45,13 @@
         <tr><td>Organisationsnummer</td><td><%= Const.toHtml(vkf.getOrgnr()) %></td></tr>
 
         <tr><td>Godsmärke</td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>
+        <% 
+        StartupData sData = Const.getStartupData();
+        java.util.Map<Integer, LagerEnhet> ll = sData.getLagerEnhetList(); 
+        
+        %>
+        
+        <tr><td>Lager</td><td><%= Const.toHtml(vkf.getLagernr().toString() + " - " + ll.get(vkf.getLagernr()).getNamn()) %></td></tr>
         <tr><td>Transportsätt</td><td><%= Const.toHtml(sd.getFraktsattBeskrivning(vkf.getFraktsatt())) %></td></tr>
         <tr><td>Meddelande</td><td><%= Const.toHtml(vkf.getMeddelande()) %></td></tr>
     </table>

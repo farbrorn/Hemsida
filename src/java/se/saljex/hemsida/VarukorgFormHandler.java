@@ -38,6 +38,7 @@ public class VarukorgFormHandler {
 	public static final String FORMNAME_EPOST = "epost";
 	public static final String FORMNAME_MEDDELANDE = "meddelande";
 	public static final String FORMNAME_FRAKTSATT = "fraktsatt";
+	public static final String FORMNAME_LAGERNR = "lagernr";
 	
 	private String kundnr;
 	private String foretag;
@@ -51,6 +52,7 @@ public class VarukorgFormHandler {
 	private String epost;
 	private String meddelande;
 	private String fraktsatt;
+	private Integer lagernr;
 
 	private String epostErrorMsg;
 	private String recaptchaErrorMsg;
@@ -87,7 +89,10 @@ public class VarukorgFormHandler {
 		epost=  request.getParameter(FORMNAME_EPOST);
 		meddelande=  request.getParameter(FORMNAME_MEDDELANDE);
 		fraktsatt=  request.getParameter(FORMNAME_FRAKTSATT);
-		
+		try {
+		lagernr =  Integer.parseInt(request.getParameter(FORMNAME_LAGERNR));
+		} catch (Exception e) { lagernr=null;}
+				
 		if (epost==null || epost.length() < 6) {
 			formHasErrors = true;
 			epostErrorMsg = "E-Post måste anges";
@@ -247,6 +252,14 @@ public class VarukorgFormHandler {
 
 	public void setFraktsatt(String fraktsatt) {
 		this.fraktsatt = fraktsatt;
+	}
+
+	public Integer getLagernr() {
+		return lagernr;
+	}
+
+	public void setLagernr(Integer lagernr) {
+		this.lagernr = lagernr;
 	}
 
 

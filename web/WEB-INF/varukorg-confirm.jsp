@@ -41,7 +41,7 @@
             <tr><td>Telefon</td><td><%= Const.toHtml(vkf.getTel()) %></td></tr>
             <tr><td>Organisationsnummer</td><td><%= Const.toHtml(vkf.getOrgnr()) %></td></tr>
         <% } %>
-        <tr><td>Order registrerad på lager</td><td><%= Const.toHtml(sd.getLagerNamn()) %></td></tr>
+        <tr><td>Order registrerad på lager</td><td><%= Const.toHtml(Const.getStartupData().getLagerEnhetList().get(vkf.getLagernr()).getNamn()) %></td></tr>
         <tr><td>Valt transportsätt</td><td><%= Const.toHtml(sd.getFraktsattBeskrivning(vkf.getFraktsatt())) %></td></tr>
 
         <tr><td>Godsmärke</td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>

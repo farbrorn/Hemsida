@@ -131,7 +131,7 @@
     <table>
         <% se.saljex.hemsida.User u = Const.getSessionData(request).getInloggadUser();  %>
         <tr><td>Valt lager</td><td>
-                <select name="<%= VarukorgFormHandler.FORMNAME_FRAKTSATT %>" id="lagerselector1" onchange="setLager(document.getElementById('lagerselector1'))">
+                <select name="<%= VarukorgFormHandler.FORMNAME_LAGERNR %>" id="lagerselector1" onchange="setLager(document.getElementById('lagerselector1'))">
                     <option value="<%= le.getLagernr() %>"><%= Const.toHtml(le.getNamn()) %></option>
                     <% 
                     StartupData sData = Const.getStartupData();
@@ -149,7 +149,7 @@
         </td></tr>
 
         <tr><td>Transportsätt</td><td>                
-                <select id="transportselector1" onchange="setTransportsatt(document.getElementById('transportselector1'))">
+                <select name="<%= VarukorgFormHandler.FORMNAME_FRAKTSATT %>" id="transportselector1" onchange="setTransportsatt(document.getElementById('transportselector1'))">
                     <% if (turbilDagar!=null && turbilDagar.isAnyDay()) { %>
                         <option value="<%= Const.FRAKTSATT_TURBIL %>">
                             Turbil <%= (turbilDagar.isMandag() ? "Måndagar " : "") + (turbilDagar.isTisdag()? "Tisdagar " : "") + (turbilDagar.isOnsdag()? "Onsdagar " : "") + (turbilDagar.isTorsdag()? "Tordagar " : "") + (turbilDagar.isFredag()? "Fredagar " : "") %>
