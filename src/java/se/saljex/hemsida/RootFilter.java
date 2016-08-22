@@ -19,6 +19,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 
@@ -62,6 +63,10 @@ public class RootFilter implements Filter {
 		}
 		initDat.setDataCookie(new DataCookieHandler(data));
 		
+		//Stäng av cache
+		((HttpServletResponse)response).setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); //http 1.1
+		((HttpServletResponse)response).setHeader("Pragma", "no-cache"); //http 1.0
+		((HttpServletResponse)response).setHeader("Expires", "0"); // Proxies.
 	
 	
         try {
