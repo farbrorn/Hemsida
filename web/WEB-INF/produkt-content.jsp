@@ -17,7 +17,7 @@
                     </div>
                     <div class="kid-img">
                         <img src="<%= Const.getArtStorBildURL(p) %>">
-                        <meta itemprop="image" content="<%= Const.getArtMinSizeBildURL(p) %>">
+                        <meta itemprop="image" content="<%= Const.getArtMinSizeBildURL(p,250) %>">
                     </div>
                     <div class="kid-order">
                         <div>

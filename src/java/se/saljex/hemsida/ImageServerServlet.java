@@ -206,12 +206,13 @@ public class ImageServerServlet extends HttpServlet {
 				if (sizeString.startsWith("m")) { // Minsta mått vi vill ha på bilden
 					if (bufferedImage.getWidth() < size || bufferedImage.getHeight() < size) { //nu behöver vi skala upp
 						Double faktor;
+					
 						if (bufferedImage.getWidth() > bufferedImage.getHeight()) {
-							faktor = Math.ceil(bufferedImage.getWidth()/bufferedImage.getHeight());
+							faktor = new Double((double)bufferedImage.getWidth()/(double)bufferedImage.getHeight());
 						} else {
-							faktor = Math.ceil(bufferedImage.getHeight()/bufferedImage.getWidth());							
+							faktor = new Double((double)bufferedImage.getHeight()/(double)bufferedImage.getWidth());
 						}
-						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.ULTRA_QUALITY, size*faktor.intValue());
+						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.ULTRA_QUALITY, (int)(size*faktor));
 						ImageIO.write(bufferedImage, "png", cacheFile);
 						cleanCache(cachePath, requestedFile, fileType);
 						file=cacheFile;
