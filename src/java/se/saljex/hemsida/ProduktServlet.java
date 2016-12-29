@@ -64,10 +64,10 @@ public class ProduktServlet extends HttpServlet {
 				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
 				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:type\" content=\"product\">");
 				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:image\" content=\"");
-				Const.getInitData(request).addExtraHTMLHeaderContent(Const.getArtStorBildURL(p));
+				Const.getInitData(request).addExtraHTMLHeaderContent(Const.getArtFullBildURL(p));
 				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
 				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:image:secure_url\" content=\"");
-				Const.getInitData(request).addExtraHTMLHeaderContent(Const.getArtStorBildURL(p));
+				Const.getInitData(request).addExtraHTMLHeaderContent(Const.getArtFullBildURL(p));
 				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
 				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:description\" content=\"");
 				Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(p.getKortBeskrivning()));

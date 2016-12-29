@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import se.saljex.sxlibrary.SXUtil;
 
 /**
  *
@@ -294,11 +295,27 @@ public class Const {
 		return a.getAntalSaljpack().equals(1.0) ? getFormatEnhet(a.getEnhet()) : "x " + getAnpassade2Decimaler(a.getAntalSaljpack()) + getFormatEnhet(a.getEnhet());
 	}
 	
-	public static String getArtBildURL(String artnr, Integer size) {
-		if (size == null ) size=50;
+	public static String getArtFullBildURL(String artnr) {
+		return getArtBildURLWithSizeString(artnr, null);
+	}
+	public static String getArtFullBildURL(Produkt p) {
+		if (p.getAutoBildArtnr()!=null) return getArtFullBildURL(p.getAutoBildArtnr());
+		else if (p.getVarianter().size() > 0) return getArtFullBildURL(p.getVarianter().get(0).getArtnr());
+		else return "";		
+	}
+	
+	
+	
+	public static String getArtBildURLWithSizeString(String artnr, String sizeString) {
+		if (SXUtil.isEmpty(sizeString)) sizeString=""; else sizeString=sizeString+"/";
 		String bu = getStartupData().getBildURLLocal();
 		if (!bu.endsWith("/")) bu=bu+"/";
-		return bu + "s" + size + "/" + artnr + ".png";
+		return bu + sizeString  + artnr + ".png";
+	}
+	
+	public static String getArtBildURL(String artnr, Integer size) {
+		if (size == null ) size=50;
+		return getArtBildURLWithSizeString(artnr, "s"+size);
 	}
 	public static String getArtBildURL(String artnr) {
 		return getArtBildURL(artnr, 50);
