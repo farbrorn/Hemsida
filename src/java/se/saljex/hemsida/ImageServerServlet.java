@@ -148,7 +148,7 @@ public class ImageServerServlet extends HttpServlet {
 		Integer size = null;
 		//Första delsträngen är alltid tom då getPAthInfo returneras med inledande /
 		if (split.length>2) {
-			if (split[1].toLowerCase().startsWith("s")) { //Det är troligen en förminskning
+			if (split[1].toLowerCase().startsWith("s") || split[1].toLowerCase().startsWith("m")) { //
 				try {
 					size = new Integer(split[1].substring(1, split[1].length()));
 					
@@ -203,12 +203,29 @@ public class ImageServerServlet extends HttpServlet {
 					return;				 
 				}
 //				bufferedImage = ImageServer.resize(bufferedImage, bufferedImage.getType(),size);
-				bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.ULTRA_QUALITY, size);
-				ImageIO.write(bufferedImage, "png", cacheFile);
-				cleanCache(cachePath, requestedFile, fileType);
+				if (sizeString.startsWith("m")) { // Minsta mått vi vill ha på bilden
+					if (bufferedImage.getWidth() < size || bufferedImage.getHeight() < size) { //nu behöver vi skala upp
+						Double faktor;
+						if (bufferedImage.getWidth() > bufferedImage.getHeight()) {
+							faktor = Math.ceil(bufferedImage.getWidth()/bufferedImage.getHeight());
+						} else {
+							faktor = Math.ceil(bufferedImage.getHeight()/bufferedImage.getWidth());							
+						}
+						bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.ULTRA_QUALITY, size*faktor.intValue());
+						ImageIO.write(bufferedImage, "png", cacheFile);
+						cleanCache(cachePath, requestedFile, fileType);
+						file=cacheFile;
+					}
+				} else if (sizeString.startsWith("s")) {
+					bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.ULTRA_QUALITY, size);
+					ImageIO.write(bufferedImage, "png", cacheFile);
+					cleanCache(cachePath, requestedFile, fileType);
+					file=cacheFile;
+				}
 				
+			} else {
+				file=cacheFile;	//Om cachefilen finns
 			}
-			file=cacheFile;
 		}
 		
         // Prepare some variables. The ETag is an unique identifier of the file.

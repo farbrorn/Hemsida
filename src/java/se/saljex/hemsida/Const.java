@@ -295,6 +295,7 @@ public class Const {
 		return a.getAntalSaljpack().equals(1.0) ? getFormatEnhet(a.getEnhet()) : "x " + getAnpassade2Decimaler(a.getAntalSaljpack()) + getFormatEnhet(a.getEnhet());
 	}
 	
+
 	public static String getArtFullBildURL(String artnr) {
 		return getArtBildURLWithSizeString(artnr, null);
 	}
@@ -303,6 +304,19 @@ public class Const {
 		else if (p.getVarianter().size() > 0) return getArtFullBildURL(p.getVarianter().get(0).getArtnr());
 		else return "";		
 	}
+	
+	public static String getArtMinSizeBildURL(String artnr, int minSize) {
+		return getArtBildURLWithSizeString(artnr, "m"+minSize);
+	}
+	public static String getArtMinSizeBildURL(Produkt p, int minSize) {
+		if (p.getAutoBildArtnr()!=null) return getArtMinSizeBildURL(p.getAutoBildArtnr(), minSize);
+		else if (p.getVarianter().size() > 0) return getArtMinSizeBildURL(p.getVarianter().get(0).getArtnr(), minSize);
+		else return "";		
+	}
+	public static String getArtMinSizeBildURL(Produkt p) {
+		return getArtMinSizeBildURL(p, 250); //Minsta storlek förvald
+	}
+	
 	
 	
 	
