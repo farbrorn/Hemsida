@@ -72,6 +72,15 @@ public class ProduktServlet extends HttpServlet {
 				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:description\" content=\"");
 				Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(p.getKortBeskrivning()));
 				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:url\" content=\"");
+				StringBuffer reqURL = request.getRequestURL();
+				String qString=request.getQueryString();
+				if (qString!=null) {
+					reqURL.append("?");
+					reqURL.append(qString);
+				}
+				Const.getInitData(request).addExtraHTMLHeaderContent(reqURL.toString()); 
+				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
 				
 			}
 
