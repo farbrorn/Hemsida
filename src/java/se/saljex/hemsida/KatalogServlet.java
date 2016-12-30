@@ -78,21 +78,49 @@ public class KatalogServlet extends HttpServlet {
 			if (grpid==null && !showIndexPage) {
 				Const.getInitData(request).setMetaRobotsNoIndex(true);
 			}
-			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 			if (showIndexPage) {
+				if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 				request.getRequestDispatcher("/WEB-INF/katalog-index.jsp").include(request, response);
 
 			} else {
 
 				if (grpid==null) {
+					if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 					request.getRequestDispatcher("/WEB-INF/pagenotfound.jsp").include(request, response);				
 				} else {
-					KatalogHeaderInfo khInfo = kgl.getKatalogHeaderInfo(grpid);
+					KatalogHeaderInfo khInfo = kgl.getKatalogHeaderInfo(grpid); 
 
 					request.setAttribute(Const.ATTRIB_KATALOGHEADERINFO, khInfo);
+					ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr());
+					if (prod!=null && prod.size()>0) {
+						Produkt p = prod.get(1);
+						Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:title\" content=\"");
+						Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(khInfo.getKatalogGrupp().getRubrik()));
+						Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+						Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:type\" content=\"article\">");
+						Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:image\" content=\"");
+						Const.getInitData(request).addExtraHTMLHeaderContent(Const.getArtMinSizeBildURL(p,250));
+						Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+						Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:image:secure_url\" content=\"");
+						Const.getInitData(request).addExtraHTMLHeaderContent(Const.getArtMinSizeBildURL(p,250));
+						Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+						Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:description\" content=\"");
+						Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(khInfo.getKatalogGrupp().getText()));
+						Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+						Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:url\" content=\"");
+						StringBuffer reqURL = request.getRequestURL();
+						String qString=request.getQueryString();
+						if (qString!=null) {
+							reqURL.append("?");
+							reqURL.append(qString);
+						}
+						Const.getInitData(request).addExtraHTMLHeaderContent(reqURL.toString()); 
+						Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+						
+					}
+					if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 					request.getRequestDispatcher("/WEB-INF/katalog-gruppchildren.jsp").include(request, response);				
 
-					ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr());
 					if (prod==null || prod.size()<1) { 
 						ArrayList<Produkt> rekProd = SQLHandler.getRekommenderadeToplistaInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
 						if (rekProd!=null && rekProd.size() > 0) {
