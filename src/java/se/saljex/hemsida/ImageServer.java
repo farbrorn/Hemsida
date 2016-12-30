@@ -24,7 +24,8 @@ private String cachePath;
 	}
 	
 	
-	//resize to fit insida a box boxSize pixels widh and height
+	// s = resize to fit insida a box boxSize pixels widh and height
+	// m = resize o minimum size of box if not original size > size
 	public static BufferedImage resize(BufferedImage orgImg, int type, int boxSize){
 		int h = orgImg.getHeight();
 		int w = orgImg.getWidth();
