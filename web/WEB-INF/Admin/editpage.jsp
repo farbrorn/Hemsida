@@ -41,7 +41,9 @@ tinymce.init({
 <% } %>
 
 <%
-                                Page sida=PageHandler.getPage(request, request.getPathInfo());
+                                PageHandler pageHandler = new PageHandler(request, response);
+                                pageHandler.loadAndParsePage(request.getPathInfo());
+                                Page sida=pageHandler.getPage();
                                 if (sida==null) sida = new Page();
 
 %>

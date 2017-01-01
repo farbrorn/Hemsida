@@ -7,6 +7,6 @@
 
 <%@page import="se.saljex.hemsida.PageHandler"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
-<div class=""sid">
-     <%= PageHandler.parsePage(request, response, PageHandler.getPage(request, StartupData.getPageHome()).getHtml()) %>
+<div class="sid">
+     <% //PageHandler.parsePage(request, response, PageHandler.getPage(request, StartupData.getPageHome()).getHtml()) %>
 </div>

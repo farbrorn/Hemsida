@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import se.saljex.sxlibrary.SXUtil;
 
 /**
  *
@@ -39,27 +40,57 @@ public class PageServlet extends HttpServlet {
 		boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
 		Connection con = Const.getConnection(request);
 		try (PrintWriter out = response.getWriter()) {
-			String html=null;
+			PageHandler pageHandler = new PageHandler(request, response);
 			String sid=null;
 			try {
 				sid=request.getPathInfo();
 				if (sid!=null) {
-					Page page = PageHandler.getPage(request, sid);
-					if (page!=null) html=page.getHtml();
+					pageHandler.loadAndParsePage(sid);
 				}
 			} catch (SQLException e) {
 				Const.log("sql-fel i pageservlet " + e.toString());
 				e.printStackTrace();
 			}
+			
+			Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:title\" content=\"");
+			Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(pageHandler.getOgTitle()!=null ? pageHandler.getOgTitle() : pageHandler.getRubrik()));
+			Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+			Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:type\" content=\"");
+			Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(pageHandler.getOgType()!=null ? pageHandler.getOgTitle() : "article"));
+			Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+
+			if (!SXUtil.isEmpty(pageHandler.getOgImage())) {
+				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:image\" content=\"");
+				Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(pageHandler.getOgImage()));
+				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:image:secure_url\" content=\"");
+				Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(pageHandler.getOgImage()));
+				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+			}
+			if (!SXUtil.isEmpty(pageHandler.getOgDescription())) {
+				Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:description\" content=\"");
+				Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(pageHandler.getOgDescription()));
+				Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+			}
+			Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:url\" content=\"");
+			StringBuffer reqURL = request.getRequestURL();
+			String qString=request.getQueryString();
+			if (qString!=null) {
+				reqURL.append("?");
+				reqURL.append(qString);
+			}
+			Const.getInitData(request).addExtraHTMLHeaderContent(reqURL.toString()); 
+			Const.getInitData(request).addExtraHTMLHeaderContent("\">");
+
 
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 
-			if (html==null) {
+			if (!pageHandler.isPageParsed()) {
 				Const.getInitData(request).setMetaRobotsNoIndex(true);
 				request.getRequestDispatcher("/WEB-INF/pagenotfound.jsp").include(request, response);
 			} else {
 				out.print("<div class=\"sid\">");
-				out.print(PageHandler.parsePage(request, response, html));
+				out.print(pageHandler.getParsedHTML());
 				out.print("</div>");
 			}
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				

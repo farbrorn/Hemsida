@@ -16,9 +16,10 @@
 <% ArrayList<String> cards; %>
 
 <% cards = Const.getStartupData().getCardsMidBot();
+PageHandler pageHandler  = new PageHandler(request, response);
 for (String s : cards) { %>
     <div class="card">
-        <%= PageHandler.parsePage(request, response, s) %>
+        <%= pageHandler.parsePage(s) %>
     </div>    
 <% } %>
 
@@ -28,7 +29,7 @@ for (String s : cards) { %>
 <% cards = Const.getStartupData().getCardsRightTop();
 for (String s : cards) { %>
     <div class="card">
-        <%= PageHandler.parsePage(request, response, s) %>
+        <%= pageHandler.parsePage(s) %>
     </div>    
 <% } %>
                 <div class="card">
@@ -87,7 +88,7 @@ for (String s : cards) { %>
 <% cards = Const.getStartupData().getCardsRightBot();
 for (String s : cards) { %>
     <div class="card">
-        <%= PageHandler.parsePage(request, response, s) %>
+        <%= pageHandler.parsePage(s) %>
     </div>    
 <% } %>
         </div>

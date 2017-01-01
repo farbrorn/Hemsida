@@ -23,9 +23,54 @@ import javax.servlet.http.HttpServletResponseWrapper;
  */
 public class PageHandler {
 	
-	public static String parsePage(HttpServletRequest request, HttpServletResponse response, String html) throws IOException, ServletException{
-		HttpServletResponseWrapper wrap;
+	private Page sid=null;
+	private final StringBuilder parsed = new StringBuilder();
+	//Open graph
+	private String ogType = null;
+	private String ogDescription = null;
+	private String ogTitle = null;
+	private String ogImage = null;
+	
+	HttpServletRequest request;
+	HttpServletResponse response;
 
+	public PageHandler(HttpServletRequest request, HttpServletResponse response) {
+		this.request = request;
+		this.response = response;
+	}
+	
+	
+	
+
+	public Page getPage() {return sid; }
+	public String getParsedHTML() { return parsed.toString(); }
+
+	public boolean isPageParsed() { return parsed.length() > 0; }
+	
+	public String getOgType() {
+		return ogType;
+	}
+
+	public String getOgDescription() {
+		return ogDescription;
+	}
+
+	public String getOgTitle() {
+		return ogTitle;
+	}
+
+	public String getOgImage() {
+		return ogImage;
+	}
+	
+	public String getRubrik() { return sid.getRubrik(); }
+	
+	protected String parsePage() throws IOException, ServletException{
+		return parsePage(sid.getHtml());
+	}	
+	public String parsePage(String html) throws IOException, ServletException{
+		HttpServletResponseWrapper wrap;
+		
 		int pos=0;
 		int tPos = 0;
 		int tPos2 = 0;
@@ -33,7 +78,6 @@ public class PageHandler {
 		int vPos2=0;
 		int safeCn=0;
 		int acpos=0;
-		StringBuilder sb = new StringBuilder();
 		Produkt p;
 		Integer kid=null;
 		String action;
@@ -41,7 +85,7 @@ public class PageHandler {
 			while (safeCn++<10000) {
 				tPos= html.indexOf("<sx-",pos);
 				if (tPos < 0 ) {
-					sb.append(html.substring(pos, html.length()));
+					parsed.append(html.substring(pos, html.length()));
 					break;
 				}
 				acpos = html.indexOf(" ",tPos+4);
@@ -52,7 +96,7 @@ public class PageHandler {
 						if (vPos2 >= 0) {
 							tPos2 = html.indexOf(">", vPos2);
 							if (tPos2 >= 0) {
-								sb.append(html.substring(pos, tPos));
+								parsed.append(html.substring(pos, tPos));
 								kid=null;
 								action = html.substring(tPos+4, acpos).trim();
 								parameter = html.substring(vPos1+7, vPos2);
@@ -66,48 +110,56 @@ public class PageHandler {
 											request.setAttribute(Const.ATTRIB_PRODUKT, p);
 											wrap = getRresponseWrapper(response);
 											request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, wrap);
-											sb.append(wrap.toString());
-										} catch (SQLException e) { sb.append("Fel vid iläsning av data"); }
+											parsed.append(wrap.toString());
+										} catch (SQLException e) { parsed.append("Fel vid iläsning av data"); }
 									}
 								} else if ("asl".equals(action)) {
 									String[] split = parameter.split(",");
 									if (split.length > 1) try { kid = new Integer(split[0]); }  catch (NumberFormatException e) {}
 									p=null;
 									try {
-										if (split.length > 1) if (kid==null) sb.append("Felaktigt kid"); else
+										if (split.length > 1) if (kid==null) parsed.append("Felaktigt kid"); else
 												p = SQLHandler.getProdukt(Const.getConnection(request), kid, Const.getSessionData(request).getAvtalsKundnr());
 										else p = SQLHandler.getProduktFromArtnr(Const.getConnection(request), split[0], Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr());
 										
 										if (p== null) {
-											sb.append("Produkten saknas");
+											parsed.append("Produkten saknas");
 										} else {
 											request.setAttribute(Const.ATTRIB_PRODUKT, p);
 											request.setAttribute(Const.ATTRIB_AID, split[1]);
 											wrap = getRresponseWrapper(response);
 											request.getRequestDispatcher("/WEB-INF/asl-row.jsp").include(request, wrap);
-											sb.append(wrap.toString());
+											parsed.append(wrap.toString());
 										}
-									} catch (SQLException e) { sb.append("Fel vid iläsning av data"); e.printStackTrace();}
+									} catch (SQLException e) { parsed.append("Fel vid iläsning av data"); e.printStackTrace();}
+								} else if ("og:type".equals(action)) {
+									ogType = parameter;
+								} else if ("og:title".equals(action)) {
+									ogTitle = parameter;
+								} else if ("og:description".equals(action)) {
+									ogDescription = parameter;
+								} else if ("og:image".equals(action)) {
+									ogImage = parameter;
 								}
 							} else {
-								sb.append(html.substring(pos,vPos2));
+								parsed.append(html.substring(pos,vPos2));
 								pos = vPos2;            
 							}
 						} else {
-							sb.append(html.substring(pos,vPos1+7));
+							parsed.append(html.substring(pos,vPos1+7));
 							pos = vPos1+7;            
 						}
 					} else {
-						sb.append(html.substring(pos,acpos+1));
+						parsed.append(html.substring(pos,acpos+1));
 						pos = acpos+1;
 					}
 				} else {
-					sb.append(html.substring(pos,tPos+4));
+					parsed.append(html.substring(pos,tPos+4));
 					pos = tPos+4;
 				}
 					
 			}
-			return sb.toString();
+			return parsed.toString();
 	}
 
 
@@ -125,21 +177,22 @@ public class PageHandler {
 		return sid;
 	}
 	
-	public static Page getPage(HttpServletRequest request, String sidId) throws SQLException {
+	public String loadAndParsePage(String sidId) throws SQLException, IOException, ServletException {
 		sidId=removeLeadingTrailingSlash(sidId);
 		PreparedStatement ps = Const.getConnection(request).prepareStatement("select sidid, status, rubrik, html from hemsidasidor where sidid=? ");
 		ps.setString(1, sidId);
 		ResultSet rs = ps.executeQuery();
-		Page sid=null;
 		if (rs.next()) {
 			sid=new Page();
 			sid.setSidId(rs.getString(1));
 			sid.setStatus(rs.getString(2));
 			sid.setRubrik(rs.getString(3));
 			sid.setHtml(rs.getString(4));
-			
+			return parsePage();
+		} else {
+			return null;
 		}
-		return sid;
+		
 	}
 	
 	public static void savePage(HttpServletRequest request, Page sida) throws SQLException {
