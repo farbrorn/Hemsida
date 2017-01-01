@@ -92,6 +92,10 @@ tinymce.init({
             <tr><td><%= Const.toHtml("<sx-als valu\"kid, aid\"") %></td><td>Visa liten artikelrad</td> </tr>
             <tr><td><%= Const.toHtml("<sx-als valu\"aid\"") %></td><td>Visa liten artikelrad från artikelnummer</td> </tr>
             <tr><td><%= Const.toHtml("<sx-kbl valu\"kid\"") %></td><td>Litet artikelblock på en kid</td> </tr>
+            <tr><td><%= Const.toHtml("<sx-og:title valu\"bekrivning\"") %></td><td>Opengraph titel (default värde finns)</td> </tr>
+            <tr><td><%= Const.toHtml("<sx-og:description valu\"bekrivning\"") %></td><td>Opengraph beskrivning</td> </tr>
+            <tr><td><%= Const.toHtml("<sx-og:image valu\"url\"") %></td><td>Opengraph bild url</td> </tr>
+            <tr><td><%= Const.toHtml("<sx-og:type valu\"typ\"") %></td><td>Opengraph type (default värde finns)</td> </tr>
         </table>
     </body>
 </html>
