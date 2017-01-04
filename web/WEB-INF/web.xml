@@ -84,6 +84,10 @@
         <servlet-name>SetPropertyServlet</servlet-name>
         <servlet-class>se.saljex.hemsida.SetPropertyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OutletServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.OutletServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>t1</servlet-name>
         <url-pattern>/t1</url-pattern>
@@ -139,6 +143,10 @@
     <servlet-mapping>
         <servlet-name>SetPropertyServlet</servlet-name>
         <url-pattern>/SetProperty</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OutletServlet</servlet-name>
+        <url-pattern>/outlet/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

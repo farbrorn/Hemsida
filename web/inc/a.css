@@ -925,84 +925,115 @@
             .kbl-t-ilager {
                 font-size: 70%;
             }
+
+            
+            
+            
+            
             
             
             .kbb {
                 text-align: left;
             }
             .kbb-block {
-                min-height: 180px;
+                min-height: 240px;
                 max-height: 1000px;
-                width: 226px;
+                width: 350px;
                 display: inline-block;
-                vertical-align: middle;
-                padding: 2px 19px 14px 19px;
+                padding: 2px 23px 14px 23px;
                 margin: 0px 0px 14px 0px;
                 border-bottom: 1px solid gray;
+                border: 1px solid gray;
                 position: relative;
                 text-align: left;
+                vertical-align: top;
             }
             .kbb-block img {
-                max-width: 180px;
-                max-height: 140px;
+                max-width: 200px;
+                max-height: 160px;
+                vertical-align: middle;
+            }
+            .kbb-block a {
+                text-decoration: none; 
+                color: inherit;
+            }
+            .kbb-block a:hover {
+                text-decoration: underline; 
             }
             .kbb-t-img {
-                width: 220px;
-                height: 144px;
+                width: 200px;
+                height: 160px;
                 padding: 2px 0px 2px 0px;
                 display: table-cell;
-                vertical-align: bottom;
+                vertical-align: middle;
                 text-align: center;
             }
-            .kbb-t-variant select {
-                width: 180px;
-                font-size: 120%;
-            }
             .kbb-t-namn {
-                height: 48px;
-                padding-top: 12px;
-            }
-            .kbb-t-besk {
-                height: 44px;
+                height: 36px;
+                overflow: hidden;
+                margin-top: 10px;
             }
             .kbb-t-namn h2 {
-                font-size: 120%;
+                font-size: 100%;
+                font-weight: bold;
+            }
+            .kbb-t-besk {
+                min-height: 42px;
+//                overflow: hidden;
             }
             .kbb-t-variant {
-                height: 22px;
-                padding: 8px 0px 8px 0px;
+//                height: 24px;
             }
-            .kbb-t-variant-prompt {
-                
+            .kbb-t-variant-namn {
+                width: 190px;
             }
-
-            .kbb-t-antal-kop {
-                height: 30px;
-                max-width: 316px;
+            .kbb-t-variant-antal {
+                display:none;
+            }
+            .kbb-t-variant-namn-small {
+                display: block;
+                float:none;
+            }
+            .kbb-t-variant-saldo {
+                width: 100%;
                 text-align: right;
-                padding: 18px 0px 0px 0px; 
+            }
+            .kbb-t-variant-pris {
+                width: 80px;
+            }
+            .kbb-t-variant-pris-kop {
+                width: 146px;
+            }
+            .kbb-t-variant-pris-kop-hold {
+                float: right;
+            }
+            .kbb-t-antal-kop {
+                height: 20px;
+                max-width: 150px;
+                text-align: right;
+                padding: 8px 0px 0px 0px;
             }
             .kbb-t-pris {
-                min-width: 60px;
                 text-align: right;
-                background: #2222ff;
-                color: white;
+                /* background: #2222ff; */
+                /* color: white;*/
+                box-shadow: 0px 0px 40px #ff0000;
                 position:absolute;
-                right: 0;
-                top: 8;
+                right: 32;
+                top: 32;
                 padding: 4px 8px 4px 8px;
+                border-radius: 20px;
+                border: 1px solid red;
+                
             }
             .kbb-t-pris-pris {
-                font-size: 130%;
                 font-weight: bold;
-                color: white;
             }
             .kbb-t-pris-per {
-                font-size: 120%;
-                color: white;
                 position: relative;
                 bottom: -1px;
             }
+            
             .kbb-t-antal {
                 display: inline-block;
                 font-size: 80%;
@@ -1016,10 +1047,12 @@
                 display: inline-block;
                 text-align: center;
                 font-weight:bold;
-                vertical-align: middle;
-                font-size:120%;
                 padding: 4px 0px 4px 0px;
             }
+            .kbb-t-ilager {
+                font-size: 70%;
+            }
+            
             
             .asl-row {
                 
@@ -1092,6 +1125,10 @@
                 font-weight: normal;
                 font-size: 140%;
                 padding: 4px 0px 0px 8px;
+            }
+            .katalog-head-sokvag p {
+                font-weight: normal;
+                padding: 4px 0px 4px 8px;
             }
             .katalog-head-sokvag-grp {
                 display: inline-block;

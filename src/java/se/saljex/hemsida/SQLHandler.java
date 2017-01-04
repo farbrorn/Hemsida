@@ -69,7 +69,39 @@ public class SQLHandler {
 		return getSQLKatalogGrupper(rootGrp, includeRootGrp, true);
 	}	
 	
+
+	// returnerar grupper i en grupp. returnerar ine info om antal klasar mm. Grupperna returneras även om de är med i inställningarnas exclude grupllista
+	public static List<KatalogGrupp> getGrupperInGrupp(Connection con, Integer grpid)  throws SQLException {
+		if (grpid==null) return null;
+		List<KatalogGrupp> akg = new ArrayList<>();
+		
+		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html from sxfakt.artgrp kgl where prevgrpid= ? order by sortorder, grpid";
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setInt(1, grpid);
+		ResultSet rs = ps.executeQuery();
+		KatalogGrupp kg;
+		while (rs.next()) {
+			kg = new KatalogGrupp(rs.getInt("grpid"), rs.getInt("prevgrpid"), rs.getInt("sortorder"), rs.getString("rubrik"), rs.getString("text"), rs.getString("html"), null, null, null, null);
+			akg.add(kg); 
+		}
+		return akg;
+		
+	}
 	
+	public static KatalogGrupp getGrupp(Connection con, Integer grpid)  throws SQLException {
+		if (grpid==null) return null;
+		
+		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html from sxfakt.artgrp kgl where grpid= ? order by sortorder, grpid";
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setInt(1, grpid);
+		ResultSet rs = ps.executeQuery();
+		KatalogGrupp kg=null;
+		if (rs.next()) {
+			kg = new KatalogGrupp(rs.getInt("grpid"), rs.getInt("prevgrpid"), rs.getInt("sortorder"), rs.getString("rubrik"), rs.getString("text"), rs.getString("html"), null, null, null, null);
+		}
+		return kg;
+		
+	}
 	
 	public static KatalogGruppLista getKatalogGruppLista(Connection con) throws SQLException {
 		KatalogGruppLista kgl = new KatalogGruppLista();
@@ -718,11 +750,19 @@ public class SQLHandler {
 //		return getProdukterInGrupp(con, grpId, Const.getDefaultKundnr());
 //	}
 	public static ArrayList<Produkt> getProdukterInGrupp(Connection con, Integer grpId, String kundnr) throws SQLException {
+		return getProdukterInGrupp(con, grpId, kundnr, false);
+	}
+
+	public static ArrayList<Produkt> getProdukterInGrupp(Connection con, Integer grpId, String kundnr, boolean allaLagersaldon) throws SQLException {
 		ArrayList<Produkt> produkter = new ArrayList<>();
 		String q = "select  " + V_SELECT_COLS
 				+ " from vbutikart v join artgrplank agl on agl.klasid=v.ak_klasid "
-				+ " where agl.grpid=? and v.k_nummer=? and v.l_lagernr= " + StartupData.getDefultLagernr() + " "
-				+ " order by agl.sortorder, v.ak_klasid, v.akl_sortorder, v.nummer, v.lid_lagernr";
+				+ " where agl.grpid=? and v.k_nummer=? and v.l_lagernr ";
+		
+		if (allaLagersaldon) q += " in ( " + StartupData.getAktivaLagernrAsString() + " ) ";
+		else q += " = " + StartupData.getDefultLagernr() + " ";
+		
+		q += " order by agl.sortorder, v.ak_klasid, v.akl_sortorder, v.nummer, v.lid_lagernr";
 
 		PreparedStatement ps = con.prepareStatement(q);
 		ps.setInt(1, grpId);
@@ -732,6 +772,7 @@ public class SQLHandler {
 		Integer temp_klasid=null;
 		String temp_artnr=null;
 		Artikel a=null;
+		LagerSaldo ls=null;
 		while (rs.next()) {
 			if (temp_klasid== null || !temp_klasid.equals(rs.getInt("ak_klasid"))) {
 				p = new Produkt();
@@ -751,7 +792,7 @@ public class SQLHandler {
 				temp_artnr = rs.getString("nummer");
 			}
 			
-			LagerSaldo ls = new LagerSaldo();
+			ls  = new LagerSaldo();
 			ls.setBest(rs.getDouble("l_best"));
 			ls.setIlager(rs.getDouble("l_ilager"));
 			ls.setIorder(rs.getDouble("l_iorder"));

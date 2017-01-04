@@ -35,6 +35,7 @@ public class Const {
     public static final String ATTRIB_LIKNANDE_PRODUKTER = "liknande-produkter";
     public static final String ATTRIB_TILLBEHOR_PRODUKTER = "tillbehor-produkter";
     public static final String ATTRIB_SAMKOPTA_PRODUKTER = "samkopta-produkter";
+    public static final String ATTRIB_KATALOGGRUPP = "kataloggrupp";
     public static final String ATTRIB_KATALOGGRUPPLISTA = "kataloggrupplista";
     public static final String ATTRIB_KATALOGHEADERINFO = "katalogheaderinfo";
     public static final String ATTRIB_KATALOGAVDELNING = "katalogavdelning";
