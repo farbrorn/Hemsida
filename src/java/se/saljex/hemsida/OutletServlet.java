@@ -52,7 +52,8 @@ public class OutletServlet extends HttpServlet {
 			String logID=null;
 			logID = Const.getStartupData().getConfig("Hemsida-OutletGruppNr", "");
 			if (logID.length()>0) grpid = new Integer(logID);  
-			
+			if (underGrpid!=null) logID = ""+underGrpid;
+
 
 //			KatalogHeaderInfo khInfo = null;
 			List<KatalogGrupp> undergrupper = null; 
@@ -122,7 +123,7 @@ public class OutletServlet extends HttpServlet {
 
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
 			
-			Const.loggaSidvisning(request, "katalog", logID);
+			Const.loggaSidvisning(request, "outlet", logID);
 			
 			
 		} catch (SQLException e) { e.printStackTrace(); throw new ServletException("SQL-Fel");}
