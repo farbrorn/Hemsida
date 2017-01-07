@@ -384,7 +384,10 @@ public class Const {
 	}
 	
 	public static void loggaSidvisning(HttpServletRequest request, String servlet, String id) {
-		if (StartupData.isLoggaSidvisningar() && (Const.getSessionData(request).isUserInloggad() || startupData.isLoggaSidvisningarEjInloggadLocal())) {
+		loggaSidvisning(request, servlet, id, false);
+	}
+	public static void loggaSidvisning(HttpServletRequest request, String servlet, String id, boolean forceLogging) {
+		if (forceLogging || (StartupData.isLoggaSidvisningar() && (Const.getSessionData(request).isUserInloggad() || startupData.isLoggaSidvisningarEjInloggadLocal()))) {
 			SQLHandler.log(Const.getConnection(request), Const.getSessionData(request).getInloggadKontaktId(), servlet, id);
 		}
 	}

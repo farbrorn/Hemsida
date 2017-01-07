@@ -123,7 +123,7 @@ public class OutletServlet extends HttpServlet {
 
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				
 			
-			Const.loggaSidvisning(request, "outlet", logID);
+			Const.loggaSidvisning(request, "outlet", logID, true);
 			
 			
 		} catch (SQLException e) { e.printStackTrace(); throw new ServletException("SQL-Fel");}
