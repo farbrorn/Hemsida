@@ -280,7 +280,7 @@ public class SQLHandler {
 			p.setBeskrivning(rs.getString(3));
 			p.setBeskrivningHTML(rs.getString(4));
 			p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
-			p.setAutoBildArtnr(rs.getString("bildartnr"));
+			p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? art.getArtnr() : rs.getString("bildartnr"));
 			vk.setArt(art);
 			vk.setP(p);
 		}
@@ -613,7 +613,7 @@ public class SQLHandler {
 				p.setRubrik(rs.getString(2));
 				p.setBeskrivningHTML(rs.getString(4));
 				p.setBeskrivning(rs.getString(3));
-				p.setAutoBildArtnr(rs.getString("bildartnr"));
+				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? rs.getString("nummer") : rs.getString("bildartnr"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
 			}
 			
@@ -782,7 +782,7 @@ public class SQLHandler {
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
 				temp_klasid = p.getKlasid();
-				p.setAutoBildArtnr(rs.getString("bildartnr"));
+				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? rs.getString("nummer") : rs.getString("bildartnr"));
 				produkter.add(p);
 
 			}
@@ -898,7 +898,7 @@ public class SQLHandler {
 				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
-				p.setAutoBildArtnr(rs.getString("bildartnr"));
+				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? rs.getString("nummer") : rs.getString("bildartnr"));
 				temp_klasid = p.getKlasid();
 			}
 			
@@ -952,7 +952,7 @@ public class SQLHandler {
 				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
-				p.setAutoBildArtnr(rs.getString("bildartnr"));
+				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? rs.getString("nummer") : rs.getString("bildartnr"));
 				temp_klasid = p.getKlasid();
 			}
 			
