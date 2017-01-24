@@ -263,7 +263,7 @@ public class Const {
 		Long l = Math.round(pris*100);
 		Long p = l/100;
 		p = p*100; //Priset med 00 som ören
-		if (p.equals(l) && p.compareTo((long)10000)>0) { //priset har inga ören
+		if (p.equals(l) && p.compareTo((long)49900)>0) { //priset har inga ören
 			myFormatter = DecimalFormatter0Dec;
 		} else {
 			myFormatter = DecimalFormatter2Dec;
