@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +38,7 @@ public class KatalogServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
 
-			
+			boolean printAsKatalog = "kat".equals(request.getParameter("view"));
 			boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
 			
 			Integer grpid = null;
@@ -133,12 +134,23 @@ public class KatalogServlet extends HttpServlet {
 							request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 						}
 					} else {
-						request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
+						if (printAsKatalog) 
+							request.getRequestDispatcher("/WEB-INF/kat-header.jsp").include(request, response);	
+						else 
+							request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
 						for (Produkt p : prod) {
 							request.setAttribute(Const.ATTRIB_PRODUKT, p);
-							request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
+							if (printAsKatalog)
+								request.getRequestDispatcher("/WEB-INF/kat-row.jsp").include(request, response);				
+							else
+								request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
+								
 						}
-						request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
+						if (printAsKatalog)
+							request.getRequestDispatcher("/WEB-INF/kat-footer.jsp").include(request, response);				
+						else
+							request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
+							
 					}
 				}
 			}

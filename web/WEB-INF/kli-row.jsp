@@ -14,7 +14,7 @@
                         <div class="kli-t-row kli-odd">
                             <a href="<%= request.getContextPath() + "/produkt/"+ p.getKlasid() %>">
                                 <div class="kli-t-img">
-                                    <img src="<%= Const.getArtBildURL(p) %>">
+                                    <img src="<%= Const.getArtBildURL(p) %>" onerror="this.style.display='none'">
                                 </div>
                             </a>
                             <div class="kli-t-text">

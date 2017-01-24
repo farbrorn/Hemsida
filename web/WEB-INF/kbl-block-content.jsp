@@ -11,7 +11,7 @@
 <div class="kbl-block">
     <a href="<%= request.getContextPath() + "/produkt/"+ p.getKlasid() %>">
                             <div class="kbl-t-img">
-                                <img src="<%= Const.getArtBildURL(p) %>">
+                                <img src="<%= Const.getArtBildURL(p) %>" onerror="this.style.display='none'">
                             </div>
                             <div class="kbl-t-namn">
                                 <h2><%= Const.toHtml(p.getRubrik()) %></h2>

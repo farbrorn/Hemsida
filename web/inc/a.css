@@ -927,9 +927,69 @@
             }
 
             
-            
-            
-            
+            .kat {
+                font-size: 14px;
+                
+            }
+            .kat table {
+                border-collapse: collapse;
+/*                page-break-inside: auto;
+                page-break-before: avoid;
+  */          }
+            .kat tr {
+  /*              page-break-inside: avoid;
+                page-break-after: auto;
+  */          }
+            .kat-main-table td, tr {
+                /*page-break-inside: avoid;*/
+            }
+            .kat h2 {
+                font-size: 100%;
+                font-weight: bold;
+            }
+            .kat-td-bild {
+                width: 70px;
+                vertical-align: top;
+            }
+            .kat-td-cont {
+                padding-bottom: 12px;
+            }
+            .kat-t-besk {
+                
+            }
+            .kat-table-art {
+                
+            }
+            .kat-table-art th {
+                font-size: 60%;
+            }
+            .kat-a-td-artnr {
+                width: 90px;
+                text-align: left;
+                
+            }
+            .kat-a-td-namn {
+                width: 160px;
+                text-align: left;
+            }
+            .kat-a-td-pris {
+                width: 80px;
+                text-align: right;
+                padding-right: 4px;
+            }
+            .kat-a-td-enhet {
+                width: 50px;
+                text-align: left;
+            }
+            .kat-a-td-rsk {
+                width: 60px;
+                font-size: 80%;
+                text-align: left;
+            }
+            .kat-a-td-kop {
+                width: 150px;
+                text-align: left;
+            }
             
             
             .kbb {
@@ -1235,6 +1295,19 @@
                 line-height: 50px;
             }
             
+            .cookiesmessage {
+                position: fixed;
+                left: 0px;
+                right: 0px; 
+                bottom: 0px; 
+                min-height: 40px; 
+                line-height: 40px; 
+                text-align: center; 
+                color: white; 
+                background: black; 
+                z-index: 1000;                
+            }
+            
             @media all and (max-width: 400px) {
                 .kbl-block {
                     padding-right: 2px;
@@ -1295,3 +1368,30 @@
                     padding-top: 78px;
                 }
             }
+            
+            @media print {
+                .katalog-head-nav, .site-header-sok, .site-header-abar, .kat-td-kop, .col-l, .col-r, .noprint, .cookiesmessage  { display: none;}
+                .col-m, .card {
+                    display: block;
+                    padding: 0px;
+                    margin: 0px;
+                }
+                .site-header {
+                    border-bottom: 1px solid black;  
+                    pposition: relative;
+                    zz-index: -99999;
+                    min-height: 0px;
+                }
+                .main {
+                    padding: 0px;
+                }
+                body {
+                    position: relative;
+                    top: 60px;
+                }
+            }
+            @page { 
+                size: A4;
+                margin: 2cm;
+            }
+            

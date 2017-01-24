@@ -18,7 +18,7 @@
             <div class="asl-row">
                 <a href="<%= request.getContextPath() + "/produkt/"+ p.getKlasid() %>">
                     <div class="asl-img">
-                        <img src="<%= Const.getArtBildURL(p) %>">
+                        <img src="<%= Const.getArtBildURL(p) %> onerror="this.style.display='none'"s">
                     </div>
                 </a>
                 <div class="asl-text">
