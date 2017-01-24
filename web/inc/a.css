@@ -1378,7 +1378,7 @@
                 }
                 .site-header {
                     border-bottom: 1px solid black;  
-                    pposition: relative;
+                    position: relative;
                     zz-index: -99999;
                     min-height: 0px;
                 }
@@ -1386,8 +1386,11 @@
                     padding: 0px;
                 }
                 body {
-                    position: relative;
-                    top: 60px;
+                    /*position: relative;
+                    top: 60px;*/
+                }
+                .katalog-head-sokvag {
+                    padding-top: 12px;
                 }
             }
             @page { 
