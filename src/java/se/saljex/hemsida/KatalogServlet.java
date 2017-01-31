@@ -94,7 +94,7 @@ public class KatalogServlet extends HttpServlet {
 					request.setAttribute(Const.ATTRIB_KATALOGHEADERINFO, khInfo);
 					ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr());
 					if (prod!=null && prod.size()>0) {
-						Produkt p = prod.get(1);
+						Produkt p = prod.get(0);
 						Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:title\" content=\"");
 						Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(khInfo.getKatalogGrupp().getRubrik()));
 						Const.getInitData(request).addExtraHTMLHeaderContent("\">");

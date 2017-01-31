@@ -83,7 +83,7 @@ public class OutletServlet extends HttpServlet {
 				if (undergruppHittad) tempGrpid = underGrpid;
 				ArrayList<Produkt> prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), tempGrpid, Const.getSessionData(request).getAvtalsKundnr(), true);
 				if (prod!=null && prod.size()>0) {
-					Produkt p = prod.get(1);
+					Produkt p = prod.get(0);
 					Const.getInitData(request).addExtraHTMLHeaderContent("<meta property=\"og:title\" content=\"");
 					Const.getInitData(request).addExtraHTMLHeaderContent(Const.toHtml(kg.getRubrik()));
 					Const.getInitData(request).addExtraHTMLHeaderContent("\">");
