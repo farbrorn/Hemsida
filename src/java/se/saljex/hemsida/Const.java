@@ -43,7 +43,8 @@ public class Const {
     public static final String ATTRIB_SESSIONDATA = "sessiondata";
     public static final String ATTRIB_AID = "artikelnummer";
     public static final String ATTRIB_KID = "klasid";
-	
+	public static final String ATTRIB_PRINTASLISTPRIS = "printaslistpris";
+
 	
 	public static final String PARAM_VARUKORG_AC = "vkaction";
 	public static final String PARAM_VARUKORG_AC_ADD = "add";

@@ -11,12 +11,15 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import se.saljex.sxlibrary.SXUtil;
 
 /**
  *
@@ -38,7 +41,19 @@ public class KatalogServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		try (PrintWriter out = response.getWriter()) {
 
-			boolean printAsKatalog = "kat".equals(request.getParameter("view"));
+			boolean printAsKatalog = false;
+			boolean tvingaBrutto = false;
+			boolean printUndergrupp = false;
+			if ("kat".equals(request.getParameter("view"))) {
+				printAsKatalog = true;
+				tvingaBrutto = true;
+			} else if ("lst".equals(request.getParameter("view"))) {
+				printAsKatalog = true;
+				tvingaBrutto = false;				
+			}
+			if ("true".equals(request.getParameter("ug"))) printUndergrupp = true;
+			
+			
 			boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
 			
 			Integer grpid = null;
@@ -88,7 +103,7 @@ public class KatalogServlet extends HttpServlet {
 				if (grpid==null) {
 					if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 					request.getRequestDispatcher("/WEB-INF/pagenotfound.jsp").include(request, response);				
-				} else {
+				} else { 
 					KatalogHeaderInfo khInfo = kgl.getKatalogHeaderInfo(grpid); 
 
 					request.setAttribute(Const.ATTRIB_KATALOGHEADERINFO, khInfo);
@@ -120,9 +135,10 @@ public class KatalogServlet extends HttpServlet {
 						
 					}
 					if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
-					request.getRequestDispatcher("/WEB-INF/katalog-gruppchildren.jsp").include(request, response);				
+					
+					if(!printUndergrupp) request.getRequestDispatcher("/WEB-INF/katalog-gruppchildren.jsp").include(request, response);				
 
-					if (prod==null || prod.size()<1) { 
+					if ((prod==null || prod.size()<1) && !printUndergrupp) { 
 						ArrayList<Produkt> rekProd = SQLHandler.getRekommenderadeToplistaInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
 						if (rekProd!=null && rekProd.size() > 0) {
 							out.print("<h3>Rekommenderat</h3>");
@@ -138,14 +154,19 @@ public class KatalogServlet extends HttpServlet {
 							request.getRequestDispatcher("/WEB-INF/kat-header.jsp").include(request, response);	
 						else 
 							request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
-						for (Produkt p : prod) {
-							request.setAttribute(Const.ATTRIB_PRODUKT, p);
-							if (printAsKatalog)
-								request.getRequestDispatcher("/WEB-INF/kat-row.jsp").include(request, response);				
-							else
-								request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
-								
+						
+						if (printUndergrupp) printHuvudgruppRubrik(out, kgl.getGrupper().get(grpid).getRubrik());
+						printProdukt(request, response, prod, printAsKatalog, tvingaBrutto);
+						if (printUndergrupp) { //Skriv undergrupper i en nivå
+							for (Map.Entry<Integer, KatalogGrupp> entry : kgl.getGrupper().entrySet()) {
+								if (grpid.equals(entry.getValue().getPrevGrpId())) {
+									printUndergruppRubrik(out, entry.getValue().getRubrik());
+									prod = SQLHandler.getProdukterInGrupp(Const.getConnection(request), entry.getValue().getGrpId(), Const.getSessionData(request).getAvtalsKundnr());
+									printProdukt(request, response, prod, printAsKatalog, tvingaBrutto);
+								}
+							}
 						}
+						
 						if (printAsKatalog)
 							request.getRequestDispatcher("/WEB-INF/kat-footer.jsp").include(request, response);				
 						else
@@ -161,6 +182,29 @@ public class KatalogServlet extends HttpServlet {
 			
 			
 		} catch (SQLException e) { e.printStackTrace(); throw new ServletException("SQL-Fel");}
+	}
+	
+	private void printProdukt(HttpServletRequest request, HttpServletResponse response, ArrayList<Produkt> prod, boolean printAsKatalog, boolean tvingaBrutto) throws ServletException, IOException {
+			if (prod==null || prod.size() < 1) return;
+						for (Produkt p : prod) {
+							request.setAttribute(Const.ATTRIB_PRODUKT, p);
+							if (printAsKatalog) {
+								request.setAttribute(Const.ATTRIB_PRINTASLISTPRIS, tvingaBrutto);
+								request.getRequestDispatcher("/WEB-INF/kat-row.jsp").include(request, response);				
+							} else
+								request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
+								
+						}
+							
+					
+		
+	}
+	
+	private void printUndergruppRubrik(PrintWriter out, String rubrik) {
+		out.print("<h3>" + SXUtil.toHtml(rubrik) + "</h3>");
+	}
+	private void printHuvudgruppRubrik(PrintWriter out, String rubrik) {
+		out.print("<h2>" + SXUtil.toHtml(rubrik) + "</h2>");
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
