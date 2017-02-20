@@ -33,8 +33,8 @@ public class SQLHandler {
 
 		if (!kortSelectsats)
 		return " (with recursive kataloggrupper as ( "
-				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[ rubrik, sortorder::varchar, grpid::varchar] as sortpath, grpid as avdelning from artgrp where " + st + " and grpid not in (" + s + ")" 
-				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, depth+1 , sortpath || a.rubrik || a.sortorder::varchar || a.grpid::varchar, avdelning from artgrp a  "
+				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[ rubrik, sortorder::varchar, grpid::varchar] as sortpath, grpid as avdelning, array[grpid] as path from artgrp where " + st + " and grpid not in (" + s + ")" 
+				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, depth+1 , sortpath || a.rubrik || a.sortorder::varchar || a.grpid::varchar, avdelning, path || a.grpid from artgrp a  "
 				+ " join kataloggrupper  on kataloggrupper.grpid=a.prevgrpid and kataloggrupper.grpid not in (" + s + ")) "
 				+ " select * from kataloggrupper order by sortpath) ";
 		else
@@ -110,9 +110,9 @@ public class SQLHandler {
 			avdelningar = new ArrayList<>();
 		}
 		kgl.setAvdelningar(avdelningar);
-		String q = "select kgl.grpid, kgl.prevgrpid, kgl.rubrik, kgl.text, kgl.sortorder, kgl.html ,kgl.depth, kgl.sortpath, count(distinct agl.klasid), kgl.avdelning from " + getSQLKatalogGrupper() + " kgl "
+		String q = "select kgl.grpid, kgl.prevgrpid, kgl.rubrik, kgl.text, kgl.sortorder, kgl.html ,kgl.depth, kgl.sortpath, count(distinct agl.klasid), kgl.avdelning, kgl.path from " + getSQLKatalogGrupper() + " kgl "
 				+ " left outer join artgrplank agl on agl.grpid=kgl.grpid "
-				+ " group by kgl.grpid, kgl.prevgrpid, kgl.rubrik, kgl.text, kgl.sortorder, kgl.html ,kgl.depth, kgl.sortpath, kgl.avdelning order by kgl.sortpath";
+				+ " group by kgl.grpid, kgl.prevgrpid, kgl.rubrik, kgl.text, kgl.sortorder, kgl.html ,kgl.depth, kgl.sortpath, kgl.avdelning, kgl.path order by kgl.sortpath";
 		PreparedStatement ps = con.prepareStatement(q);
 		ResultSet rs = ps.executeQuery();
 		KatalogGrupp kg;
@@ -121,7 +121,7 @@ public class SQLHandler {
 			if (rs.getInt(7) == 0) {
 				avdelning = rs.getInt(1);
 			}
-			kg = new KatalogGrupp(rs.getInt(1), rs.getInt(2), rs.getInt(5), rs.getString(3), rs.getString(4), rs.getString(6), rs.getInt(7), rs.getInt(9), rs.getArray(8), rs.getInt(10));
+			kg = new KatalogGrupp(rs.getInt(1), rs.getInt(2), rs.getInt(5), rs.getString(3), rs.getString(4), rs.getString(6), rs.getInt(7), rs.getInt(9), rs.getArray(11), rs.getInt(10));
 			kgl.addGrupp(kg);
 			if (avdelningar != null && kg.getDepth() == 0) {
 				avdelningar.add(kg);

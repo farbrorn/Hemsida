@@ -17,38 +17,6 @@ List<KatalogGrupp> kglChildren = khInfo.getChildren();
 long id=0;
 Connection con = Const.getConnection(request);
 %>
-<div class="katalog-head" itemscope itemtype="http://schema.org/WebPage">
-    <div class="katalog-head-nav">
-        <div class="katalog-head-nav-prev">
-            <% if (khInfo.getPrevGrp() != null) { %>
-            <% id=Const.getInitData(request).getNewUniktID(); %>
-                <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() + "/katalog/" + khInfo.getPrevGrp().getGrpId() %>"><%= Const.toHtml("<< Föregåene sida") %></a>
-            <% } %>
-        </div>
-        <div class="katalog-head-nav-index">
-            <% id=Const.getInitData(request).getNewUniktID(); %>
-            <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath()+"/katalog/index/" + khInfo.getKatalogGrupp().getAvdelning() %>">Index</a>
-        </div>
-        
-        <div class="katalog-head-nav-next">
-            <% if (khInfo.getNextGrp() != null) { %>
-                <% id=Const.getInitData(request).getNewUniktID(); %>
-                <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() + "/katalog/" + khInfo.getNextGrp().getGrpId()%>"><%= Const.toHtml("Nästa sida >>") %></a>
-            <% } %>
-        </div>
-    </div>
-        
-    <div class="katalog-head-sokvag">
-            <h2><%= Const.toHtml(khInfo.getKatalogGrupp().getRubrik()) %></h2>
-            <meta itemprop="name" content="<%= StartupData.getDefaultHTMLTitle() + " - " + Const.toHtml(khInfo.getKatalogGrupp().getRubrik()) %>">
-            <meta itemprop="description" content="">
-            
-        <% for (KatalogGrupp g : khInfo.getSokvag()) { %>
-            <div class="katalog-head-sokvag-grp">
-                <% id=Const.getInitData(request).getNewUniktID(); %>                
-                <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() + "/katalog/" + g.getGrpId() %>"><%= Const.toHtml(g.getRubrik() + "->") %></a></div>
-        <% } %>
-    </div>
     
     
     <div class="katalog-index">
@@ -99,4 +67,3 @@ Connection con = Const.getConnection(request);
             if (rootPrinted) { %> </div> <% }
         %>
     </div>
-</div>

@@ -73,9 +73,10 @@ public class KatalogGruppLista {
 		khInfo.setNextGrp(nextGrp);
 		khInfo.setPrevGrp(prevGrp);
 		
-		if (khInfo.getKatalogGrupp().getSortPath()!=null) {
-			for (int cn=1; cn < khInfo.getKatalogGrupp().getSortPath().length-2; cn=cn+2 ) {
-				khInfo.getSokvag().add(grupper.get(khInfo.getKatalogGrupp().getSortPath()[cn]));
+		Integer[] sortPath = khInfo.getKatalogGrupp().getSortPath();
+		if (sortPath!=null && sortPath.length > 1) {
+			for (Integer p : sortPath) {
+				if (!grpId.equals(p)) khInfo.getSokvag().add(grupper.get(p)); //Tainte med gruppen själv
 			}
 		}
 		

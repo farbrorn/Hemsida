@@ -136,7 +136,9 @@ public class KatalogServlet extends HttpServlet {
 					}
 					if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-header.jsp").include(request, response);
 					
+					request.getRequestDispatcher("/WEB-INF/katalog-head.jsp").include(request, response);				
 					if(!printUndergrupp) request.getRequestDispatcher("/WEB-INF/katalog-gruppchildren.jsp").include(request, response);				
+					
 
 					if ((prod==null || prod.size()<1) && !printUndergrupp) { 
 						ArrayList<Produkt> rekProd = SQLHandler.getRekommenderadeToplistaInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
@@ -155,7 +157,6 @@ public class KatalogServlet extends HttpServlet {
 						else 
 							request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
 						
-						if (printUndergrupp) printHuvudgruppRubrik(out, kgl.getGrupper().get(grpid).getRubrik());
 						printProdukt(request, response, prod, printAsKatalog, tvingaBrutto);
 						if (printUndergrupp) { //Skriv undergrupper i en nivå
 							for (Map.Entry<Integer, KatalogGrupp> entry : kgl.getGrupper().entrySet()) {
@@ -202,9 +203,6 @@ public class KatalogServlet extends HttpServlet {
 	
 	private void printUndergruppRubrik(PrintWriter out, String rubrik) {
 		out.print("<h3>" + SXUtil.toHtml(rubrik) + "</h3>");
-	}
-	private void printHuvudgruppRubrik(PrintWriter out, String rubrik) {
-		out.print("<h2>" + SXUtil.toHtml(rubrik) + "</h2>");
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
