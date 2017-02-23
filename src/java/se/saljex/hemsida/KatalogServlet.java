@@ -87,6 +87,7 @@ public class KatalogServlet extends HttpServlet {
 				logID="0";
 			}
 			
+			if (kg!=null && kg.isVisaundergrupper() ) printUndergrupp=true;
 
 //			request.setAttribute(Const.ATTRIB_KATALOGGRUPPLISTA, kgl);
 			request.setAttribute(Const.ATTRIB_KATALOGAVDELNING, avdelning);
@@ -174,6 +175,8 @@ public class KatalogServlet extends HttpServlet {
 							request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 							
 					}
+					
+					request.getRequestDispatcher("/WEB-INF/katalog-foot.jsp").include(request, response);									
 				}
 			}
 

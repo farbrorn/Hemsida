@@ -17,6 +17,7 @@
             <tr><td><a href="rebuild-sort-index.jsp">rebuild-sort-index</a></td><td></td></tr>
             <tr><td><a href="reload-config.jsp">Reload Config</a></td><td></td></tr>
             <tr><td><a href="EditPage/hem">Edit Page</a></td><td></td></tr>
+            <tr><td><a href="EditArtGrp?grpid=">Edit ArtGrupp (Ange numret på gruppen i url-parameter ?grpid=nn)</a></td><td></td></tr>
         </table>
     </body>
 </html>

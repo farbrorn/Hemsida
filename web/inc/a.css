@@ -1219,6 +1219,12 @@
                 text-align: center;
             }
 
+            .katalog-head-beskrivning {
+                padding: 4px 0px 0px 8px;
+            }
+            .katalog-foot-beskrivning {
+                padding: 8px 0px 0px 8px;                
+            }
             
             
             .katalog-index {

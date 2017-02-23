@@ -27,13 +27,16 @@ public class KatalogGrupp {
 	private Integer antalKlasar;
 	private Integer[] sortPath;
 	private Integer avdelning;
+	private boolean visaundergrupper;
+	private String htmlHead;
+	private String htmlFoot;
 	private ArrayList<Produkt> topProdukter = null;
 	private ArrayList<Produkt> topRekommenderadeProdukter = null;
 	public KatalogGrupp() {
 	}
 
 	
-	public KatalogGrupp(Integer grpId, Integer prevGrpId, Integer sortorder, String rubrik, String text, String html, Integer depth, Integer antalKlasar, Array sortPath, Integer avdelning) {
+	public KatalogGrupp(Integer grpId, Integer prevGrpId, Integer sortorder, String rubrik, String text, String html, Integer depth, Integer antalKlasar, Array sortPath, Integer avdelning, String htmlHead, String htmlFoot, boolean visaundergrupper) {
 		this.grpId = grpId;
 		this.prevGrpId = prevGrpId;
 		this.sortOrder = sortorder;
@@ -44,6 +47,9 @@ public class KatalogGrupp {
 		this.antalKlasar = antalKlasar;
 		try { this.sortPath = (Integer[])sortPath.getArray(); } catch (Exception e) {}
 		this.avdelning = avdelning;
+		this.htmlHead = htmlHead;
+		this.htmlFoot = htmlFoot;
+		this.visaundergrupper = visaundergrupper;
 	}
 
 	public Integer getAvdelning() {
@@ -148,6 +154,30 @@ public class KatalogGrupp {
 			
 		}
 		return topRekommenderadeProdukter;
+	}
+
+	public boolean isVisaundergrupper() {
+		return visaundergrupper;
+	}
+
+	public void setVisaundergrupper(boolean visaundergrupper) {
+		this.visaundergrupper = visaundergrupper;
+	}
+
+	public String getHtmlHead() {
+		return htmlHead;
+	}
+
+	public void setHtmlHead(String htmlHead) {
+		this.htmlHead = htmlHead;
+	}
+
+	public String getHtmlFoot() {
+		return htmlFoot;
+	}
+
+	public void setHtmlFoot(String htmlFoot) {
+		this.htmlFoot = htmlFoot;
 	}
 
 }

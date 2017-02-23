@@ -45,9 +45,15 @@ Connection con = Const.getConnection(request);
                 <a id="conthead<%= id %>" onclick="ajxCont(event, 'conthead<%= id %>')" href="<%= request.getContextPath() + "/katalog/" + g.getGrpId() %>"><%= Const.toHtml(g.getRubrik() + "->") %></a></div>
         <% } %>
         
-            <h2><%= Const.toHtml(khInfo.getKatalogGrupp().getRubrik()) %></h2>
+            <% KatalogGrupp kg = khInfo.getKatalogGrupp(); %>
+            <h2><%= Const.toHtml(kg.getRubrik()) %></h2>
             <meta itemprop="name" content="<%= StartupData.getDefaultHTMLTitle() + " - " + Const.toHtml(khInfo.getKatalogGrupp().getRubrik()) %>">
             <meta itemprop="description" content="">
+            <% if (!Const.isEmpty(kg.getHtmlHead())) { %>
+                <div class="katalog-head-beskrivning"><%= kg.getHtmlHead() %></div>
+            <% } else if (!Const.isEmpty(kg.getText())) { %>
+                <div class="katalog-head-beskrivning"><%= Const.toHtml(kg.getText()) %></div>
+            <% }%>        
             
     </div>
     

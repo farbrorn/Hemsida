@@ -33,14 +33,14 @@ public class SQLHandler {
 
 		if (!kortSelectsats)
 		return " (with recursive kataloggrupper as ( "
-				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[ rubrik, sortorder::varchar, grpid::varchar] as sortpath, grpid as avdelning, array[grpid] as path from artgrp where " + st + " and grpid not in (" + s + ")" 
-				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, depth+1 , sortpath || a.rubrik || a.sortorder::varchar || a.grpid::varchar, avdelning, path || a.grpid from artgrp a  "
+				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, 0 as depth , array[ rubrik, sortorder::varchar, grpid::varchar] as sortpath, grpid as avdelning, array[grpid] as path, htmlhead, htmlfoot, visaundergrupper from artgrp where " + st + " and grpid not in (" + s + ")" 
+				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, depth+1 , sortpath || a.rubrik || a.sortorder::varchar || a.grpid::varchar, avdelning, path || a.grpid, a.htmlhead, a.htmlfoot, a.visaundergrupper from artgrp a  "
 				+ " join kataloggrupper  on kataloggrupper.grpid=a.prevgrpid and kataloggrupper.grpid not in (" + s + ")) "
 				+ " select * from kataloggrupper order by sortpath) ";
 		else
 		return " (with recursive kataloggrupper as ( "
-				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html  from artgrp where " + st + " and grpid not in (" + s + ")" 
-				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html  from artgrp a  "
+				+ " select grpid, 0 as prevgrpid, rubrik, text, sortorder, html, htmlhead, htmlfoot, visaundergrupper  from artgrp where " + st + " and grpid not in (" + s + ")" 
+				+ " union all select a.grpid, a.prevgrpid, a.rubrik, a.text, a.sortorder, a.html, a.htmlhead, a.htmlfoot, a.visaundergrupper  from artgrp a  "
 				+ " join kataloggrupper  on kataloggrupper.grpid=a.prevgrpid and kataloggrupper.grpid not in (" + s + ")) "
 				+ " select * from kataloggrupper) ";
 			
@@ -75,29 +75,43 @@ public class SQLHandler {
 		if (grpid==null) return null;
 		List<KatalogGrupp> akg = new ArrayList<>();
 		
-		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html from sxfakt.artgrp kgl where prevgrpid= ? order by sortorder, grpid";
+		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html from artgrp kgl, htmlfoot, htmlhead, visaundergrupper where prevgrpid= ? order by sortorder, grpid";
 		PreparedStatement ps = con.prepareStatement(q);
 		ps.setInt(1, grpid);
 		ResultSet rs = ps.executeQuery();
 		KatalogGrupp kg;
 		while (rs.next()) {
-			kg = new KatalogGrupp(rs.getInt("grpid"), rs.getInt("prevgrpid"), rs.getInt("sortorder"), rs.getString("rubrik"), rs.getString("text"), rs.getString("html"), null, null, null, null);
+			kg = new KatalogGrupp(rs.getInt("grpid"), rs.getInt("prevgrpid"), rs.getInt("sortorder"), rs.getString("rubrik"), rs.getString("text"), rs.getString("html"), null, null, null, null, rs.getString("htmlhead"), rs.getString("htmlfoot"), rs.getBoolean("visaundergrupper"));
 			akg.add(kg); 
 		}
 		return akg;
 		
 	}
 	
+	public static boolean saveGrupp(Connection con, int grpid, int sortorder, String rubrik, String text, String htmlHead, String htmlFoot, boolean visaundergrupper) throws SQLException {
+		String q = "update artgrp set  sortorder=?, rubrik=?, text=?, htmlhead=?, htmlfoot=?, visaundergrupper=? where grpid= ?";
+		PreparedStatement ps = con.prepareStatement(q);
+		ps.setInt(1, sortorder);
+		ps.setString(2, rubrik );
+		ps.setString(3, text);
+		ps.setString(4, htmlHead );
+		ps.setString(5, htmlFoot);
+		ps.setBoolean(6, visaundergrupper);
+		ps.setInt(7, grpid);
+		int r = ps.executeUpdate();
+		return r > 0;		
+	}
+	
 	public static KatalogGrupp getGrupp(Connection con, Integer grpid)  throws SQLException {
 		if (grpid==null) return null;
 		
-		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html from sxfakt.artgrp kgl where grpid= ? order by sortorder, grpid";
+		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html, htmlfoot, htmlhead, visaundergrupper from artgrp kgl where grpid= ? order by sortorder, grpid";
 		PreparedStatement ps = con.prepareStatement(q);
 		ps.setInt(1, grpid);
 		ResultSet rs = ps.executeQuery();
 		KatalogGrupp kg=null;
 		if (rs.next()) {
-			kg = new KatalogGrupp(rs.getInt("grpid"), rs.getInt("prevgrpid"), rs.getInt("sortorder"), rs.getString("rubrik"), rs.getString("text"), rs.getString("html"), null, null, null, null);
+			kg = new KatalogGrupp(rs.getInt("grpid"), rs.getInt("prevgrpid"), rs.getInt("sortorder"), rs.getString("rubrik"), rs.getString("text"), rs.getString("html"), null, null, null, null, rs.getString("htmlhead"), rs.getString("htmlfoot"), rs.getBoolean("visaundergrupper"));
 		}
 		return kg;
 		
@@ -110,9 +124,9 @@ public class SQLHandler {
 			avdelningar = new ArrayList<>();
 		}
 		kgl.setAvdelningar(avdelningar);
-		String q = "select kgl.grpid, kgl.prevgrpid, kgl.rubrik, kgl.text, kgl.sortorder, kgl.html ,kgl.depth, kgl.sortpath, count(distinct agl.klasid), kgl.avdelning, kgl.path from " + getSQLKatalogGrupper() + " kgl "
+		String q = "select kgl.grpid, kgl.prevgrpid, kgl.rubrik, kgl.text, kgl.sortorder, kgl.html ,kgl.depth, kgl.sortpath, count(distinct agl.klasid), kgl.avdelning, kgl.path, kgl.htmlfoot, kgl.htmlhead, kgl.visaundergrupper from " + getSQLKatalogGrupper() + " kgl "
 				+ " left outer join artgrplank agl on agl.grpid=kgl.grpid "
-				+ " group by kgl.grpid, kgl.prevgrpid, kgl.rubrik, kgl.text, kgl.sortorder, kgl.html ,kgl.depth, kgl.sortpath, kgl.avdelning, kgl.path order by kgl.sortpath";
+				+ " group by kgl.grpid, kgl.prevgrpid, kgl.rubrik, kgl.text, kgl.sortorder, kgl.html ,kgl.depth, kgl.sortpath, kgl.avdelning, kgl.path, kgl.htmlfoot, kgl.htmlhead, kgl.visaundergrupper order by kgl.sortpath";
 		PreparedStatement ps = con.prepareStatement(q);
 		ResultSet rs = ps.executeQuery();
 		KatalogGrupp kg;
@@ -121,7 +135,7 @@ public class SQLHandler {
 			if (rs.getInt(7) == 0) {
 				avdelning = rs.getInt(1);
 			}
-			kg = new KatalogGrupp(rs.getInt(1), rs.getInt(2), rs.getInt(5), rs.getString(3), rs.getString(4), rs.getString(6), rs.getInt(7), rs.getInt(9), rs.getArray(11), rs.getInt(10));
+			kg = new KatalogGrupp(rs.getInt(1), rs.getInt(2), rs.getInt(5), rs.getString(3), rs.getString(4), rs.getString(6), rs.getInt(7), rs.getInt(9), rs.getArray(11), rs.getInt(10), rs.getString("htmlhead"), rs.getString("htmlfoot"), rs.getBoolean("visaundergrupper"));
 			kgl.addGrupp(kg);
 			if (avdelningar != null && kg.getDepth() == 0) {
 				avdelningar.add(kg);
