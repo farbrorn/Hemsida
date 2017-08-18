@@ -23,7 +23,8 @@
                         <div>
                             <div class="pris-stor" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                                 <% Artikel lagstaPrisArtikel = p.getLagstaPrisArtikel(isBruttopris); %>
-                                Pris från <span class="kid-pris" itemprop="price" content="<%= lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris) %>"><%= Const.getAnpassatPrisFormat(lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris)) %> kr</span>/<%= Const.getFormatEnhet(lagstaPrisArtikel.getEnhet())%>
+                                Pris <% if (p.getVarianter().size()>1) { %> från <% } %> <span class="kid-pris" itemprop="price" content="<%= lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris) %>"><%= Const.getAnpassatPrisFormat(lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris)) %> kr</span>/<%= Const.getFormatEnhet(lagstaPrisArtikel.getEnhet())%>
+                                <% if (!isBruttopris &&  lagstaPrisArtikel.getBruttoPris().compareTo(lagstaPrisArtikel.getNettoPrisExMoms()) > 0 )  { %> <br>Listpris <%= Const.getAnpassatPrisFormat(lagstaPrisArtikel.getDisplayPris(inkMoms, true)) %> kr <% } %> 
                             </div>
                         </div>
 <% /*                        <div>
@@ -77,7 +78,13 @@
                                     <% rowCn++; %>
                                         <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris)%>" frp="<%= pv.getAntalSaljpack() %>">
                                             <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getDisplayPris(inkMoms, isBruttopris)*pv.getAntalSaljpack()) %>
-                                                /<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %></div>
+                                                /<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %>
+                                                <% if (!isBruttopris &&  pv.getBruttoPris().compareTo(pv.getNettoPrisExMoms()) > 0 )  { %> 
+                                                    <span class="t-variant-namn-small">Listpris: <%= Const.getAnpassatPrisFormat(pv.getDisplayPris(inkMoms, true)) %> 
+                                                    /<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %>
+                                                    </span>
+                                                <% } %>
+                                            </div>
                                             <div class="t-variant-antal">Antal:
                                                 <input id="antalinput-<%= rowCn %>" size="4" maxlength="4" value="1">
                                             </div>
