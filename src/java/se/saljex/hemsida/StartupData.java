@@ -47,7 +47,7 @@ public class StartupData {
 	private String favIconName = null;
 	private boolean loggaSidvisningar;
 	private boolean loggaSidvisningarEjInloggad;
-			
+	private String googleAnalyticsID=null;	
 	
 	public StartupData(	DataSource sxadm) {
 		this.sxadm=sxadm;
@@ -61,6 +61,12 @@ public class StartupData {
 		return Const.getStartupData().getImageServerOriginalAbsolutPathLocal();
 	}
 
+	public static String getGoogleAnalyticsID() {
+		return Const.getStartupData().getGoogleAnalyticsIDLocal();
+	}
+	public String getGoogleAnalyticsIDLocal() {
+		return googleAnalyticsID;
+	}
 	public String getImageServerCacheAbsolutPathLocal() {
 		return imageServerCacheAbsolutPath;
 	}
@@ -265,7 +271,7 @@ public class StartupData {
 		Integer ret = null;
 		try {
 			ret = new Integer(Const.getStartupData().getConfig("Hemsida-Default-Soklimit", "20"));
-		} catch (NumberFormatException e) {
+    		} catch (NumberFormatException e) {
 		}
 		return ret != null ? ret : 20;
 	}
@@ -329,6 +335,7 @@ public class StartupData {
 			favIconName = getConfig("Hemsida-FavIconName", "favcion-saljex.png");
 			loggaSidvisningar = "true".equals(getConfig("Hemsida-LoggaSidvisningar","true"));
 			loggaSidvisningarEjInloggad = "true".equals(getConfig("Hemsida-LoggaSidvisningarEjInloggad","false"));
+			googleAnalyticsID = getConfig("Hemsida-GoogleAnalyticsID", "");
 			
 		} finally {
 			try { con.close(); }catch (Exception e) {}

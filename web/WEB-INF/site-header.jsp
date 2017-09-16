@@ -1,9 +1,23 @@
+<%@page import="se.saljex.sxlibrary.SXUtil"%>
 <%@page import="se.saljex.hemsida.SessionData"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <html>
     <head profile="http://www.w3.org/2005/10/profile">
+<% if (!StartupData.isHemsidaTestlage() &&  !SXUtil.isEmpty(StartupData.getGoogleAnalyticsID())) { %>
+
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= StartupData.getGoogleAnalyticsID() %>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments)};
+      gtag('js', new Date());
+
+      gtag('config', '<%= StartupData.getGoogleAnalyticsID() %>');
+    </script>
+ <% } %>
+        
         <title><%= StartupData.getDefaultHTMLTitle() %></title>
         <link rel="icon" type="image/png" href="<%= StartupData.getFavIconUrl()%>">
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
