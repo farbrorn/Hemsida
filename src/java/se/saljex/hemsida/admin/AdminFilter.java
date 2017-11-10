@@ -34,10 +34,10 @@ public class AdminFilter extends se.saljex.loginservice.LoginServiceFilter{
 		super();
 	}	
 	
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain)
-			throws IOException, ServletException {
-		super.doFilter(request,response,chain);
-		chain.doFilter(request, response);
-	}	
+//	public void doFilter(ServletRequest request, ServletResponse response,
+//			FilterChain chain)
+//			throws IOException, ServletException {
+//		super.doFilter(request,response,chain);
+//		chain.doFilter(request, response);
+//	}	
 }
