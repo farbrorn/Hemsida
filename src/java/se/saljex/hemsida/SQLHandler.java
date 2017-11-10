@@ -75,7 +75,7 @@ public class SQLHandler {
 		if (grpid==null) return null;
 		List<KatalogGrupp> akg = new ArrayList<>();
 		
-		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html from artgrp kgl, htmlfoot, htmlhead, visaundergrupper where prevgrpid= ? order by sortorder, grpid";
+		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html, htmlfoot, htmlhead, visaundergrupper from artgrp where prevgrpid= ? order by sortorder, grpid";
 		PreparedStatement ps = con.prepareStatement(q);
 		ps.setInt(1, grpid);
 		ResultSet rs = ps.executeQuery();
