@@ -990,6 +990,21 @@ public class SQLHandler {
 		
 	}
 
+        public static ArrayList<KatalogGrupp> getGrupperForProduktEndastRubrikOchID(Connection con, Integer klasid) throws SQLException{
+            if (klasid==null) return null;
+            String q = "select ag.grpid, ag.rubrik from artgrplank agl join artgrp ag on ag.grpid=agl.grpid where agl.klasid=" + klasid 
+                    + " and ag.grpid in ( select grpid from ( " + getSQLKatalogGrupper() + " ) agg ) order by ag.grpid";
+            ResultSet rs = con.prepareStatement(q).executeQuery();
+            KatalogGrupp k;
+            ArrayList<KatalogGrupp> al = new ArrayList<>();
+            while (rs.next()) {
+                k = new KatalogGrupp();
+                k.setRubrik(rs.getString(2));
+                k.setGrpId(rs.getInt(1));
+                al.add(k);
+            }
+            return al;
+        }
 	
 	
 	public static ArrayList<Produkt> getToplistaInGrupp(HttpServletRequest request, Integer gruppId, String kundnr, int lagernr, int maxResults) throws SQLException {

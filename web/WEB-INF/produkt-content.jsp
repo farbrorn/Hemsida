@@ -1,3 +1,8 @@
+<%@page import="se.saljex.hemsida.KatalogGrupp"%>
+<%@page import="se.saljex.hemsida.SQLHandler"%>
+<%@page import="se.saljex.sxlibrary.SXUtil"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Connection"%>
 <%@page import="se.saljex.hemsida.SessionData"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="java.util.ArrayList"%>
@@ -5,13 +10,23 @@
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%
+    Connection con = Const.getConnection(request);
+    ResultSet rs;
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
+    ArrayList<KatalogGrupp> katGrupper = SQLHandler.getGrupperForProduktEndastRubrikOchID(con,p.getKlasid());
     SessionData sd = Const.getSessionData(request);
     boolean inkMoms=sd.isInkMoms(request);
         boolean isBruttopris = Const.getSessionData(request).isUserInloggad() ? Const.getSessionData(request).isVisaBruttopris(request) : false;
 %>
                 <div class="kid" itemscope itemtype="http://schema.org/Product">
                     <div class="kid-head">
+                        <div>
+                            <%
+                               if (katGrupper != null) for (KatalogGrupp kg : katGrupper) { 
+                                   %><a href="/katalog/<%= kg.getGrpId() %>"><%= SXUtil.toHtml(kg.getRubrik()) %></a> &nbsp;&nbsp;<%
+                               }
+                             %>
+                        </div>
                         <h2 itemprop="name"><%= Const.toHtml(p.getRubrik()) %></h2>
                         <span itemprop="description"><%= Const.toHtml(p.getKortBeskrivning()) %></span>
                     </div>

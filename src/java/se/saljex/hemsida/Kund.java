@@ -274,7 +274,7 @@ public class Kund {
 	}
 	
 	public boolean isKredigransForfallet30Uppnadd() {
-		return (getReskontraForfall30() - getReskontraKreditEjForfallen30())>0;
+		return (getReskontraForfall30() + getReskontraKreditEjForfallen30())>0;
 	}
 
 }
