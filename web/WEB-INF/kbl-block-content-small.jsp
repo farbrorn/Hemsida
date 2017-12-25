@@ -4,6 +4,7 @@
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
+    if (p==null) return;
     long rowCn = Const.getInitData(request).getNewUniktID();
     long id=0;
     boolean inkMoms=Const.getSessionData(request).isInkMoms(request);

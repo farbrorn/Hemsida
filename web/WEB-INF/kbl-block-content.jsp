@@ -3,6 +3,7 @@
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
+    if (p==null) return;
     long rowCn = Const.getInitData(request).getNewUniktID();
     boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
     boolean isBruttopris = Const.getSessionData(request).isUserInloggad() ? Const.getSessionData(request).isVisaBruttopris(request) : false;
