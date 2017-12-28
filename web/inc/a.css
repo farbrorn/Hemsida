@@ -1316,6 +1316,31 @@
             }
             
 
+        .sxpost-main {
+width: 100%; margin: 0px 8px 24px 2px;  word-wrap:break-word; display: inline-block; vertical-align: top; border-radius: 2px; box-shadow: 0 1px 4px 0 rgba(0,0,0,0.8);            
+        } 
+        .sxpost-head {
+            padding: 8px;
+        }
+        .sxpost-head a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .sxpost-content {
+            margin: 16px 0px 16px 0px;
+        }
+        .sxpost-date {
+            font-size: 80%; color: grey; text-align: right;
+        }
+        .sxpost-imgdiv {
+        }
+        .sxpost-img {
+            width: 100%;
+        }
+            
+            
+            
             @media all and (max-width: 1020px) {
                 .col-l {
                     display:none;

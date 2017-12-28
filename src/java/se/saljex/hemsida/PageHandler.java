@@ -16,6 +16,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import se.saljex.hemsida.post.GPlusActivityListCache;
+import se.saljex.hemsida.post.Post;
+import se.saljex.hemsida.post.PostList;
 
 /**
  *
@@ -24,7 +27,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 public class PageHandler {
 	
 	private Page sid=null;
-	private final StringBuilder parsed = new StringBuilder();
+	private StringBuilder parsed = new StringBuilder();
 	//Open graph
 	private String ogType = null;
 	private String ogDescription = null;
@@ -40,7 +43,15 @@ public class PageHandler {
 	}
 	
 	
-	
+	public void init() {
+            sid=null;
+            parsed = new StringBuilder();
+            ogType = null;
+            ogDescription = null;
+            ogTitle = null;
+            ogImage = null;
+            
+        }
 
 	public Page getPage() {return sid; }
 	public String getParsedHTML() { return parsed.toString(); }
@@ -84,6 +95,7 @@ public class PageHandler {
 		String parameter;
 			while (safeCn++<10000) {
 				tPos= html.indexOf("<sx-",pos);
+
 				if (tPos < 0 ) {
 					parsed.append(html.substring(pos, html.length()));
 					break;
@@ -132,6 +144,37 @@ public class PageHandler {
 											parsed.append(wrap.toString());
 										}
 									} catch (SQLException e) { parsed.append("Fel vid iläsning av data"); e.printStackTrace();}
+								} else if ("gpluslist".equals(action)) {
+									String[] split = parameter.split(", ");
+                                                                        String pId = null;
+                                                                        String pKey = null;
+                                                                        String pShowFullContent = null;
+                                                                        String pWidth = null;
+                                                                        String pDisplayItems = null;
+                                                                        try {   // hoppar ur om det inte finns tillräckligt mycket i arrayen
+                                                                            pId = split[0];
+                                                                            pKey = split[1];
+                                                                            pShowFullContent = split[2];
+                                                                            pWidth = split[3];
+                                                                            pDisplayItems = split[4];
+                                                                        } catch (Exception e) {}
+                                                                        Integer pDisplayItemsInt = null;
+                                                                        try { pDisplayItemsInt = new Integer(pDisplayItems); }  catch (NumberFormatException e) {}
+                                                                        PostList pl = GPlusActivityListCache.getPostList(pId, pKey);
+                                                                        pl.setShowFullContent("true".equals(pShowFullContent));
+                                                                        pl.setDisplayItems(pDisplayItemsInt);
+                                                                        pl.setDisplayWidth(pWidth);
+											request.setAttribute(Const.ATTRIB_POSTLIST, pl);
+											wrap = getRresponseWrapper(response);
+                                                                        int pcn = 0;
+                                                                         for ( Post post : pl.getPosts()) {
+                                                                             pcn++;
+                                                                             if (pl.getDisplayItems()!=null && pl.getDisplayItems() > 0 && pcn>pl.getDisplayItems() ) break;
+                                                                                pl.setCurrentPost(post);
+                                                                                request.getRequestDispatcher("/WEB-INF/post.jsp").include(request, wrap);
+                                                                         }
+                                                                        parsed.append(wrap.toString());
+                                                                    
 								} else if ("og:type".equals(action)) {
 									ogType = parameter;
 								} else if ("og:title".equals(action)) {

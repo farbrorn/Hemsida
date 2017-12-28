@@ -1,3 +1,4 @@
+<%@page import="se.saljex.hemsida.PageHandler"%>
 <%@page import="se.saljex.sxlibrary.SXUtil"%>
 <%@page import="se.saljex.hemsida.SessionData"%>
 <%@page import="java.util.ArrayList"%>
@@ -157,9 +158,14 @@ for (String s : cards) { %>
                  
                    <jsp:include page="/WEB-INF/produkttrad.jsp" />
 <% cards = Const.getStartupData().getCardsLeftBot();
+
+PageHandler ph = new PageHandler(request, response);
 for (String s : cards) { %>
     <div class="card">
-        <%= s %>
+        <%  %>
+        <%= ph.parsePage(s) %>
+        <% ph.init(); %>
+        
     </div>    
 <% } %>
                 

@@ -92,6 +92,7 @@ tinymce.init({
             <tr><td><%= Const.toHtml("<sx-als valu\"kid, aid\"") %></td><td>Visa liten artikelrad</td> </tr>
             <tr><td><%= Const.toHtml("<sx-als valu\"aid\"") %></td><td>Visa liten artikelrad från artikelnummer</td> </tr>
             <tr><td><%= Const.toHtml("<sx-kbl valu\"kid\"") %></td><td>Litet artikelblock på en kid</td> </tr>
+            <tr><td><%= Const.toHtml("<sx-gpluslist valu\"id, apikey, showFullContent, css-width, antalposter\"") %></td><td>Lista Google+ stream. showfullcontent (tru/false), css-width (ex. 100px), max antalposter att visa. <b> viktiggt att värden separeras med , följt av ett mellanslag.</b></td> </tr>
             <tr><td><%= Const.toHtml("<sx-og:title valu\"bekrivning\"") %></td><td>Opengraph titel (default värde finns)</td> </tr>
             <tr><td><%= Const.toHtml("<sx-og:description valu\"bekrivning\"") %></td><td>Opengraph beskrivning</td> </tr>
             <tr><td><%= Const.toHtml("<sx-og:image valu\"url\"") %></td><td>Opengraph bild url</td> </tr>

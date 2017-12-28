@@ -43,6 +43,8 @@ public class Const {
     public static final String ATTRIB_SESSIONDATA = "sessiondata";
     public static final String ATTRIB_AID = "artikelnummer";
     public static final String ATTRIB_KID = "klasid";
+    public static final String ATTRIB_POSTLIST = "sxpostlist";
+    public static final String ATTRIB_POST = "sxpost";
 	public static final String ATTRIB_PRINTASLISTPRIS = "printaslistpris";
 
 	
