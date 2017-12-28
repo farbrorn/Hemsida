@@ -20,6 +20,7 @@ PageHandler pageHandler  = new PageHandler(request, response);
 for (String s : cards) { %>
     <div class="card">
         <%= pageHandler.parsePage(s) %>
+        <% pageHandler.init(); %>
     </div>    
 <% } %>
 
@@ -30,6 +31,7 @@ for (String s : cards) { %>
 for (String s : cards) { %>
     <div class="card">
         <%= pageHandler.parsePage(s) %>
+        <% pageHandler.init(); %>
     </div>    
 <% } %>
                 <div class="card">
@@ -89,6 +91,7 @@ for (String s : cards) { %>
 for (String s : cards) { %>
     <div class="card">
         <%= pageHandler.parsePage(s) %>
+        <% pageHandler.init(); %>
     </div>    
 <% } %>
         </div>

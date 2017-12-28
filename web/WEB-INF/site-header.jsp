@@ -148,21 +148,21 @@
                  
 <% 
     ArrayList<String> cards; 
+PageHandler ph = new PageHandler(request, response);
  
    cards = Const.getStartupData().getCardsLeftTop();
 for (String s : cards) { %>
     <div class="card">
-        <%= s %>
+        <%= ph.parsePage(s) %>
+        <% ph.init(); %>
     </div>    
 <% } %>
                  
                    <jsp:include page="/WEB-INF/produkttrad.jsp" />
 <% cards = Const.getStartupData().getCardsLeftBot();
 
-PageHandler ph = new PageHandler(request, response);
 for (String s : cards) { %>
     <div class="card">
-        <%  %>
         <%= ph.parsePage(s) %>
         <% ph.init(); %>
         
@@ -175,7 +175,8 @@ for (String s : cards) { %>
 <% cards = Const.getStartupData().getCardsMidTop();
 for (String s : cards) { %>
     <div class="card">
-        <%= s %>
+        <%= ph.parsePage(s) %>
+        <% ph.init(); %>
     </div>    
 <% } %>
     
