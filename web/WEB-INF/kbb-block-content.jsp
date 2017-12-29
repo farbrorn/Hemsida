@@ -53,7 +53,7 @@
                                         <% boolean finnsPaLager = lagerSaldoStr.length() > 0;  %>
                                         <div class="t-variant-row kid-variant-odd">
                                             <div class="t-variant-namn kbb-t-variant-namn"><%= pv.getKatNamn() %> 
-                                                <span class="t-variant-namn-small kbb-t-variant-namn-small"> <%= lang.Artnr %>Artnr: <span class="t-variant-artnr"><%= pv.getArtnr() %></span> 
+                                                <span class="t-variant-namn-small kbb-t-variant-namn-small"> <%= lang.Artnr() %>Artnr: <span class="t-variant-artnr"><%= pv.getArtnr() %></span> 
                                                 </span>
                                             </div>
 
@@ -98,7 +98,7 @@
                                                             <%= lang.Kop() %></div>
                                                     </div>
                                             </div>
-                                            <div class="t-variant-saldo kbb-t-variant-saldo"><%= finnsPaLager ? <%= lang.FinnsPaLagerI() + " " %> + SXUtil.toHtml(lagerSaldoStr) : <%= lang.Slutsald %> %> </div>
+                                            <div class="t-variant-saldo kbb-t-variant-saldo"><%= finnsPaLager ? lang.ILager() + " "  + SXUtil.toHtml(lagerSaldoStr) : lang.Slutsald() %> </div>
                                         </div>
 
                                     

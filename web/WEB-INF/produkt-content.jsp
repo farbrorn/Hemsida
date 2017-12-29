@@ -145,7 +145,7 @@
                     ArrayList<Produkt> lProdukter = (ArrayList<Produkt>)request.getAttribute(Const.ATTRIB_LIKNANDE_PRODUKTER);
                     if (lProdukter!= null) {
                     %>
-                    <h3><%= lang.LiknandeProdukter %></h3>
+                    <h3><%= lang.LiknandeProdukter() %></h3>
                         <jsp:include page="/WEB-INF/kbl-header.jsp" />
                     <% 
                         for (Produkt pp : lProdukter) {

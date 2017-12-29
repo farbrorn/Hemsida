@@ -9,4 +9,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% Language lang = StartupData.getLanguage(); %>
 <!DOCTYPE html>
-<%= lang.PageNotFoundHTML() 5>
+<%= lang.PageNotFoundHTML() %>

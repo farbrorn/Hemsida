@@ -11,7 +11,7 @@
 <% Language lang = StartupData.getLanguage(); %>
 
 <div class="login">
-    <h2><%= lang.NyttLosenord %></h2>
+    <h2><%= lang.NyttLosenord() %></h2>
     
     <%= lang.LoginGlomtLosenHTML() %>
 </div>
