@@ -23,7 +23,7 @@ import se.saljex.sxlibrary.SXUtil;
 public class SQLHandler {
 		public static final String V_SELECT_COLS = " v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, v.nummer, v.namn, v.katnamn, "
 				+ " v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
-				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2, v.rsk, v.refnr, v.ak_auto_samkopta_klasar, v.staf_pris1, v.staf_pris2, v.bildartnr as bildartnr  ";
+				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2, v.rsk, v.refnr, v.ak_auto_samkopta_klasar, v.staf_pris1, v.staf_pris2, v.bildartnr as bildartnr , v.ak_auto_bildartnr as auto_bildartnr ";
 
 	public static String getSQLKatalogGrupper(Integer rootGrp, boolean includeRootGrp, boolean kortSelectsats) {
 		String s = StartupData.getKatalogExcludeGrpAsString();
@@ -294,7 +294,7 @@ public class SQLHandler {
 			p.setBeskrivning(rs.getString(3));
 			p.setBeskrivningHTML(rs.getString(4));
 			p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
-			p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? art.getArtnr() : rs.getString("bildartnr"));
+			p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? art.getArtnr() : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
 			vk.setArt(art);
 			vk.setP(p);
 		}
@@ -627,7 +627,7 @@ public class SQLHandler {
 				p.setRubrik(rs.getString(2));
 				p.setBeskrivningHTML(rs.getString(4));
 				p.setBeskrivning(rs.getString(3));
-				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? rs.getString("nummer") : rs.getString("bildartnr"));
+				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? rs.getString("nummer") : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
 			}
 			
@@ -796,7 +796,7 @@ public class SQLHandler {
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
 				temp_klasid = p.getKlasid();
-				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? rs.getString("nummer") : rs.getString("bildartnr"));
+				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? rs.getString("nummer") : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
 				produkter.add(p);
 
 			}
@@ -912,7 +912,7 @@ public class SQLHandler {
 				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
-				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? rs.getString("nummer") : rs.getString("bildartnr"));
+				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? rs.getString("nummer") : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
 				temp_klasid = p.getKlasid();
 			}
 			
@@ -966,7 +966,7 @@ public class SQLHandler {
 				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
-				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? rs.getString("nummer") : rs.getString("bildartnr"));
+				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? rs.getString("nummer") : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
 				temp_klasid = p.getKlasid();
 			}
 			

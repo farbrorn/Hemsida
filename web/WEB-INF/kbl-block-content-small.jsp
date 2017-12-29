@@ -30,7 +30,7 @@
                                     <% 
                                     boolean firstRun=true;
                                     for (Artikel pv : p.getVarianter()) { %>
-                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris)%>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
+                                        <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris)%>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= lang.translateString(pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr())) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
                                         
                                     <%
                                         firstRun = false;
@@ -39,7 +39,7 @@
                             </div>
                             <div class="kbl-t-pris">
                                 <span class="kbl-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(forvaldVariant.getDisplayPris(inkMoms, isBruttopris)) %></span><span class="kbl-t-pris-per">/<%= Const.getFormatEnhet(forvaldVariant.getEnhet()) %></span>
-                                <div class="kbl-t-ilager" id="ilager-<%= rowCn %>"><%= forvaldVariant.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %></div>
+                                <div class="kbl-t-ilager" id="ilager-<%= rowCn %>"><%= lang.translateString(forvaldVariant.getLagerSaldoString(Const.getSessionData(request).getLagerNr())) %></div>
 
                             </div>
                             <div class="kbl-t-antal-kop">

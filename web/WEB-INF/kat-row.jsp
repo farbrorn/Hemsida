@@ -43,7 +43,7 @@
                 rowCn = Const.getInitData(request).getNewUniktID();
             %>
             <tr>
-            <span id="variant-<%= rowCn %>" style="display: none;" aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris) %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>"></option>
+            <span id="variant-<%= rowCn %>" style="display: none;" aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris) %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= lang.translateString(pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr())) %>"></option>
                 <td class="kat-a-td-artnr"><%= SXUtil.toHtml(pv.getArtnr()) %></td>
                 <td class="kat-a-td-namn"><%= Const.toHtml(pv.getKatNamn()) %></td>
                 <td class="kat-a-td-pris"><%= Const.getAnpassatPrisFormat(pv.getDisplayPris(inkMoms, isBruttopris)) %></td>

@@ -1,7 +1,11 @@
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="java.util.List"%>
 <%@page import="se.saljex.hemsida.Artikel"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
+<% Language lang = StartupData.getLanguage(); %>
+
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     if (p==null) return;
@@ -33,7 +37,7 @@
                                             <% 
                                             boolean firstRun=true;
                                             for (Artikel pv : p.getVarianter()) { %>
-                                            <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris) %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
+                                            <option aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris) %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= lang.translateString(pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr())) %>" <%= firstRun ? "selected" : "" %>><%= Const.toHtml(pv.getKatNamn()) %></option>
 
                                             <%
                                                 firstRun = false;
@@ -44,12 +48,12 @@
                                         <div class="kli-t-pris">
                                              <span class="kli-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(p.getVarianter().get(0).getDisplayPris(inkMoms, isBruttopris)) %></span>
                                              <span class="kli-t-pris-per">/<%= Const.getFormatEnhet(p.getVarianter().get(0).getEnhet()) %></span>
-                                             <div class="kli-t-ilager" id="ilager-<%= rowCn %>"><%= p.getVarianter().get(0).getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %></div>
+                                             <div class="kli-t-ilager" id="ilager-<%= rowCn %>"><%= lang.translateString(p.getVarianter().get(0).getLagerSaldoString(Const.getSessionData(request).getLagerNr())) %></div>
                                         </div>
-                                        <div class="kli-t-antal">Antal:
+                                        <div class="kli-t-antal"><%= lang.Antal() %>:
                                             <input size="4" id="antalinput-<%= rowCn %>">
                                         </div>
-                                        <div class="kli-t-kop a-btn" onclick="vk_add(<%= p.getKlasid() %>,'variant-<%= rowCn %>','antalinput-<%= rowCn %>');">Köp
+                                        <div class="kli-t-kop a-btn" onclick="vk_add(<%= p.getKlasid() %>,'variant-<%= rowCn %>','antalinput-<%= rowCn %>');"><%= lang.Kop() %>
                                         </div>
                                     </div>
                                 </div>

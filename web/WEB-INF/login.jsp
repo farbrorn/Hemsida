@@ -17,7 +17,7 @@
             <tr><td><labe for="<%= Const.PARAM_LOGINNAMN %>"><%= lang.Anvandarnamn() %>: </labe></td><td><input name="<%= Const.PARAM_LOGINNAMN %>" id="<%= Const.PARAM_LOGINNAMN %>" autofocus ></td></tr>
             <tr><td><labe for="<%= Const.PARAM_LOGINLOSENL %>"><%= lang.Losen() %>: </labe></td><td><input type="password" name="<%= Const.PARAM_LOGINLOSENL %>" id="<%= Const.PARAM_LOGINLOSENL %>"></td></tr>   
         </table>
-        <input type="submit" value="Logga in" > <a href="?<%= Const.PARAM_ACTION %>=<%= Const.ACTION_GLOMTLOSEN %>"><%= lang.GlomtLosenord() %></a>
+        <input type="submit" value="<%= lang.LoggaIn() %>" > <a href="?<%= Const.PARAM_ACTION %>=<%= Const.ACTION_GLOMTLOSEN %>"><%= lang.GlomtLosenord() %></a>
         
     </form>
 </div>

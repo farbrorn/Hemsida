@@ -1,4 +1,4 @@
-<%-- 
+<<%-- 
     Document   : varukorg-full
     Created on : 2014-nov-30, 09:47:46
     Author     : Ulf
@@ -23,14 +23,13 @@
     
 %>
 
-<h1>Bekräftelse webborder</h1>
+<h1><%= lang.BekraftelseWebborder() %></h1>
 
     <% se.saljex.hemsida.User u = Const.getSessionData(request).getInloggadUser();  %>
         <%if (u==null) { %>
-            Tack för din order!
-            Tänk på att fraktkostnader och expeditionskostnader tillkommer.
+            <%= lang.BekräftelseWebborderTextMedExpAvgiftHTML() %>
         <% } else { %>
-            Tack för din order!
+        <%= lang.BekräftelseWebborderTextHTML() %>
         <% } %>
     <table>
     
@@ -64,7 +63,7 @@
            for (VarukorgProdukt vkProdukt : vkf.getRows()) { %>
         <% //vkProdukt = vk.getVarukorgProdukter().get(cn); %>
         <tr>
-            <td rowspan="<%= vkProdukt.getVarukorgArtiklar().size()+1 %>"><img src="<%= Const.getArtBildURL(vkProdukt.getVarukorgArtiklar().get(0).getArtnr()) %>"></td>
+            <td rowspan="<%= vkProdukt.getVarukorgArtiklar().size()+1 %>"><img src="<%= Const.getArtBildURL(vkProdukt.getProdukt().getAutoBildArtnr()) %>"></td>
             <td colspan="5" style="font-weight: bold"><%= Const.toHtml(vkProdukt.getProdukt().getRubrik()) %></td>
         </tr>
         <% for (VarukorgArtikel a : vkProdukt.getVarukorgArtiklar()) { %>

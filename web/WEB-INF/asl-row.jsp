@@ -30,7 +30,7 @@
                             <div class="asl-rubrik">
                                 <%= Const.toHtml(p.getRubrik()) %>
                             </div>
-                            <div class="asl-variant" aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris) %>" frpenhet="<%= pv.getEnhetStringMedForpackning() %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr()) %>"  %>
+                                <div class="asl-variant" aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris) %>" frpenhet="<%= pv.getEnhetStringMedForpackning() %>" frp="<%= pv.getAntalSaljpack() %>" ilager="<%= lang.translateString(pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr())) %>"  %>
                                 <%= Const.toHtml(pv.getKatNamn()) %>
                             </div>
                             <div class="asl-artnr"><%= Const.toHtml(pv.getArtnr()) %></div>

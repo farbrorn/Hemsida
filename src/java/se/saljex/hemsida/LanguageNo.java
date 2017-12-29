@@ -16,6 +16,15 @@ private Locale locale = new Locale("no","NO");
 @Override public String getLanguage() { return "no"; }
 @Override public String getCountry() { return "no"; }
 @Override public Locale getLocale() {return locale; }
+@Override public String translateString(String s) {
+switch(s) {
+    case "Tillfälligt slut": return TillfalligtSlut();
+    case "Fåtal kvar": return FatalKvar();
+    case "Beställningsvara": return Bestallningsvara();
+    case "Finns i lager": return FinnsILager();
+    default: return s;
+}
+}
 
     
 @Override public String TillKassan() { return "Til kassen"; }
@@ -93,20 +102,5 @@ private Locale locale = new Locale("no","NO");
 @Override public String BekräftelseWebborderTextMedExpAvgiftHTML() { return "Takk før din ordre!<br>Husk at alle fraktkostnader og ekspedisjongebyr kommer i tillegg"; }
 @Override public String OrderRegistreradPaLager() { return "Ordre registrert på lager"; }
 @Override public String ValtTransportsatt() { return "Valgt transportmåte"; }
-@Override public String Benamning() { return ""; }
-@Override public String SkrymmefraktTillkommerPaDennaArtikel() { return ""; }
-@Override public String SarskildFraktkostnadTillkommerPaDennaArtikel() { return ""; }
-@Override public String ObserveraAttDuHar() { return ""; }
-@Override public String ILangtidsforfallnaFakturorSomMasteBetalasInnanLeveransKanSke() { return ""; }
-@Override public String ObserveraAttDinKreditgrans() { return ""; }
-@Override public String KrArOverskridenBetalningMasteSkeInnanLeverans() { return ""; }
-@Override public String Turbil() { return ""; }
-@Override public String Mandagar() { return ""; }
-@Override public String Tisdagar() { return ""; }
-@Override public String Onsdagar() { return ""; }
-@Override public String Torsdagar() { return ""; }
-@Override public String Fredagar() { return ""; }
-@Override public String SkickasMedLampligSpeditor() { return ""; }
-@Override public String VarukorgSaveErrorHTML() { return ""; }
 
 }

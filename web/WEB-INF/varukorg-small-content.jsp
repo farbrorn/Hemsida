@@ -24,7 +24,7 @@
                     <div class="vk-row">
                         <div class="vk-img">
                             
-                            <img src="<%= Const.getArtBildURL(vkProdukt.getVarukorgArtiklar().get(0).getArtnr()) %>">
+                            <img src="<%= Const.getArtBildURL(vkProdukt.getProdukt().getAutoBildArtnr()) %>">
                         </div>
                         <div class="vk-col">
                             <div class="vk-kl">

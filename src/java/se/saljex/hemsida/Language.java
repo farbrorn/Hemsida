@@ -18,7 +18,7 @@ private Locale locale = new Locale("sv","SE");
 public String getLanguage() { return "sv"; }
 public String getCountry() { return "se"; }
 public Locale getLocale() {return locale; }
-
+public String translateString(String s) {return s; }
     
     
 public String TillKassan() { return "Till kassan"; }
@@ -111,6 +111,7 @@ public String Torsdagar() { return "Torsdagar"; }
 public String Fredagar() { return "Fredagar"; }
 public String SkickasMedLampligSpeditor() { return "Skickas med lämplig speditör"; }
 public String VarukorgSaveErrorHTML() { return "<b>Hoppsan... det gick inte att skicka ordern, och vi vet inte varför. Prova igen!</b>"; }
-
+public String TillfalligtSlut() { return "Tillfälligt slut"; }
+public String FatalKvar() { return "Fåtal kvar"; }
 
 }

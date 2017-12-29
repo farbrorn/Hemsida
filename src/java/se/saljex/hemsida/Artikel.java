@@ -57,7 +57,7 @@ public class Artikel {
 				if (decimalValue > 0)  { //Vi har decimaler
 					if (decimalValue % 10 > 0) antalDecimaler = 2; else antalDecimaler = 1;
 				}
-				r = SXUtil.getFormatNumber(ls.getIlager(), antalDecimaler) + " " + getFormatEnhet() + " i lager";
+				r = SXUtil.getFormatNumber(ls.getIlager(), antalDecimaler) + " " + getFormatEnhet();
 			} else {
 				if (ls.getIlager().compareTo(ls.getMaxlager()*0.1) < 0) r = "Fåtal kvar";
 				else r="Finns i lager";

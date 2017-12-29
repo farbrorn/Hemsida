@@ -122,9 +122,9 @@
                 <div class="site-header-abar">                
                     <div class="site-header-userinfo" onclick="vkShow()">
                         <% if (Const.getSessionData(request).getInloggadKontaktId()==null) {
-                            %> <div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/login">Logga in</a></div><%
+                            %> <div class="site-header-userinfo-login"><a href="<%= request.getContextPath() %>/login"><%= lang.LoggaIn() %></a></div><%
                         } else {
-                            %> <div class="site-header-userinfo-logout"><a href="<%= request.getContextPath() %>/logout">Logga ut</a><br><span class="site-header-userinfo-namn"><%= Const.toHtml(Const.getSessionData(request).getInloggadKontaktNamn()) %></span></div>
+                            %> <div class="site-header-userinfo-logout"><a href="<%= request.getContextPath() %>/logout"><%= lang.LoggaUt() %></a><br><span class="site-header-userinfo-namn"><%= Const.toHtml(Const.getSessionData(request).getInloggadKontaktNamn()) %></span></div>
                       <%  } %>
                         <% //<div class="site-header-userinfo-namn"><%= Const.toHtml(Const.getSessionData(request).getInloggadKontaktNamn()) ></div> %>
                     </div>

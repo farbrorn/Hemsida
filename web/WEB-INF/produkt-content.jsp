@@ -66,7 +66,7 @@
                                     <% } %>
                                     </span>
                                 </div>
-                                <div class="t-variant-saldo"><%= pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr(),sd.isUserInloggad()) %>
+                                <div class="t-variant-saldo"><%= lang.translateString(pv.getLagerSaldoString(Const.getSessionData(request).getLagerNr(),sd.isUserInloggad())) %>
                                 </div>
                                 
                                 <div class="t-variant-pris-kop-hold">
