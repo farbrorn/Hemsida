@@ -5,12 +5,17 @@
  */
 package se.saljex.hemsida;
 
+import java.util.Locale;
+
 /**
  *
  * @author ulf
  */
 public class LanguageNo extends Language {
+private Locale locale = new Locale("no","NO");
 @Override public String getLanguage() { return "no"; }
+@Override public String getCountry() { return "no"; }
+@Override public Locale getLocale() {return locale; }
 
     
 @Override public String TillKassan() { return "Til kassen"; }

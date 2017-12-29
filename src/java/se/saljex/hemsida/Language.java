@@ -5,12 +5,20 @@
  */
 package se.saljex.hemsida;
 
+import java.util.Locale;
+
 /**
  *
  * @author ulf
  */
 public class Language {
+    
+    
+private Locale locale = new Locale("sv","SE");
 public String getLanguage() { return "sv"; }
+public String getCountry() { return "se"; }
+public Locale getLocale() {return locale; }
+
     
     
 public String TillKassan() { return "Till kassan"; }
