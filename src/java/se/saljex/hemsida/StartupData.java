@@ -49,12 +49,17 @@ public class StartupData {
 	private boolean loggaSidvisningarEjInloggad;
 	private String googleAnalyticsID=null;	
         private Language language;
+        private String katalogProduktView;
+        
 	
 	public StartupData(	DataSource sxadm) {
 		this.sxadm=sxadm;
 	}
 
-	
+
+        public static String getKatalogProduktView() { 
+            return Const.getStartupData().getKatalogProduktViewLocal(); 
+        }        
 	public static String getImageServerCacheAbsolutPath() {
 		return Const.getStartupData().getImageServerCacheAbsolutPathLocal();
 	}
@@ -79,6 +84,9 @@ public class StartupData {
 	}
         public Language getLanguageLocal() { 
             return language;
+        }
+        public String getKatalogProduktViewLocal() { 
+            return katalogProduktView;
         }
 	
 	public static String getBildURL() {
@@ -344,6 +352,7 @@ public class StartupData {
 			loggaSidvisningarEjInloggad = "true".equals(getConfig("Hemsida-LoggaSidvisningarEjInloggad","false"));
 			googleAnalyticsID = getConfig("Hemsida-GoogleAnalyticsID", "");
                         if ("no".equals(getConfig("Hemsida-Language","se").toLowerCase())) language = new LanguageNo(); else language=new Language();
+                        katalogProduktView = getConfig("Hemsida-Language","kbl");
 		} finally {
 			try { con.close(); }catch (Exception e) {}
 		}

@@ -132,7 +132,7 @@ public class VarukorgServlet extends HttpServlet {
 						request.getRequestDispatcher("/WEB-INF/varukorg-confirm.jsp").include(request, responseWrapper);
 						confirmResponseContent = responseWrapper.toString();
 						sm = new SendMail( mailsxmail);
-						sm.sendSimpleMail(vkfHandler.getEpost(), "Orderbekräftelse " + StartupData.getForetagNamn() + " webborder", confirmResponseContent);
+						sm.sendSimpleMail(vkfHandler.getEpost(), StartupData.getLanguage().Orderbekraftelse() + StartupData.getForetagNamn() + " ´" + StartupData.getLanguage().webborder(), confirmResponseContent);
 					} catch (Exception e) {Const.log("Fel vid sändning av Orderbekräftelse E-mail. " + vkfHandler.getEpost() + " - " +responseContent); e.printStackTrace(); }
 					
 					

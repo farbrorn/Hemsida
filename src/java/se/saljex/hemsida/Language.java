@@ -113,5 +113,10 @@ public String SkickasMedLampligSpeditor() { return "Skickas med lämplig spedit�
 public String VarukorgSaveErrorHTML() { return "<b>Hoppsan... det gick inte att skicka ordern, och vi vet inte varför. Prova igen!</b>"; }
 public String TillfalligtSlut() { return "Tillfälligt slut"; }
 public String FatalKvar() { return "Fåtal kvar"; }
+public String Rekommenderat() { return "Rekommenderat"; }
+public String Fran() { return "Från"; }
+public String fran() { return "från"; }
+public String Orderbekraftelse() { return "Orderbekräftelse"; }
+public String webborder() { return "webborder"; }
 
 }

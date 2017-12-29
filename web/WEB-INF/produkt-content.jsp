@@ -40,7 +40,7 @@
                         <div>
                             <div class="pris-stor" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                                 <% Artikel lagstaPrisArtikel = p.getLagstaPrisArtikel(isBruttopris); %>
-                                Pris <% if (p.getVarianter().size()>1) { %> från <% } %> <span class="kid-pris" itemprop="price" content="<%= lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris) %>"><%= Const.getAnpassatPrisFormat(lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris)) %> <%= lang.ValutaNamn() %></span>/<%= Const.getFormatEnhet(lagstaPrisArtikel.getEnhet())%>
+                                <%= lang.Pris() %> <% if (p.getVarianter().size()>1) { %> <%= lang.fran() %> <% } %> <span class="kid-pris" itemprop="price" content="<%= lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris) %>"><%= Const.getAnpassatPrisFormat(lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris)) %> <%= lang.ValutaNamn() %></span>/<%= Const.getFormatEnhet(lagstaPrisArtikel.getEnhet())%>
                                 <% if (!isBruttopris &&  lagstaPrisArtikel.getBruttoPris().compareTo(lagstaPrisArtikel.getNettoPrisExMoms()) > 0 )  { %> <br><%= lang.Listpris() %> <%= Const.getAnpassatPrisFormat(lagstaPrisArtikel.getDisplayPris(inkMoms, true)) %> <%= lang.ValutaNamn() %> <% } %> 
                             </div>
                         </div>

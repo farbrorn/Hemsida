@@ -110,7 +110,7 @@
                             </div>
                             <div class="kbb-t-pris">
                                 <% Artikel lagstaPrisArtikel = p.getLagstaPrisArtikel(isBruttopris); %>
-                                <% if (p.getVarianter().size()>1) { %>Från <% } %>
+                                <% if (p.getVarianter().size()>1) { %><%= lang.Fran() %> <% } %>
                                 <span class="kbb-t-pris-pris" id="pris-<%= rowCn %>"><%= Const.getAnpassatPrisFormat(lagstaPrisArtikel.getDisplayPris(inkMoms, isBruttopris)) %></span><span class="kbb-t-pris-per">/<%= Const.getFormatEnhet(lagstaPrisArtikel.getEnhet()) %></span>
                             </div>
                         </div>

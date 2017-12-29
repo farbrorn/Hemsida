@@ -144,19 +144,23 @@ public class KatalogServlet extends HttpServlet {
 					if ((prod==null || prod.size()<1) && !printUndergrupp) { 
 						ArrayList<Produkt> rekProd = SQLHandler.getRekommenderadeToplistaInGrupp(Const.getConnection(request), grpid, Const.getSessionData(request).getAvtalsKundnr(), Const.getSessionData(request).getLagerNr(), 4);
 						if (rekProd!=null && rekProd.size() > 0) {
-							out.print("<h3>Rekommenderat</h3>");
-							request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
+							out.print("<h3>"+ StartupData.getLanguage().Rekommenderat() + "</h3>");
+                                                        request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);
+                                                            
 							for (Produkt p : rekProd) {
 								request.setAttribute(Const.ATTRIB_PRODUKT, SQLHandler.getProdukt(Const.getConnection(request), p.getKlasid(), Const.getSessionData(request).getAvtalsKundnr()));
-								request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
+                                                                 request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
 							}
-							request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
+                                                        request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 						}
 					} else {
 						if (printAsKatalog) 
 							request.getRequestDispatcher("/WEB-INF/kat-header.jsp").include(request, response);	
 						else 
-							request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);				
+                                                        if (!"kbl".equals(StartupData.getKatalogProduktView()))
+                                                            request.getRequestDispatcher("/WEB-INF/kli-header.jsp").include(request, response);	
+                                                        else
+                                                            request.getRequestDispatcher("/WEB-INF/kbl-header.jsp").include(request, response);
 						
 						printProdukt(request, response, prod, printAsKatalog, tvingaBrutto);
 						if (printUndergrupp) { //Skriv undergrupper i en nivå
@@ -172,7 +176,10 @@ public class KatalogServlet extends HttpServlet {
 						if (printAsKatalog)
 							request.getRequestDispatcher("/WEB-INF/kat-footer.jsp").include(request, response);				
 						else
-							request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
+                                                        if (!"kbl".equals(StartupData.getKatalogProduktView()))
+                                                            request.getRequestDispatcher("/WEB-INF/kli-footer.jsp").include(request, response);				
+                                                        else
+                                                            request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 							
 					}
 					
@@ -196,7 +203,10 @@ public class KatalogServlet extends HttpServlet {
 								request.setAttribute(Const.ATTRIB_PRINTASLISTPRIS, tvingaBrutto);
 								request.getRequestDispatcher("/WEB-INF/kat-row.jsp").include(request, response);				
 							} else
-								request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
+                                                                if (!"kbl".equals(StartupData.getKatalogProduktView()))
+                                                                    request.getRequestDispatcher("/WEB-INF/kli-row.jsp").include(request, response);				
+                                                                else
+                                                                    request.getRequestDispatcher("/WEB-INF/kbl-block-content-small.jsp").include(request, response);				
 								
 						}
 							
