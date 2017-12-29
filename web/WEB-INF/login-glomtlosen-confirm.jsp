@@ -5,9 +5,13 @@
 --%>
 
 
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.hemsida.Const"%>
+<% Language lang = StartupData.getLanguage(); %>
+
 <div class="login">
-    <h2>Nytt lösenord</h2>
-    <p>Nytt lösenord är skickat till den e-postadress som är registrerad på ditt konto. </p>
-    <p>Om du inte får någon e-post kontrollerar du att du angivit rätt användarnamn och att mailet inte har hamnat i din skräppost.</p>
+    <h2><%= lang.NyttLosenord %></h2>
+    
+    <%= lang.LoginGlomtLosenHTML() %>
 </div>

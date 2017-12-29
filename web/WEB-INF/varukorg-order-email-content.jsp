@@ -3,6 +3,7 @@
     Created on : 2014-nov-30, 09:47:46
     Author     : Ulf
 --%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.LagerEnhet"%>
 <%@page import="se.saljex.hemsida.VarukorgFormHandler"%>
@@ -13,6 +14,7 @@
 <%@page import="se.saljex.hemsida.Varukorg"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.SessionData"%>
+<% Language lang = StartupData.getLanguage(); %>
 <%
     SessionData sd = Const.getSessionData(request);
     boolean inkMoms = false;

@@ -1,3 +1,6 @@
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
+<% Language lang = StartupData.getLanguage(); %>
 <div>
-    <b>Hoppsan... det gick inte att skicka ordern, och vi vet inte varför. Prova igen!</b>
+    <%= lang.VarukorgSaveErrorHTML() %>
 </div>

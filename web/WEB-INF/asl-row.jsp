@@ -1,7 +1,11 @@
+<%@page import="se.saljex.hemsida.Language"%>
+<%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="java.util.List"%>
 <%@page import="se.saljex.hemsida.Artikel"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
+<% Language lang = StartupData.getLanguage(); %>
+
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     long rowCn = Const.getInitData(request).getNewUniktID();

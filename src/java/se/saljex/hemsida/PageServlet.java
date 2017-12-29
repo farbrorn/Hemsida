@@ -36,7 +36,6 @@ public class PageServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
 		Connection con = Const.getConnection(request);
 		try (PrintWriter out = response.getWriter()) {

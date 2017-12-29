@@ -1,7 +1,10 @@
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.hemsida.InitData"%>
 <%@page import="se.saljex.hemsida.Artikel"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
+<% Language lang = StartupData.getLanguage(); %>
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     if (p==null) return;
@@ -40,10 +43,10 @@
 
                             </div>
                             <div class="kbl-t-antal-kop">
-                                <div class="kbl-t-antal" style="">Antal:
+                                <div class="kbl-t-antal" style=""><%= lang.Antal() %>:
                                     <input size="4" id="antalinput-<%= rowCn %>" value="<%= forvaldVariant.getAntalSaljPackIForpack() %>">
                                 </div> 
-                                <div class="kbl-t-kop a-btn" onclick="vk_add(<%= p.getKlasid() %>,'variant-<%= rowCn %>','antalinput-<%= rowCn %>');">Köp
+                                <div class="kbl-t-kop a-btn" onclick="vk_add(<%= p.getKlasid() %>,'variant-<%= rowCn %>','antalinput-<%= rowCn %>');"><%= lang.Kop() %>
                                 </div>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="se.saljex.hemsida.SQLHandler"%>
@@ -8,6 +9,7 @@
 <%@page import="se.saljex.hemsida.KatalogGrupp"%>
 <%@page import="java.util.List"%>
 <%@page import="se.saljex.hemsida.Const"%>
+<% Language lang = StartupData.getLanguage(); %>
 <%
 KatalogGruppLista kgl = Const.getSessionData(request).getKatalogGruppLista(Const.getConnection(request));
 KatalogHeaderInfo khInfo = (KatalogHeaderInfo)request.getAttribute(Const.ATTRIB_KATALOGHEADERINFO);

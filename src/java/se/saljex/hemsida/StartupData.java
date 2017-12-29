@@ -48,6 +48,7 @@ public class StartupData {
 	private boolean loggaSidvisningar;
 	private boolean loggaSidvisningarEjInloggad;
 	private String googleAnalyticsID=null;	
+        private Language language;
 	
 	public StartupData(	DataSource sxadm) {
 		this.sxadm=sxadm;
@@ -60,6 +61,9 @@ public class StartupData {
 	public static String getImageServerOriginalAbsolutPath() {
 		return Const.getStartupData().getImageServerOriginalAbsolutPathLocal();
 	}
+        public static Language getLanguage() {
+            return Const.getStartupData().getLanguageLocal();
+        }
 
 	public static String getGoogleAnalyticsID() {
 		return Const.getStartupData().getGoogleAnalyticsIDLocal();
@@ -73,6 +77,9 @@ public class StartupData {
 	public String getImageServerOriginalAbsolutPathLocal() {
 		return imageServerOriginlAbsolutPath;
 	}
+        public Language getLanguageLocal() { 
+            return language;
+        }
 	
 	public static String getBildURL() {
 		return Const.getStartupData().getBildURLLocal();		
@@ -336,7 +343,7 @@ public class StartupData {
 			loggaSidvisningar = "true".equals(getConfig("Hemsida-LoggaSidvisningar","true"));
 			loggaSidvisningarEjInloggad = "true".equals(getConfig("Hemsida-LoggaSidvisningarEjInloggad","false"));
 			googleAnalyticsID = getConfig("Hemsida-GoogleAnalyticsID", "");
-			
+                        if ("no".equals(getConfig("Hemsida-Language","se").toLowerCase())) language = new LanguageNo(); else language=new Language();
 		} finally {
 			try { con.close(); }catch (Exception e) {}
 		}

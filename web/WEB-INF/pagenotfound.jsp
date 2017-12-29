@@ -4,6 +4,9 @@
     Author     : Ulf
 --%>
 
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% Language lang = StartupData.getLanguage(); %>
 <!DOCTYPE html>
-Tyvärr kan vi inte hitta sidan...
+<%= lang.PageNotFoundHTML() 5>

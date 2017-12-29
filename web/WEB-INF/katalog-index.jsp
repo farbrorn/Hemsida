@@ -1,3 +1,5 @@
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
 <%@page import="java.util.ArrayList"%>
@@ -5,6 +7,7 @@
 <%@page import="se.saljex.hemsida.KatalogGrupp"%>
 <%@page import="se.saljex.hemsida.KatalogGruppLista"%>
 <%@page import="se.saljex.hemsida.Const"%>
+<% Language lang = StartupData.getLanguage(); %>
 <%
 KatalogGruppLista kgl = Const.getSessionData(request).getKatalogGruppLista(Const.getConnection(request));
 KatalogGrupp avdelning = (KatalogGrupp)request.getAttribute(Const.ATTRIB_KATALOGAVDELNING);

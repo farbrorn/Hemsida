@@ -1,8 +1,12 @@
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.sxlibrary.SXUtil"%>
 <%@page import="java.util.List"%>
 <%@page import="se.saljex.hemsida.Artikel"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.Produkt"%>
+<% Language lang = StartupData.getLanguage(); %>
+
 <%
     Produkt p = (Produkt)request.getAttribute(Const.ATTRIB_PRODUKT);
     Boolean tvingaBruttopris = false;
@@ -30,7 +34,7 @@
             <tr>
                 <th class="kat-a-td-artnr">Art.nr</td>
                 <th class="kat-a-td-namn">Benämning</td>
-                <th class="kat-a-td-pris"><%= isBruttopris ? "Listpris" : "Pris" %> <%= inkMoms ? "ink moms" : "exkl moms" %></td>
+                <th class="kat-a-td-pris"><%= isBruttopris ? lang.Listpris() : lang.Pris() %> <%= inkMoms ? lang.InklMoms() : lang.ExklMoms() %></td>
                 <th class="kat-a-td-enhet">Enhet</td>
                 <th class="kat-a-td-rsk">RSK</td>
             </tr>

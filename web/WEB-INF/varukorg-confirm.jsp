@@ -3,6 +3,8 @@
     Created on : 2014-nov-30, 09:47:46
     Author     : Ulf
 --%>
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.hemsida.VarukorgFormHandler"%>
 <%@page import="se.saljex.hemsida.ReCaptcha"%>
 <%@page import="se.saljex.hemsida.VarukorgArtikel"%>
@@ -11,6 +13,7 @@
 <%@page import="se.saljex.hemsida.Varukorg"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.SessionData"%>
+<% Language lang = StartupData.getLanguage(); %>
 <%
     SessionData sd = Const.getSessionData(request);
 //    Varukorg vk = sd.getVarukorg(Const.getConnection(request));
@@ -31,36 +34,32 @@
         <% } %>
     <table>
     
-        <tr><td>Kundnummer</td><td><%= Const.toHtml(vkf.getKundnr()) %></td></tr>
-        <tr><td>Företag</td><td><%= Const.toHtml(vkf.getForetag()) %></td></tr>
-        <tr><td>Kontaktperson</td><td><%= Const.toHtml(vkf.getKontaktperson()) %></td></tr>
-        <tr><td>E-Post</td><td><%= Const.toHtml(vkf.getEpost()) %></td></tr>
+        <tr><td><%= lang.Kundnummer() %></td><td><%= Const.toHtml(vkf.getKundnr()) %></td></tr>
+        <tr><td><%= lang.Foretag() %></td><td><%= Const.toHtml(vkf.getForetag()) %></td></tr>
+        <tr><td><%= lang.Kontaktperson() %></td><td><%= Const.toHtml(vkf.getKontaktperson()) %></td></tr>
+        <tr><td><%= lang.EPost() %></td><td><%= Const.toHtml(vkf.getEpost()) %></td></tr>
         <% if (!sd.isUserInloggad()) { %>
-            <tr><td>Adress</td><td><%= Const.toHtml(vkf.getAdress()) %></td></tr>
-            <tr><td>Postnr</td><td><%= Const.toHtml(vkf.getPostnr()) %></td></tr>
-            <tr><td>Ort</td><td><%= Const.toHtml(vkf.getOrt()) %></td></tr>
-            <tr><td>Telefon</td><td><%= Const.toHtml(vkf.getTel()) %></td></tr>
-            <tr><td>Organisationsnummer</td><td><%= Const.toHtml(vkf.getOrgnr()) %></td></tr>
+            <tr><td><%= lang.Adress() %></td><td><%= Const.toHtml(vkf.getAdress()) %></td></tr>
+            <tr><td><%= lang.Postnr() %></td><td><%= Const.toHtml(vkf.getPostnr()) %></td></tr>
+            <tr><td><%= lang.Ort() %></td><td><%= Const.toHtml(vkf.getOrt()) %></td></tr>
+            <tr><td><%= lang.Telefon() %></td><td><%= Const.toHtml(vkf.getTel()) %></td></tr>
+            <tr><td><%= lang.Organisationsnummer() %></td><td><%= Const.toHtml(vkf.getOrgnr()) %></td></tr>
         <% } %>
-        <tr><td>Order registrerad på lager</td><td><%= Const.toHtml(Const.getStartupData().getLagerEnhetList().get(vkf.getLagernr()).getNamn()) %></td></tr>
-        <tr><td>Valt transportsätt</td><td><%= Const.toHtml(sd.getFraktsattBeskrivning(vkf.getFraktsatt())) %></td></tr>
+        <tr><td><%= lang.OrderRegistreradPaLager() %></td><td><%= Const.toHtml(Const.getStartupData().getLagerEnhetList().get(vkf.getLagernr()).getNamn()) %></td></tr>
+        <tr><td><%= lang.ValtTransportsatt() %></td><td><%= Const.toHtml(sd.getFraktsattBeskrivning(vkf.getFraktsatt())) %></td></tr>
 
-        <tr><td>Godsmärke</td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>
-        <tr><td>Meddelande</td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>
+        <tr><td><%= lang.Godsmarke() %></td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>
+        <tr><td><%= lang.Meddelande() %></td><td><%= Const.toHtml(vkf.getMarke()) %></td></tr>
     </table>
 
 
 
 <% //VarukorgProdukt vkProdukt; %>
 <div class="momsinfo">
-<% if (inkMoms) { %>
-    Priser inklusive moms.
-<% } else { %>
-    Priser exklusive moms.
-<% } %>
+    <%= inkMoms ? lang.PriserInklusiveMoms() : lang.PriserExklusiveMoms() %>
 </div>
     <table>
-        <tr><th></th><th>Art.nr.</th><th>Benämning</th><th>Antal</th><th>Enhet</th><th>Totalpris</th></tr>
+        <tr><th></th><th><%= lang.Artnr() %></th><th><%= lang.Benamning() %></th><th><%= lang.Antal() %></th><th><%= lang.Enhet() %></th><th><%= lang.Totalt() %></th></tr>
     <%// for (int cn = vkf.getRows().size()-1; cn >= 0; cn--) 
            for (VarukorgProdukt vkProdukt : vkf.getRows()) { %>
         <% //vkProdukt = vk.getVarukorgProdukter().get(cn); %>

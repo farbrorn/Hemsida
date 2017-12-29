@@ -1,7 +1,10 @@
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="se.saljex.hemsida.KatalogGrupp"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.KatalogGruppLista"%>
+<% Language lang = StartupData.getLanguage(); %>
 <%
     KatalogGruppLista kgl=null;
     try {
@@ -14,7 +17,7 @@
                     if (kgl!=null && kgl.isAvdelningar()) {
                 %>
                     <ul>
-                    <li class="trad-ind0">Avdelningar</li>
+                    <li class="trad-ind0"><%= lang.Avdelningar() %></li>
                     <% for (KatalogGrupp kg : kgl.getAvdelningar()) { %>
                     <li class="trad-ind1"><a href="<%= request.getContextPath() + "/katalog/" + kg.getGrpId() %>"><%= Const.toHtml(kg.getRubrik()) %></a></li>   
                     <% } %>

@@ -1,2 +1,4 @@
-<h1>Produkten du sökte finns inte.</h1>
-<h3>Kanske någon av dessa produkter passar?</h3>
+<%@page import="se.saljex.hemsida.StartupData"%>
+<%@page import="se.saljex.hemsida.Language"%>
+<% Language lang = StartupData.getLanguage(); %>
+<%= lang.ProduktEjHittadHTML() %>

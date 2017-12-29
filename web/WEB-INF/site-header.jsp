@@ -1,9 +1,12 @@
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.hemsida.PageHandler"%>
 <%@page import="se.saljex.sxlibrary.SXUtil"%>
 <%@page import="se.saljex.hemsida.SessionData"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.Const"%>
+<% Language lang = StartupData.getLanguage(); %>
+
 <html>
     <head profile="http://www.w3.org/2005/10/profile">
 <% if (!StartupData.isHemsidaTestlage() &&  !SXUtil.isEmpty(StartupData.getGoogleAnalyticsID())) { %>
@@ -113,7 +116,7 @@
                 <div class="site-header-sok">
                     <form action="<%= request.getContextPath() + "/sok" %>" method="get">
                         <input name="q" class="site-header-sok-input" onkeyup="sokare(this.value)">
-                        <input value="Sök" type="submit">
+                        <input value="<%= lang.Sok() %>" type="submit">
                     </form>
                 </div>
                 <div class="site-header-abar">                
@@ -134,7 +137,7 @@
                    
                 <a href="<%= request.getContextPath() %>/varukorg">
                     <div class="site-header-kassa-btn a-btn" >
-                         Till Kassan
+                         <%= lang.TillKassan() %>
                     </div>
                 </a>
                 <a href="<%= request.getContextPath() %>/s/<%= Const.getStartupData().getPageMeny() %>">

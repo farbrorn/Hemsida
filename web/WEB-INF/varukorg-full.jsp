@@ -3,6 +3,7 @@
     Created on : 2014-nov-30, 09:47:46
     Author     : Ulf
 --%>
+<%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.hemsida.VeckodagarSet"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.LagerEnhet"%>
@@ -19,6 +20,7 @@
 <%@page import="se.saljex.hemsida.Varukorg"%>
 <%@page import="se.saljex.hemsida.Const"%>
 <%@page import="se.saljex.hemsida.SessionData"%>
+<% Language lang = StartupData.getLanguage(); %>
 <%
     SessionData sd = Const.getSessionData(request);
     boolean inkMoms=Const.getSessionData(request).isInkMoms(request);
@@ -46,17 +48,17 @@
     
 %>
 <% VarukorgProdukt vkProdukt; %>
-<h1>Varukorg</h1>
+<h1><%= lang.Varukorg() %></h1>
 <form method="post" id="<%= formName %>" action="?">
     <div class="vkf-header-row">
         <div class="vkf-img"></div>
-        <div class="vkf-artnr">Artikel</div>
+        <div class="vkf-artnr"><%= lang.Artikel() %></div>
         <div class="vkf-variant"></div>
-        <div class="vkf-change">Antal</div>
-        <div class="vkf-enh">Enhet</div>        
-        <div class="vkf-pris">Pris</div>
-        <div class="vkf-pris">Totalt</div>
-        <div class="vkf-lagerstatus">Lager</div>
+        <div class="vkf-change"><%= lang.Antal() %></div>
+        <div class="vkf-enh"><%= lang.Enhet() %></div>        
+        <div class="vkf-pris"><%= lang.Pris() %></div>
+        <div class="vkf-pris"><%= lang.Totalt() %></div>
+        <div class="vkf-lagerstatus"><%= lang.Lager() %></div>
 
     </div>
     <% int vkrcn = -1; %>
@@ -91,47 +93,49 @@
                                         <input type="hidden" name="vkf-aid-<%= vkrcn %>" value="<%= a.getArtnr() %>">
                                         <input type="hidden" name="vkf-kid-<%= vkrcn %>" value="<%= vkProdukt.getProdukt().getKlasid() %>">
                                 </div>
-                                <% if (a.getArt().getLevVillkor() > 0 && kund!=null && !kund.getMottagarfrakt()) { %>
-                                    <% if (a.getArt().getLevVillkor() == 1) {// 1=skrymme som kan gå fritt turbil %>
-                                    <% if(!Const.FRAKTSATT_TURBIL.equals(fraktsatt) && !Const.FRAKTSATT_HAMT.equals(fraktsatt) ) { // distrikt 0 är ospecat, t.ex. hämt, distrikt 1 = turbil %>
-                                            <div class="vkf-notbeskrivning">Skrymmefrakt tillkommer på denna artikel.</div>
-                                        <% } else { %>
-                                        <% }%>
-                                    <% } else if (a.getArt().getLevVillkor() == 2) { // 2=fritt tillverkarens lager %>
-                                            <div class="vkf-notbeskrivning">Särskild fraktkostnad tillkommer på denna artikel.</div>
-                                    <% } %>
-                                <% } %>
-                                <% orderSumma += a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris) * a.getAntal() * a.getArt().getAntalSaljpack(); %>
-                            <% } %>        
+                                <% if (a.getArt().getLevVillkor() > 0 && kund!=null && !kund.getMottagarfrakt()) { 
+                                     if (a.getArt().getLevVillkor() == 1) {// 1=skrymme som kan gå fritt turbil 
+                                     if(!Const.FRAKTSATT_TURBIL.equals(fraktsatt) && !Const.FRAKTSATT_HAMT.equals(fraktsatt) ) { // distrikt 0 är ospecat, t.ex. hämt, distrikt 1 = turbil 
+                                %>
+                                            <div class="vkf-notbeskrivning"><%= lang.SkrymmefraktTillkommerPaDennaArtikel() %></div>
+                                      <% 
+                                      }
+                                     } else if (a.getArt().getLevVillkor() == 2) { // 2=fritt tillverkarens lager %>
+                                            <div class="vkf-notbeskrivning"><%= lang.SarskildFraktkostnadTillkommerPaDennaArtikel() %> </div>
+                                    <% } 
+                                 }  
+                                 orderSumma += a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris) * a.getAntal() * a.getArt().getAntalSaljpack(); 
+                             } 
+                                    %>         
                         </div>
                           
                     </div>
     <% } %>
     
     <div class="vkf-summa-row">
-        <div class="vkf-summa-text">Ordertotal</div>
+        <div class="vkf-summa-text"><%= lang.Ordertotal() %></div>
         <div class="vkf-summa-belopp"><%= SXUtil.getFormatNumber(orderSumma) %></div>
     </div>
 
     <% if (kund!= null && kund.isKreditgransUppnadd()) { %>
         <% if(kund.getReskontraForfall30() + kund.getReskontraKreditEjForfallen30() > 0.0) { %> 
-            <div class="kreditvarning">Observera att du har <%= SXUtil.getFormatNumber(kund.getReskontraForfall30()) %> i långtidsförfallna fakturor som måste betalas innan leverans kan ske.</div> 
+            <div class="kreditvarning"><%= lang.ObserveraAttDuHar() %> <%= SXUtil.getFormatNumber(kund.getReskontraForfall30()) %> <%= lang.ILangtidsforfallnaFakturorSomMasteBetalasInnanLeveransKanSke() %></div> 
         <% } else { %>
-            <div class="kreditvarning">Observera att din kreditgräns (<%= SXUtil.getFormatNumber(kund.getKgrans()) %> kr) är överskriden. Betalning måste ske innan leverans.</div> 
+            <div class="kreditvarning"><%= lang.ObserveraAttDinKreditgrans() %><%= SXUtil.getFormatNumber(kund.getKgrans()) %> <%= lang.KrArOverskridenBetalningMasteSkeInnanLeverans() %></div> 
         <% } %>
     <% } %>
     <div class="momsinfo">
 
     <% if (inkMoms) { %>
-        Priser inklusive moms.
+        <%= lang.PriserInklusiveMoms() %>
     <% } else { %>
-        Priser exklusive moms.
+        <%= lang.PriserExklusiveMoms() %>
     <% } %>
     </div>
     
     <table>
         <% se.saljex.hemsida.User u = Const.getSessionData(request).getInloggadUser();  %>
-        <tr><td>Valt lager</td><td>
+        <tr><td><%= lang.ValtLager() %></td><td>
                 <select name="<%= VarukorgFormHandler.FORMNAME_LAGERNR %>" id="lagerselector1" onchange="setLager(document.getElementById('lagerselector1'))">
                     <option value="<%= le.getLagernr() %>"><%= Const.toHtml(le.getNamn()) %></option>
                     <% 
@@ -149,30 +153,30 @@
 
         </td></tr>
 
-        <tr><td>Transportsätt</td><td>                
+        <tr><td><%= lang.Transportsatt() %></td><td>                
                 <select name="<%= VarukorgFormHandler.FORMNAME_FRAKTSATT %>" id="transportselector1" onchange="setTransportsatt(document.getElementById('transportselector1'))">
                     <% if (turbilDagar!=null && turbilDagar.isAnyDay()) { %>
                         <option value="<%= Const.FRAKTSATT_TURBIL %>">
-                            Turbil <%= (turbilDagar.isMandag() ? "Måndagar " : "") + (turbilDagar.isTisdag()? "Tisdagar " : "") + (turbilDagar.isOnsdag()? "Onsdagar " : "") + (turbilDagar.isTorsdag()? "Tordagar " : "") + (turbilDagar.isFredag()? "Fredagar " : "") %>
+                            <%= lang.Turbil() %> <%= (turbilDagar.isMandag() ?  lang.Mandagar()+" " : "") + (turbilDagar.isTisdag()? lang.Tisdagar()+" " : "") + (turbilDagar.isOnsdag()? lang.Onsdagar()+" " : "") + (turbilDagar.isTorsdag()? lang.Torsdagar()+" " : "") + (turbilDagar.isFredag()? lang.Fredagar()+" " : "") %>
                         </option>
                     <% } %>
                     <option value="<%= Const.FRAKTSATT_HAMT %>" <%= Const.FRAKTSATT_HAMT.equals(fraktsatt) ? " selected=\"selected\"" : "" %>>Hämtas</option>
-                    <option  value="<%= Const.FRAKTSATT_SKICKA %>"<%= Const.FRAKTSATT_SKICKA.equals(fraktsatt) ? " selected=\"selected\"" : "" %>>Skickas med lämplig speditör</option>
+                    <option  value="<%= Const.FRAKTSATT_SKICKA %>"<%= Const.FRAKTSATT_SKICKA.equals(fraktsatt) ? " selected=\"selected\"" : "" %>><%= lang.SkickasMedLampligSpeditor() %></option>
                 </select>
         </td></tr>
-        <tr><td>Kundnummer</td><td><input name="<%= VarukorgFormHandler.FORMNAME_KUNDNR %>" value="<%= Const.toHtml(vkf.getKundnr()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
-        <tr><td>Företag</td><td><input name="<%= VarukorgFormHandler.FORMNAME_FORETAG %>" value="<%= Const.toHtml(vkf.getForetag()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
-        <tr><td>Kontaktperson</td><td><input name="<%= VarukorgFormHandler.FORMNAME_KONTAKTPERSON %>" value="<%= Const.toHtml(vkf.getKontaktperson()) %>"></td></tr>
-        <tr><td>E-Post</td><td><input name="<%= VarukorgFormHandler.FORMNAME_EPOST %>" value="<%= Const.toHtml(vkf.getEpost()) %>"><%= Const.toHtml(vkf.getEpostErrorMsg()) %></td></tr>
+        <tr><td><%= lang.Kundnummer() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_KUNDNR %>" value="<%= Const.toHtml(vkf.getKundnr()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
+        <tr><td><%= lang.Foretag() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_FORETAG %>" value="<%= Const.toHtml(vkf.getForetag()) %>" <%= u==null ? "" : "disabled" %>></td></tr>
+        <tr><td><%= lang.Kontaktperson() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_KONTAKTPERSON %>" value="<%= Const.toHtml(vkf.getKontaktperson()) %>"></td></tr>
+        <tr><td><%= lang.EPost() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_EPOST %>" value="<%= Const.toHtml(vkf.getEpost()) %>"><%= Const.toHtml(vkf.getEpostErrorMsg()) %></td></tr>
         <%if (u==null) { %>
-            <tr><td>Adress</td><td><input name="<%= VarukorgFormHandler.FORMNAME_ADRESS %>" value="<%= Const.toHtml(vkf.getAdress()) %>"></td></tr>
-            <tr><td>Postnr</td><td><input name="<%= VarukorgFormHandler.FORMNAME_POSTNR %>" value="<%= Const.toHtml(vkf.getPostnr()) %>"></td></tr>
-            <tr><td>Ort</td><td><input name="<%= VarukorgFormHandler.FORMNAME_ORT %>" value="<%= Const.toHtml(vkf.getOrt()) %>"></td></tr>
-            <tr><td>Telefon</td><td><input name="<%= VarukorgFormHandler.FORMNAME_TEL %>" value="<%= Const.toHtml(vkf.getTel()) %>"></td></tr>
-            <tr><td>Organisationsnummer</td><td><input name="<%= VarukorgFormHandler.FORMNAME_ORGNR %>" value="<%= Const.toHtml(vkf.getOrgnr()) %>"></td></tr>
+            <tr><td><%= lang.Adress() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_ADRESS %>" value="<%= Const.toHtml(vkf.getAdress()) %>"></td></tr>
+            <tr><td><%= lang.Postnr() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_POSTNR %>" value="<%= Const.toHtml(vkf.getPostnr()) %>"></td></tr>
+            <tr><td><%= lang.Ort() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_ORT %>" value="<%= Const.toHtml(vkf.getOrt()) %>"></td></tr>
+            <tr><td><%= lang.Telefon() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_TEL %>" value="<%= Const.toHtml(vkf.getTel()) %>"></td></tr>
+            <tr><td><%= lang.Organisationsnummer() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_ORGNR %>" value="<%= Const.toHtml(vkf.getOrgnr()) %>"></td></tr>
         <% } %>
-        <tr><td>Godsmärke</td><td><input name="<%= VarukorgFormHandler.FORMNAME_MARKE %>" value="<%= Const.toHtml(vkf.getMarke()) %>"></td></tr>
-        <tr><td>Meddelande</td><td><textarea name="<%= VarukorgFormHandler.FORMNAME_MEDDELANDE %>" ><%= Const.toHtml(vkf.getMeddelande()) %></textarea></td></tr>
+        <tr><td><%= lang.Godsmarke() %></td><td><input name="<%= VarukorgFormHandler.FORMNAME_MARKE %>" value="<%= Const.toHtml(vkf.getMarke()) %>"></td></tr>
+        <tr><td><%= lang.Meddelande() %></td><td><textarea name="<%= VarukorgFormHandler.FORMNAME_MEDDELANDE %>" ><%= Const.toHtml(vkf.getMeddelande()) %></textarea></td></tr>
         
         
     </table>
@@ -196,7 +200,7 @@
                 </div>
          <% } %>
      <% } %>
-     <input type="button" value="Skicka order" onclick="AJAXPost('<%= formName %>');<%= recaptchaSiteKey!=null ? "recaptchaonload();" :"" %>">
+     <input type="button" value="<%= lang.SkickaOrder() %>" onclick="AJAXPost('<%= formName %>');<%= recaptchaSiteKey!=null ? "recaptchaonload();" :"" %>">
 
     
 </form>
