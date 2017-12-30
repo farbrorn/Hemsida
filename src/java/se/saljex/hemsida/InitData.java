@@ -8,6 +8,8 @@ package se.saljex.hemsida;
 
 import java.sql.Connection;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.Cookie;
+import se.saljex.loginservice.User;
 
 /**
  *
@@ -22,7 +24,18 @@ public class InitData {
     public InitData(ServletRequest request) {
 		this.request=request;
     }
-    
+    private se.saljex.loginservice.User adminUser;
+
+    public User getAdminUser() {
+        return adminUser;
+    }
+
+    public void setAdminUser(User adminUser) {
+        this.adminUser = adminUser;
+    }
+
+            
+            
 	private StringBuilder extraHTMLHeadContent = new StringBuilder(400);
     java.sql.Connection con = null;
 

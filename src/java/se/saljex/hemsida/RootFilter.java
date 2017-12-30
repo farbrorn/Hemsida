@@ -11,6 +11,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
+import javax.ejb.EJB;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -21,6 +22,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import se.saljex.loginservice.LoginServiceBeanRemote;
+import se.saljex.loginservice.LoginServiceConstants;
+import se.saljex.loginservice.Util;
 
 
 /**
@@ -32,6 +36,9 @@ public class RootFilter implements Filter {
 	@javax.annotation.Resource(mappedName = "sxadm")
 	private DataSource sxadm;
     
+        @EJB
+        private LoginServiceBeanRemote loginServiceBeanRemote;
+        
     public RootFilter() {
     }    
     
@@ -62,6 +69,17 @@ public class RootFilter implements Filter {
 			}
 		}
 		initDat.setDataCookie(new DataCookieHandler(data));
+
+                se.saljex.loginservice.User adminUser=null;
+            try { adminUser = (se.saljex.loginservice.User)((HttpServletRequest)request).getSession().getAttribute(LoginServiceConstants.REQUEST_PARAMETER_SESSION_USER); } catch (Exception e) {System.out.print("exzep" + e.toString()); }
+            if (adminUser==null) {
+
+                    Cookie co = Util.getLoginCookie(cookies);
+                    if (co!=null) {
+                            adminUser = loginServiceBeanRemote.loginByUUID(co.getValue());
+                    }
+            }
+            initDat.setAdminUser(adminUser);
 		
 		//Stäng av cache
 		((HttpServletResponse)response).setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); //http 1.1

@@ -15,10 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import se.saljex.hemsida.Const;
 import se.saljex.hemsida.KatalogGrupp;
-import se.saljex.hemsida.PageHandler;
 import se.saljex.hemsida.SQLHandler;
-import se.saljex.hemsida.StartupData;
-import se.saljex.sxlibrary.SXUtil;
+import se.saljex.loginservice.LoginServiceConstants;
+import se.saljex.loginservice.User;
 
 /**
  *
@@ -45,41 +44,47 @@ public class EditArtGrp extends HttpServlet {
 			Integer grpid = null;
 			KatalogGrupp grp=null;
 			try { grpid = Integer.parseInt(grpidStr); }catch (Exception e) {}
-			if (grpid!=null) {
-				if ("save".equals(action)) {
-					try {
-						Integer sortOrder = null;
-						try { sortOrder = Integer.parseInt(action); } catch (Exception e) {}
-						if (sortOrder==null) sortOrder=0;
-						
-						if (!SQLHandler.saveGrupp(Const.getConnection(request), grpid, sortOrder, request.getParameter("rubrik"), request.getParameter("text"), request.getParameter("htmlhead"), request.getParameter("htmlfoot"), "true".equals(request.getParameter("visaundergrupper")))) {
-							out.print("Inget sparat<br>");
-						} else {
-							KatalogGrupp k = Const.getStartupData().getKatalogGruppLista().getGrupper().get(grpid);
-							k.setSortOrder(sortOrder);
-							k.setRubrik(request.getParameter("rubrik"));
-							k.setText(request.getParameter("text"));
-							k.setHtmlHead(request.getParameter("htmlhead"));
-							k.setHtmlFoot(request.getParameter("htmlfoot"));
-							k.setVisaundergrupper("true".equals(request.getParameter("visaundergrupper")));							
-						}
+                        User adminUser = null;
+                        try { adminUser  = (User)request.getSession().getAttribute(LoginServiceConstants.REQUEST_PARAMETER_SESSION_USER); } catch (Exception e) {}
+                        if (adminUser!= null && adminUser.isBehorighet("WebAdmin")){
+                            if (grpid!=null) {
+                                    if ("save".equals(action)) {
+                                            try {
+                                                    Integer sortOrder = null;
+                                                    try { sortOrder = Integer.parseInt(action); } catch (Exception e) {}
+                                                    if (sortOrder==null) sortOrder=0;
 
-					
-					} catch (SQLException e) {
-						out.print("SQL-FEL: " + e.toString());
-					}
-				} 
-			
-				try {
-					grp = SQLHandler.getGrupp(Const.getConnection(request), grpid);
-					request.setAttribute("kataloggrupp", grp);
-					request.getRequestDispatcher("/WEB-INF/Admin/editkataloggrupp.jsp").include(request, response);				
-				} catch (SQLException e) { 
-					out.print("SQL-FEL: " + e.toString());
-				}	
-			} else { 
-				out.print("Gruppid hittades inte"); 
-			}
+                                                    if (!SQLHandler.saveGrupp(Const.getConnection(request), grpid, sortOrder, request.getParameter("rubrik"), request.getParameter("text"), request.getParameter("htmlhead"), request.getParameter("htmlfoot"), "true".equals(request.getParameter("visaundergrupper")))) {
+                                                            out.print("Inget sparat<br>");
+                                                    } else {
+                                                            KatalogGrupp k = Const.getStartupData().getKatalogGruppLista().getGrupper().get(grpid);
+                                                            k.setSortOrder(sortOrder);
+                                                            k.setRubrik(request.getParameter("rubrik"));
+                                                            k.setText(request.getParameter("text"));
+                                                            k.setHtmlHead(request.getParameter("htmlhead"));
+                                                            k.setHtmlFoot(request.getParameter("htmlfoot"));
+                                                            k.setVisaundergrupper("true".equals(request.getParameter("visaundergrupper")));							
+                                                    }
+
+
+                                            } catch (SQLException e) {
+                                                    out.print("SQL-FEL: " + e.toString());
+                                            }
+                                    } 
+
+                                    try {
+                                            grp = SQLHandler.getGrupp(Const.getConnection(request), grpid);
+                                            request.setAttribute("kataloggrupp", grp);
+                                            request.getRequestDispatcher("/WEB-INF/Admin/editkataloggrupp.jsp").include(request, response);				
+                                    } catch (SQLException e) { 
+                                            out.print("SQL-FEL: " + e.toString());
+                                    }	
+                            } else { 
+                                    out.print("Gruppid hittades inte"); 
+                            }
+                        } else { 
+                                out.print("ingen  behörighet"); 
+                        }
 		}
 	}
 

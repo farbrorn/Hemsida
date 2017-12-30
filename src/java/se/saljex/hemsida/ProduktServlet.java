@@ -33,6 +33,7 @@ public class ProduktServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
+                se.saljex.loginservice.User adminUser = Const.getInitData(request).getAdminUser();
 		try (PrintWriter out = response.getWriter()) {
 
 			boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
@@ -88,6 +89,8 @@ public class ProduktServlet extends HttpServlet {
 
 			if (p!=null) {
 				request.getRequestDispatcher("/WEB-INF/produkt-content.jsp").include(request, response);
+                                if (adminUser!=null && adminUser.isBehorighet("WebAdmin")) 
+                                    out.print("<a href=\"/Admin/EditProdukt?klasid=" + klasid  + "\" target=\"__blank\">Redigera produkt</a>");
 			} else {
 				Const.getInitData(request).setMetaRobotsNoIndex(true);
 				request.getRequestDispatcher("/WEB-INF/produkt-ej-hittad.jsp").include(request, response);				

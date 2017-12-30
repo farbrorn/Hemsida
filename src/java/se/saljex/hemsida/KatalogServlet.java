@@ -19,6 +19,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import se.saljex.loginservice.LoginServiceConstants;
 import se.saljex.sxlibrary.SXUtil;
 
 /**
@@ -39,8 +40,8 @@ public class KatalogServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		try (PrintWriter out = response.getWriter()) {
-
+                se.saljex.loginservice.User adminUser = Const.getInitData(request).getAdminUser();
+                try (PrintWriter out = response.getWriter()) {
 			boolean printAsKatalog = false;
 			boolean tvingaBrutto = false;
 			boolean printUndergrupp = false;
@@ -182,7 +183,8 @@ public class KatalogServlet extends HttpServlet {
                                                             request.getRequestDispatcher("/WEB-INF/kbl-footer.jsp").include(request, response);				
 							
 					}
-					
+					if (grpid!=null && adminUser!=null && adminUser.isBehorighet("WebAdmin")) 
+                                            out.print("<a href=\"/Admin/EditArtGrp?grpid=" + grpid  + "\" target=\"__blank\">Redigera gruppen</a>");
 					request.getRequestDispatcher("/WEB-INF/katalog-foot.jsp").include(request, response);									
 				}
 			}

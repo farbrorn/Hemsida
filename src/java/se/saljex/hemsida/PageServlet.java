@@ -38,6 +38,7 @@ public class PageServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		boolean contentOnly = Const.getInitData(request).isContentOnlyCall();
 		Connection con = Const.getConnection(request);
+                se.saljex.loginservice.User adminUser = Const.getInitData(request).getAdminUser();
 		try (PrintWriter out = response.getWriter()) {
 			PageHandler pageHandler = new PageHandler(request, response);
 			String sid=null;
@@ -90,6 +91,8 @@ public class PageServlet extends HttpServlet {
 			} else {
 				out.print("<div class=\"sid\">");
 				out.print(pageHandler.getParsedHTML());
+                                if (adminUser!=null && adminUser.isBehorighet("WebAdmin")) 
+                                    out.print("<a href=\"/Admin/EditPage" + sid  + "\" target=\"__blank\">Redigera sidan</a>");
 				out.print("</div>");
 			}
 			if (!contentOnly) request.getRequestDispatcher("/WEB-INF/site-footer.jsp").include(request, response);				

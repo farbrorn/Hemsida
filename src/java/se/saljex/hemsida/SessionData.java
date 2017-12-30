@@ -101,7 +101,8 @@ public class SessionData {
 		if (inloggadUser!=null) {
 			setLager(request,inloggadUser.getDefultLagernr());
 		} else {
-			Integer lagernr = Const.getInitData(request).getDataCookie().getLagernr();
+                        Integer lagernr=null;
+			try { lagernr = Const.getInitData(request).getDataCookie().getLagernr(); }catch (NullPointerException e) {}
 			if (lagernr==null) lagernr = StartupData.getDefultLagernr();
 			setLager(request, lagernr);			
 		}
