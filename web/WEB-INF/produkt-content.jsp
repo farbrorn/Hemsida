@@ -30,7 +30,14 @@
                              %>
                         </div>
                         <h2 itemprop="name"><%= Const.toHtml(p.getRubrik()) %></h2>
-                        <span itemprop="description"><%= Const.toHtml(p.getKortBeskrivning()) %></span>
+                        <%
+                            
+                            KatalogGrupp beskrivningsGrupp = null;
+                            if ( p.getWebBeskrivningFranGrpid()!= null) {
+                               beskrivningsGrupp = SQLHandler.getGrupp(con, p.getWebBeskrivningFranGrpid());
+                            }                    
+                            %>
+                            <span itemprop="description"><%= beskrivningsGrupp==null ? Const.toHtml(p.getKortBeskrivning()) : Const.toHtml(beskrivningsGrupp.getText()) %></span>
                     </div>
                     <div class="kid-img">
                         <img src="<%= Const.getArtStorBildURL(p) %>">
@@ -95,11 +102,10 @@
                                     <% rowCn++; %>
                                         <div id="variant-<%= rowCn %>" class="t-variant-pris-kop" aid="<%= pv.getArtnr() %>" pris="<%= pv.getDisplayPris(inkMoms, isBruttopris)%>" frp="<%= pv.getAntalSaljpack() %>">
                                             <div class="t-variant-pris"><%= Const.getAnpassatPrisFormat(pv.getDisplayPris(inkMoms, isBruttopris)*pv.getAntalSaljpack()) %>
-                                                /<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %>
+                                                <span class="t-variant-pris-enhet">/<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %></span>
                                                 <% if (!isBruttopris &&  pv.getBruttoPris().compareTo(pv.getNettoPrisExMoms()) > 0 )  { %> 
-                                                    <span class="t-variant-namn-small"><%= lang.Listpris() %>: <%= Const.getAnpassatPrisFormat(pv.getDisplayPris(inkMoms, true)) %> 
-                                                    /<%= pv.getAntalSaljpack().equals(1.0) ? Const.getFormatEnhet(pv.getEnhet()) : Const.getAnpassade2Decimaler(pv.getAntalSaljpack()) + pv.getFormatEnhet()  %>
-                                                    </span>
+                                                    <div class="t-variant-pris-listpris"><%= lang.Listpris() %>: <%= Const.getAnpassatPrisFormat(pv.getDisplayPris(inkMoms, true)*pv.getAntalSaljpack()) %> 
+                                                    </div>
                                                 <% } %>
                                             </div>
                                             <div class="t-variant-antal"><%= lang.Antal() %>:
@@ -138,7 +144,7 @@
 
                     <h3><%= lang.Specifikationer() %></h3>
                     <div class="kid-info">
-                        <%= p.getBeskrivningHTML() %>
+                        <%= beskrivningsGrupp==null ? p.getBeskrivningHTML() : beskrivningsGrupp.getHtmlHead() + beskrivningsGrupp.getHtmlFoot() %>
                     </div>
                     
                     <%

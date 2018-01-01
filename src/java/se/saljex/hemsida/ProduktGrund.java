@@ -22,6 +22,8 @@ public class ProduktGrund {
     private String beskrivningHTML;
 	private String autoBildArtnr;
 	private String autoSamkoptaKlasar;
+        private Integer WebBeskrivningFranGrpid;
+        
     public String getRubrik() {
 	return rubrik;
     }
@@ -86,6 +88,14 @@ public class ProduktGrund {
 	public void setAutoSamkoptaKlasar(String autoSamkoptaKlasar) {
 		this.autoSamkoptaKlasar = autoSamkoptaKlasar;
 	}
+
+    public Integer getWebBeskrivningFranGrpid() {
+        return WebBeskrivningFranGrpid;
+    }
+
+    public void setWebBeskrivningFranGrpid(Integer WebBeskrivningFranGrpid) {
+        this.WebBeskrivningFranGrpid = WebBeskrivningFranGrpid;
+    }
 	
     
 }

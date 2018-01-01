@@ -8,6 +8,7 @@ package se.saljex.hemsida.admin;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
@@ -53,13 +54,18 @@ public class EditProdukt extends HttpServlet {
                             if (klasid!=null) {
                                     if ("save".equals(action)) {
                                             try {
-                                                PreparedStatement ps = Const.getConnection(request).prepareStatement("update artklase set rubrik=?, text=?, html=? where klasid=?");
+                                                Integer visabeskrivningfrangrpid = null;
+                                                try {visabeskrivningfrangrpid = Integer.parseInt(request.getParameter("visabeskrivningfrangrpid")); } catch (Exception e) {}
+                                                PreparedStatement ps = Const.getConnection(request).prepareStatement("update artklase set rubrik=?, text=?, html=?, webbeskrivningfrangrpid=? where klasid=?");
                                                 ps.setString(1, request.getParameter("rubrik"));
                                                 ps.setString(2, request.getParameter("text"));
                                                 ps.setString(3, request.getParameter("html"));
-                                                ps.setInt(4, klasid);
+                                                ps.setInt(4, visabeskrivningfrangrpid);
+                                                ps.setInt(5, klasid);
                                                 if (ps.executeUpdate() < 1) {
                                                             out.print("Inget sparat<br>");
+                                                } else {
+                                                    out.print("Sparat OK!<br><br>");
                                                 } 
 
                                             } catch (SQLException e) {
@@ -68,7 +74,7 @@ public class EditProdukt extends HttpServlet {
                                     } 
 
                                     try {
-                                        prod = SQLHandler.getProdukt(Const.getConnection(request), klasid, Const.getSessionData(request).getInloggadKundnr());
+                                        prod = SQLHandler.getProdukt(Const.getConnection(request), klasid, Const.getSessionData(request).getAvtalsKundnr());
                                             request.setAttribute("produkt", prod);
                                             request.getRequestDispatcher("/WEB-INF/Admin/editprodukt.jsp").include(request, response);				
                                     } catch (SQLException e) { 

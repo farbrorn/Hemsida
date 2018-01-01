@@ -30,6 +30,9 @@
             <textarea id="textareatext" rows="10" style="width: 100%" name="text"><%= Const.toHtmlNotLineBreak(p.getKortBeskrivning()) %></textarea><br>
             HTML:<br>
             <textarea id="textareahead" rows="10" style="width: 100%" name="html"><%= Const.toHtmlNotLineBreak(p.getBeskrivningHTML()) %></textarea><br>
+            <p>
+                Visa beskrivning på webbsida från grupp id: <input name="visabeskrivningfrangrpid" type="number" value="<%= p.getWebBeskrivningFranGrpid()==null ? "" : ""+p.getWebBeskrivningFranGrpid() %>">
+            </p>
             <input type="hidden" name="ac" value="save">
             <input type="submit">
             

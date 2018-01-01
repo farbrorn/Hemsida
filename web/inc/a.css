@@ -1,5 +1,5 @@
             body {
-                margin: 0px;
+                margin: 0px 10px 0px 0px;
                 padding: 0px;
                 background-color: rgb(229, 229, 229);
                 overflow-y:scroll;
@@ -100,7 +100,7 @@
       padding: 4px 2px 4px 4px;
   }
   .card select {
-      font-size: 100%;      
+      /* font-size: 100%; */      
   }
   .card h1, h2, h3, h4 {
       margin: 0px 0px 2px 0px;
@@ -863,15 +863,13 @@
                 vertical-align: middle;
                 text-align: center;
             }
-            .kbl-t-variant select {
-                width: 150px;
-            }
             .kbl-t-namn {
                 height: 36px;
                 overflow: hidden;
             }
             .kbl-t-namn h2 {
                 font-size: 100%;
+                font-weight: bold;
             }
             .kbl-t-besk {
                 height: 42px;
@@ -880,6 +878,13 @@
             .kbl-t-variant {
                 height: 24px;
             }
+            .kbl-t-variant-select {
+                width: 100%;
+                border: 1px solid lightgray;
+                font-size: 90%;
+            }
+            
+            
             .kbl-t-antal-kop {
                 height: 20px;
                 max-width: 150px;
@@ -1068,6 +1073,12 @@
             .kbb-t-variant-pris-kop-hold {
                 float: right;
             }
+            .t-variant-pris-enhet {
+                font-size: 60%;
+            }            
+            .t-variant-pris-listpris {
+                font-size: 80%;
+            }            
             .kbb-t-antal-kop {
                 height: 20px;
                 max-width: 150px;
@@ -1256,20 +1267,25 @@
             }
             .katalog-index-row {
                 padding-bottom: 6px;
+                text-align: left;
             }
             .katalog-index-row h3 {
                 font-size: 100%;
                 font-weight: bold;
+                overflow-x: hidden; 
             }
             .katalog-index-row-imgs {
                 min-height: 30px;
                 padding: 0px 0px 0px 0px;
+                font-size: 0px; /* remove hover link underline */ 
+                
             }
             .katalog-index-row-img {
                 width: 30px;
                 padding: 0px 0px 0px 0px;
                 display: inline-block;
                 vertical-align: top;
+                margin-right: 4px;
             }
             .katalog-index-row-img img {
                 max-width: 30px;
@@ -1373,9 +1389,13 @@ width: 100%; margin: 0px 8px 24px 2px;  word-wrap:break-word; display: inline-bl
                 .kbl {
                     text-align: center;
                 }
+                .katalog-index {
+                    text-align: center;
+                }
                 .katalog-index-root {
                     padding-left: 0px;
                     padding-right: 0px;
+                    
                 }
 
             }

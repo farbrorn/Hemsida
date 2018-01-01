@@ -26,7 +26,13 @@
                             </div>
     </a>
                             <div class="kbl-t-variant">
-                                <select id="variant-<%= rowCn %>" onchange="updateVariant(<%= rowCn %>)">
+                                <% boolean singleeVariant=false;
+                                try { singleeVariant = p.getVarianter().size()==1; } catch(Exception e) {}
+                                %>
+                                <% if (singleeVariant) { %>
+                                    <div class="kbl-t-variant-select"><%= Const.toHtml(p.getVarianter().get(0).getKatNamn()) %></div> 
+                                <% } %>
+                                <select class="kbl-t-variant-select" style="<%= singleeVariant ? "display:none;" : "" %>" id="variant-<%= rowCn %>" onchange="updateVariant(<%= rowCn %>)">
                                     <% 
                                     boolean firstRun=true;
                                     for (Artikel pv : p.getVarianter()) { %>

@@ -23,7 +23,7 @@ import se.saljex.sxlibrary.SXUtil;
 public class SQLHandler {
 		public static final String V_SELECT_COLS = " v.ak_klasid, v.ak_rubrik, v.ak_text, v.ak_html, v.nummer, v.namn, v.katnamn, "
 				+ " v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
-				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2, v.rsk, v.refnr, v.ak_auto_samkopta_klasar, v.staf_pris1, v.staf_pris2, v.bildartnr as bildartnr , v.ak_auto_bildartnr as auto_bildartnr ";
+				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2, v.rsk, v.refnr, v.ak_auto_samkopta_klasar, v.staf_pris1, v.staf_pris2, v.bildartnr as bildartnr , v.ak_auto_bildartnr as auto_bildartnr, v.ak_webbeskrivningfrangrpid as ak_webbeskrivningfrangrpid ";
 
 	public static String getSQLKatalogGrupper(Integer rootGrp, boolean includeRootGrp, boolean kortSelectsats) {
 		String s = StartupData.getKatalogExcludeGrpAsString();
@@ -105,7 +105,7 @@ public class SQLHandler {
 	public static KatalogGrupp getGrupp(Connection con, Integer grpid)  throws SQLException {
 		if (grpid==null) return null;
 		
-		String q = "select grpid, prevgrpid, sortorder, rubrik, text, infourl, html, htmlfoot, htmlhead, visaundergrupper from artgrp kgl where grpid= ? order by sortorder, grpid";
+		String q = "select * from artgrp kgl where grpid= ? order by sortorder, grpid";
 		PreparedStatement ps = con.prepareStatement(q);
 		ps.setInt(1, grpid);
 		ResultSet rs = ps.executeQuery();
@@ -295,6 +295,7 @@ public class SQLHandler {
 			p.setBeskrivningHTML(rs.getString(4));
 			p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
 			p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? art.getArtnr() : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
+                        p.setWebBeskrivningFranGrpid(rs.getInt("ak_webbeskrivningfrangrpid"));
 			vk.setArt(art);
 			vk.setP(p);
 		}
@@ -629,6 +630,7 @@ public class SQLHandler {
 				p.setBeskrivning(rs.getString(3));
 				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? rs.getString("nummer") : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
+                                p.setWebBeskrivningFranGrpid(rs.getInt("ak_webbeskrivningfrangrpid"));
 			}
 			
 			pv = getArtikelFromSQL2(rs);
@@ -797,7 +799,8 @@ public class SQLHandler {
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
 				temp_klasid = p.getKlasid();
 				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? rs.getString("nummer") : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
-				produkter.add(p);
+	                        p.setWebBeskrivningFranGrpid(rs.getInt("ak_webbeskrivningfrangrpid"));
+                		produkter.add(p);
 
 			}
 			if (temp_artnr==null || !temp_artnr.equals(rs.getString("nummer"))) {
@@ -913,6 +916,7 @@ public class SQLHandler {
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
 				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? rs.getString("nummer") : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
+                                p.setWebBeskrivningFranGrpid(rs.getInt("ak_webbeskrivningfrangrpid"));
 				temp_klasid = p.getKlasid();
 			}
 			
@@ -967,6 +971,7 @@ public class SQLHandler {
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
 				p.setAutoBildArtnr(SXUtil.isEmpty(rs.getString("bildartnr")) ? (SXUtil.isEmpty(rs.getString("auto_bildartnr")) ? rs.getString("nummer") : rs.getString("auto_bildartnr")) : rs.getString("bildartnr"));
+                                p.setWebBeskrivningFranGrpid(rs.getInt("ak_webbeskrivningfrangrpid"));
 				temp_klasid = p.getKlasid();
 			}
 			
@@ -1006,7 +1011,7 @@ public class SQLHandler {
             return al;
         }
 	
-	
+	        
 	public static ArrayList<Produkt> getToplistaInGrupp(HttpServletRequest request, Integer gruppId, String kundnr, int lagernr, int maxResults) throws SQLException {
 		if (!Const.getSessionData(request).getKatalogGruppLista(Const.getConnection(request)).isGruppInList(gruppId))  return null;
 		return getToplistaInGrupp(Const.getConnection(request), gruppId, kundnr, lagernr, maxResults);
@@ -1047,6 +1052,7 @@ public class SQLHandler {
 				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
+                                p.setWebBeskrivningFranGrpid(rs.getInt("ak_webbeskrivningfrangrpid"));
 				temp_klasid = p.getKlasid();
 			}
 			
@@ -1106,6 +1112,7 @@ public class SQLHandler {
 				p.setBeskrivningHTML(SXUtil.isEmpty(rs.getString("ak_html")) ? SXUtil.toHtml(rs.getString("ak_text")) : rs.getString("ak_html"));
 				p.setBeskrivning(rs.getString("ak_text"));
 				p.setAutoSamkoptaKlasar(rs.getString("ak_auto_samkopta_klasar"));
+                                p.setWebBeskrivningFranGrpid(rs.getInt("ak_webbeskrivningfrangrpid"));
 				temp_klasid = p.getKlasid();
 			}
 			

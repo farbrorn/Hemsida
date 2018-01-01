@@ -352,7 +352,7 @@ public class StartupData {
 			loggaSidvisningarEjInloggad = "true".equals(getConfig("Hemsida-LoggaSidvisningarEjInloggad","false"));
 			googleAnalyticsID = getConfig("Hemsida-GoogleAnalyticsID", "");
                         if ("no".equals(getConfig("Hemsida-Language","se").toLowerCase())) language = new LanguageNo(); else language=new Language();
-                        katalogProduktView = getConfig("Hemsida-Language","kbl");
+                        katalogProduktView = getConfig("Hemsida-ProduktView","kbl");
 		} finally {
 			try { con.close(); }catch (Exception e) {}
 		}
