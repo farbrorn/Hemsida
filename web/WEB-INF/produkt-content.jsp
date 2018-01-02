@@ -33,7 +33,7 @@
                         <%
                             
                             KatalogGrupp beskrivningsGrupp = null;
-                            if ( p.getWebBeskrivningFranGrpid()!= null) {
+                            if ( p.getWebBeskrivningFranGrpid()!= null && p.getWebBeskrivningFranGrpid()!=0) {
                                beskrivningsGrupp = SQLHandler.getGrupp(con, p.getWebBeskrivningFranGrpid());
                             }                    
                             %>
