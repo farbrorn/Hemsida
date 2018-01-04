@@ -19,12 +19,12 @@ alter view sxasfakt.artklaselank owner to sxasfakt;
 
 
 create or replace view sxasfakt.artgrp as (select 
-case when sxas.grpid is null then ab.grpid else sxas.grpid end as grpid,
-case when sxas.grpid is null then ab.prevgrpid else sxas.prevgrpid end as prevgrpid,
+ab.grpid as grpid,
+ab.prevgrpid as prevgrpid,
 case when sxas.grpid is null then ab.rubrik else sxas.rubrik end as rubrik,
 case when sxas.grpid is null then ab.text else sxas.text end as text,
 case when sxas.grpid is null then ab.infourl else sxas.infourl end as infourl,
-case when sxas.grpid is null then ab.sortorder else sxas.sortorder end as sortorder,
+ab.sortorder as sortorder,
 case when sxas.grpid is null then ab.html else sxas.html end as html,
 case when sxas.grpid is null then ab.visaundergrupper else sxas.visaundergrupper end as visaundergrupper,
 case when sxas.grpid is null then ab.htmlhead else sxas.htmlhead end as htmlhead,
@@ -43,11 +43,11 @@ update sxasfakt.artgrp_data set rubrik=new.rubrik, text=new.text, infourl=new.in
 
 
 create or replace view sxasfakt.artklase as (select 
-case when sxas.klasid is null then ab.klasid else sxas.klasid end as klasid,
+ab.klasid as klasid,
 case when sxas.klasid is null then ab.rubrik else sxas.rubrik end as rubrik,
 case when sxas.klasid is null then ab.text else sxas.text end as text,
 case when sxas.klasid is null then ab.infourl else sxas.infourl end as infourl,
-case when sxas.klasid is null then ab.fraktvillkor else sxas.fraktvillkor end as fraktvillkor,
+ab.fraktvillkor as fraktvillkor,
 case when sxas.klasid is null then ab.html else sxas.html end as html,
 case when sxas.klasid is null then ab.autosortvikt else sxas.autosortvikt end as autosortvikt,
 case when sxas.klasid is null then ab.autoantalorderrader else sxas.autoantalorderrader end as autoantalorderrader,
@@ -64,6 +64,6 @@ alter view sxasfakt.artklase owner to sxasfakt;
 create or replace rule artklase_update as on update to sxasfakt.artklase do instead 
 (insert into sxasfakt.artklase_data (klasid, rubrik, text, infourl, fraktvillkor, html, autosortvikt, autoantalorderrader, auto_sokord, auto_sokartnr, auto_sokrefnr , auto_bildartnr, auto_samkopta_klasar, webbeskrivningfrangrpid) 
 values (new.klasid, new.rubrik, new.text, new.infourl, new.fraktvillkor, new.html, new.autosortvikt, new.autoantalorderrader, new.auto_sokord, new.auto_sokartnr, new.auto_sokrefnr , new.auto_bildartnr, new.auto_samkopta_klasar, new.webbeskrivningfrangrpid) on conflict do nothing;
-update sxasfakt.artklase_data set rubrik=new.rubrik, text=new.text, infourl=new.infourl, fraktvillkor=new.fraktvillkor, html=new.html, autosortvikt=new.autosortvikt, autoantalorderrader=new.autoantalorderrader, auto_sokord=new.auto_sokord, auto_sokartnr=new.auto_sokartnr, auto_sokrefnr=new.auto_sokrefnr , auto_bildartnr=new.auto_bildartnr, auto_samkopta_klasar=new.auto_samkopta_klasar, webbeskrivningfrangrpid=new.webbeskrivningfrangrpid where klasid=old.klasid;);
+update sxasfakt.artklase_data set rubrik=new.rubrik, text=new.text, infourl=new.infourl, html=new.html, autosortvikt=new.autosortvikt, autoantalorderrader=new.autoantalorderrader, auto_sokord=new.auto_sokord, auto_sokartnr=new.auto_sokartnr, auto_sokrefnr=new.auto_sokrefnr , auto_bildartnr=new.auto_bildartnr, auto_samkopta_klasar=new.auto_samkopta_klasar, webbeskrivningfrangrpid=new.webbeskrivningfrangrpid where klasid=old.klasid;);
 
 
