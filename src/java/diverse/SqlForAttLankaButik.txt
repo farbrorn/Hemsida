@@ -59,6 +59,10 @@ create or replace rule artklase_update as on update to sxasfakt.artklase do inst
 select new.klasid, new.rubrik, new.text, new.infourl, new.fraktvillkor, new.html, new.autosortvikt, new.autoantalorderrader, new.auto_sokord, new.auto_sokartnr, new.auto_sokrefnr , new.auto_bildartnr, new.auto_samkopta_klasar, new.webbeskrivningfrangrpid where not exists (select * from sxasfakt.artklase_data where klasid=new.klasid);
 update sxasfakt.artklase_data set rubrik=new.rubrik, text=new.text, infourl=new.infourl, html=new.html, autosortvikt=new.autosortvikt, autoantalorderrader=new.autoantalorderrader, auto_sokord=new.auto_sokord, auto_sokartnr=new.auto_sokartnr, auto_sokrefnr=new.auto_sokrefnr , auto_bildartnr=new.auto_bildartnr, auto_samkopta_klasar=new.auto_samkopta_klasar, webbeskrivningfrangrpid=new.webbeskrivningfrangrpid where klasid=old.klasid;);
 
+grant select on table sxfakt.artgrp to sxasfakt;
+grant select on table sxfakt.artklase to sxasfakt;
+grant select on table sxfakt.artgrplank to sxasfakt;
+grant select on table sxfakt.artklaselank to sxasfakt;
 
 
 
