@@ -117,7 +117,7 @@ switch(s) {
 @Override public String Fredagar() { return "Fredager"; }
 @Override public String SkickasMedLampligSpeditor() { return "Sendes med lempet speditør"; }
 @Override public String VarukorgSaveErrorHTML() { return "Oops...vi kunne ikke sende ordern, og vi vet ikke hvorfor. Prøv igjen senere!"; }
-@Override public String TillfalligtSlut() { return "Midlertidig slut"; }
+@Override public String TillfalligtSlut() { return "Tilfeldig slut"; }
 @Override public String FatalKvar() { return "Få igjen"; }
 @Override public String Rekommenderat() { return "Anbefallt"; }
 @Override public String Fran() { return "Fra"; }

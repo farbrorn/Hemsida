@@ -426,7 +426,7 @@ public class SQLHandler {
 " " + getSQLKatalogGrupperKort() + " ag" +  " on ag.grpid = agl.grpid " +
 
 " where (ak.auto_sokord) like  ('%'||terms.term||'%') " +
-" group by ak.klasid " +
+" group by ak.klasid, ak.rubrik, ak.text, ak.html, ak.auto_bildartnr, autosortvikt " +
 " having count(distinct terms.term)=? " +
 " ) aa " +
 " order by sortvikt desc" +
