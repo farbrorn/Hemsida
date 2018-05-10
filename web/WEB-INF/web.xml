@@ -96,6 +96,22 @@
         <servlet-name>EditProdukt</servlet-name>
         <servlet-class>se.saljex.hemsida.admin.EditProdukt</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FinfoServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.prisfil.FinfoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EfoNelfoServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.prisfil.EfoNelfoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CsvServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.prisfil.CsvServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Prisfil</servlet-name>
+        <servlet-class>se.saljex.hemsida.prisfil.Prisfil</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>t1</servlet-name>
         <url-pattern>/t1</url-pattern>
@@ -163,6 +179,22 @@
     <servlet-mapping>
         <servlet-name>EditProdukt</servlet-name>
         <url-pattern>/Admin/EditProdukt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FinfoServlet</servlet-name>
+        <url-pattern>/prisfil/finfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EfoNelfoServlet</servlet-name>
+        <url-pattern>/prisfil/efonelfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CsvServlet</servlet-name>
+        <url-pattern>/prisfil/csv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Prisfil</servlet-name>
+        <url-pattern>/prisfil</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
