@@ -25,7 +25,7 @@
            + "update artklase  aak set " 
     + " auto_sokord = ( "
 	+" select upper(coalesce(ak.rubrik,'') ||' ' || coalesce(ak.text,'') || ' ' || string_agg(coalesce(a.nummer,'') || ' ' || coalesce(a.refnr,'') || ' ' || coalesce(a.rsk,'') || ' ' || coalesce(a.enummer,'') || ' ' || coalesce(a.bestnr,'') || ' ' || coalesce(a.katnamn,'') || ' ' || coalesce(a.namn,''), ' '))  "
-	+" from artklase ak join artklaselank akl on akl.klasid=ak.klasid join artikel a on a.nummer=akl.artnr where ak.klasid = aak.klasid group by ak.klasid  "
+	+" from artklase ak join artklaselank akl on akl.klasid=ak.klasid join artikel a on a.nummer=akl.artnr where ak.klasid = aak.klasid group by ak.klasid, ak.rubrik, ak.text  "
 	+" ), "
     +" auto_sokartnr = ( "
 	+" select upper(string_agg('-' || a2.nummer || '-', ' '))  "
