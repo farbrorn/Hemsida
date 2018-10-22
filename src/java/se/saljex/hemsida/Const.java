@@ -53,6 +53,7 @@ public class Const {
 	public static final String PARAM_VARUKORG_AC_SET = "set";
 	public static final String PARAM_VARUKORG_AC_REMOVE = "remove";
 	public static final String PARAM_VARUKORG_AC_SAVEORDER = "save";
+	public static final String PARAM_VARUKORG_AC_EMPTY = "empty";
 	public static final String PARAM_VARUKORG_GET = "get";
 	public static final String PARAM_VARUKORG_GET_AJAX = "ax";
 	public static final String PARAM_ARTNR = "aid";

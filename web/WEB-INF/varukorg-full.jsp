@@ -201,7 +201,7 @@
          <% } %>
      <% } %>
      <input type="button" value="<%= lang.SkickaOrder() %>" onclick="AJAXPost('<%= formName %>');<%= recaptchaSiteKey!=null ? "recaptchaonload();" :"" %>">
-
+     <a href="/varukorg?<%= Const.PARAM_VARUKORG_AC %>=<%= Const.PARAM_VARUKORG_AC_EMPTY %>"> <%= lang.TomVarukorg()%> </a>
     
 </form>
     

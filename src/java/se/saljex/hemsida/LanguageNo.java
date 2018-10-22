@@ -124,4 +124,5 @@ switch(s) {
 @Override public String fran() { return "fra"; }
 @Override public String Orderbekraftelse() { return "Orderbekreftelse"; }
 @Override public String webborder() { return "webbordre"; }
+@Override public String TomVarukorg() { return "Tøm handlekurven"; }
 }

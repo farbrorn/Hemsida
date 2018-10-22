@@ -85,6 +85,13 @@ public class VarukorgServlet extends HttpServlet {
 						vk.setVarukorg(Const.getConnection(request), request, vkfHandler.getRows(), Const.getSessionData(request).getInloggadKontaktId());
 					}
 				} catch (SQLException e) {e.printStackTrace();}	
+                                
+			} else if (Const.PARAM_VARUKORG_AC_EMPTY.equals(action )) {
+				try {
+                                    vk.clearVarukorgRows(Const.getConnection(request), Const.getSessionData(request).getInloggadKontaktId());
+				} catch (SQLException e) {e.printStackTrace();}	
+                                response.sendRedirect("/varukorg");
+                                return;
 			} else { //Visa vaurkorg
 				vkfHandler=new VarukorgFormHandler(vk.getVarukorgProdukter());
 				if (sd.getInloggadUser()!=null) {
