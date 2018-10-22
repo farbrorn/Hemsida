@@ -138,6 +138,22 @@ public class Artikel {
 		this.bruttopris = pris;
 	}
 
+    public Double getBruttopris_staf1() {
+        return bruttopris_staf1;
+    }
+
+    public void setBruttopris_staf1(Double bruttopris_staf1) {
+        this.bruttopris_staf1 = bruttopris_staf1;
+    }
+
+    public Double getBruttopris_staf2() {
+        return bruttopris_staf2;
+    }
+
+    public void setBruttopris_staf2(Double bruttopris_staf2) {
+        this.bruttopris_staf2 = bruttopris_staf2;
+    }
+
 	public String getEnhet() {
 		return enhet;
 	}
