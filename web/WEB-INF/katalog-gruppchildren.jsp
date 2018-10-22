@@ -30,9 +30,10 @@ Connection con = Const.getConnection(request);
                     startLevel = kg.getDepth();
                     continue;
                 }
+                int maxUndergruppLevel = 1;
                 if (startLevel!= null) {
                     if (kg.getDepth() <= startLevel) break;
-                    if (kg.getDepth() > startLevel+3) continue; //Skipa för långa nästlingar
+                    if (kg.getDepth() > startLevel+maxUndergruppLevel) continue; //Skipa för långa nästlingar
                     if (kg.getDepth() == startLevel+1) {
                         if (rootPrinted) { %> </div> <%  }
                         rootPrinted=true;

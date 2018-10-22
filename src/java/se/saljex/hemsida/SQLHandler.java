@@ -874,6 +874,7 @@ public class SQLHandler {
 		pv.setAntalSaljpack(antalSaljPack);
 		pv.setEnhet(rs.getString("enhet"));
 		pv.setLevVillkor(rs.getInt("fraktvillkor"));
+                pv.setBruttoPris(rs.getDouble("utpris"));
 		pv.setBruttopris_staf1(rs.getDouble("staf_pris1"));
 		pv.setBruttopris_staf2(rs.getDouble("staf_pris2"));
 		pv.setNettoPrisExMoms(rs.getDouble("kundnetto_bas"));

@@ -187,6 +187,7 @@ public class Artikel {
 	}
 	public Double getDisplayPris(boolean inkMoms, boolean isBruttopris) {
 		double pris = isBruttopris ? bruttopris : nettoPris;
+//		double pris = isBruttopris ? (bruttopris==null ? 0.0 : bruttopris) : (nettoPris==null ? 0.0 : nettoPris);
 		return inkMoms ? pris*Const.getStartupData().getMomsMultiplikator() : pris;
 	}
 	public Double getNettoPrisExMoms() {
