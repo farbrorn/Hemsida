@@ -71,7 +71,8 @@ public class RootFilter implements Filter {
 		initDat.setDataCookie(new DataCookieHandler(data));
 
                 se.saljex.loginservice.User adminUser=null;
-            try { adminUser = (se.saljex.loginservice.User)((HttpServletRequest)request).getSession().getAttribute(LoginServiceConstants.REQUEST_PARAMETER_SESSION_USER); } catch (Exception e) {System.out.print("exzep" + e.toString()); }
+//            try { adminUser = (se.saljex.loginservice.User)((HttpServletRequest)request).getSession().getAttribute(LoginServiceConstants.REQUEST_PARAMETER_SESSION_USER); } catch (Exception e) {System.out.print("exzep" + e.toString()); }
+            adminUser = initDat.getAdminUser();
             if (adminUser==null) {
 
                     Cookie co = Util.getLoginCookie(cookies);
