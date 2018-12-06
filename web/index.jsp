@@ -24,15 +24,28 @@
             PreparedStatement ps = con.prepareStatement(
                     "select h.html "+
                     " from kundlogin kl join kundkontakt kk on kk.kontaktid=kl.kontaktid join kund k on k.nummer=kk.kundnr join hemsidameddelande h on  "+
-                    " (h.filter_butik=0 or (k.butik>0 and h.filter_butik>0)) and  "+
-                    " (h.filter_installator=0 or (k.installator>0 and h.filter_installator>0)) and  "+
-                    " (h.filter_grossist=0 or (k.grossist>0 and h.filter_grossist>0)) and  "+
-                    " (h.filter_industri=0 or (k.industri>0 and h.filter_industri>0)) and  "+
-                    " (h.filter_oem=0 or (k.oem>0 and h.filter_oem>0)) and  "+
-                            
-                    " (h.filter_elkund=0 or (k.elkund>0 and h.filter_elkund>0)) and  "+
-                    " (h.filter_vvskund=0 or (k.vvskund>0 and h.filter_vvskund>0)) and  "+
-                    " (h.filter_vakund=0 or (k.vakund>0 and h.filter_vakund>0)) and  "+
+//                    " (h.filter_butik=0 or (k.butik>0 and h.filter_butik>0)) and  "+
+//                    " (h.filter_installator=0 or (k.installator>0 and h.filter_installator>0)) and  "+
+//                    " (h.filter_grossist=0 or (k.grossist>0 and h.filter_grossist>0)) and  "+
+//                    " (h.filter_industri=0 or (k.industri>0 and h.filter_industri>0)) and  "+
+//                    " (h.filter_oem=0 or (k.oem>0 and h.filter_oem>0)) and  "+
+                    " ( "+
+                        " (k.butik>0 and h.filter_butik>0) or  "+
+                        " (k.installator>0 and h.filter_installator>0) or  "+
+                        " (k.grossist>0 and h.filter_grossist>0) or  "+
+                        " (k.industri>0 and h.filter_industri>0) or  "+
+                        " (k.oem>0 and h.filter_oem>0) or  "+
+                        " (h.filter_butik=0 and h.filter_installator=0 and h.filter_grossist=0 and h.filter_industri=0 and h.filter_oem=0 ) " +
+                    " ) and " + 
+                    " ( " +
+                        " (k.elkund>0 and h.filter_elkund>0) or  "+
+                        " (k.vvskund>0 and h.filter_vvskund>0) or  "+
+                        " (k.vakund>0 and h.filter_vakund>0) or  "+
+                        " (h.filter_elkund=0 and h.filter_vvskund=0 and h.filter_vakund=0 ) "+
+//                        " (h.filter_elkund=0 or (k.elkund>0 and h.filter_elkund>0)) and  "+
+//                        " (h.filter_vvskund=0 or (k.vvskund>0 and h.filter_vvskund>0)) and  "+
+//                        " (h.filter_vakund=0 or (k.vakund>0 and h.filter_vakund>0)) and  "+
+                    " ) and " +       
                             
                     " (h.filter_turbil=0 or (k.distrikt=1 and h.filter_turbil>0)) and  "+
                     " (h.filter_nettolista is null or h.filter_nettolista='' or filter_nettolista=k.nettolst) and  "+
