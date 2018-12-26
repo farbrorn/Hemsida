@@ -404,7 +404,8 @@ public class SQLHandler {
 
 
 		String q =
-"select " + V_SELECT_COLS + ", sortvikt"
+"create temporary table tt (ak_klasid integer, sortvikt integer) on commit drop; "  +
+"insert into tt select ak_klasid, sortvikt"
 + " from ( "
 + "select ak_klasid, sortvikt " +
 " from " +
@@ -431,13 +432,16 @@ public class SQLHandler {
 " ) aa " +
 " order by sortvikt desc" +
 " offset ? limit ?"
-+ " ) aar "
-+ " left outer join vbutikart v on v.k_nummer=? and v.lid_lagernr=? and v.ak_klasid=aar.ak_klasid "	
++ " ) aar; "
+                        
++ "select "+ V_SELECT_COLS + ", sortvikt "
++ " from tt join vbutikart v on v.k_nummer=? and v.lid_lagernr=? and v.ak_klasid=tt.ak_klasid "	
++ " where v.ak_klasid = any ((select array_agg(tt.ak_klasid) from tt)::integer[]) " 
 +" order by sortvikt desc, v.ak_klasid, v.akl_sortorder, v.nummer"				;
 		/*-
 		String q = 
 				" select v.ak_klasid, v.ak_rubrik, v.ak_text,v.ak_html, "
-				+ " v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
+				+ -" v.nummer, v.namn, v.katnamn, v.utpris, v.enhet, v.minsaljpack, v.forpack, v.fraktvillkor, "
 				+ " v.lid_lagernr, v.l_ilager, v.l_maxlager, v.l_best, v.l_iorder, v.lid_bnamn, "
 				+ " v.kundnetto_bas, v.kundnetto_staf1, v.kundnetto_staf2, v.staf_antal1, v.staf_antal2 "
 				+" from vbutikart v "
@@ -607,14 +611,30 @@ public class SQLHandler {
 		i++;
 		ps.setInt(i, offset);
 		i++;
-		ps.setInt(i, limit);
+		ps.setInt(i, limit);                
 		i++;
 		ps.setString(i, kundnr);
 		i++;
 		ps.setInt(i, lagernr);
 		i++;
 		
-		ResultSet rs = ps.executeQuery();
+                ResultSet rs=null;
+                //Hitta första reusltesetet i sql-satsen
+                boolean hasMoreResultSets =ps.execute();
+                while (hasMoreResultSets || ps.getUpdateCount()!=-1) {
+                    if ( hasMoreResultSets ) {  
+                        rs = ps.getResultSet();
+                        break;
+                    } else { 
+                        int queryResult = ps.getUpdateCount();  
+                        if ( queryResult == -1 ) { // no more queries processed  
+                            break;  
+                        } 
+                    } 
+                    hasMoreResultSets = ps.getMoreResults();                    
+                }
+                
+		//ResultSet rs = ps.executeQuery();
 		SokResult sokResultat = new SokResult();
 		SokResultRow row;
 		Produkt p=null;
