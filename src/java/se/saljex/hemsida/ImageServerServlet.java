@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.net.URLDecoder;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -130,7 +133,26 @@ public class ImageServerServlet extends HttpServlet {
 			if (cn > 6 && oldestFile!=null) oldestFile.delete();
 		}
 	}
-	
+
+        
+        
+    private File getFile(String requestedFile, String fileType ) {
+        File file = new File(basePath, requestedFile + fileType);
+        if (!file.exists()) {
+			for (String subDir : subDirs) {
+				file = new File(basePath + "/" + subDir, requestedFile + fileType);
+				if (file.exists()) { break; }
+			}
+            if (!file.exists()) {
+				return null;
+			}
+        }
+        return file;
+    }
+        
+        
+        
+        
     /**
      * Process the actual request.
      * @param request The request to be processed.
@@ -176,22 +198,26 @@ public class ImageServerServlet extends HttpServlet {
 			fileType = ".jpg";
 		} 
 			//requestedFile = requestedFile+".png";
-
-        // URL-decode the file name (might contain spaces and on) and prepare file object.
-        File file = new File(basePath, requestedFile + fileType);
-
-		// Check if file actually exists in filesystem.
-        if (!file.exists()) {
-			for (String subDir : subDirs) {
-				file = new File(basePath + "/" + subDir, requestedFile + fileType);
-				if (file.exists()) { break; }
-			}
-            if (!file.exists()) {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND);
-				return;
-			}
+        File file = getFile(requestedFile, fileType);
+        if (file==null) {
+            // Om filen inte finns så försöker vi hitta filen med hjälp av aritkelregistrets bildartnr
+            String bildArtnr = null;
+            try {
+                PreparedStatement ps = Const.getConnection(request).prepareStatement("select bildartnr from artikel where nummer=?");
+                ps.setString(1, requestedFile);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) bildArtnr = rs.getString(1);
+            } catch (SQLException e) { e.printStackTrace(); }
+            if (bildArtnr!=null) {
+                requestedFile = bildArtnr; 
+                file = getFile(requestedFile, fileType);
+            }
+            if (file==null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;      
+            }
         }
-		
+        		
 		File cacheFile;
 		if (size != null) {		//Om vi har omskalning
 			//Kolla om cachlagread fil finns

@@ -9,6 +9,11 @@ package se.saljex.hemsida;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.ConnectException;
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -120,13 +125,41 @@ public class VarukorgServlet extends HttpServlet {
 					request.getRequestDispatcher("/WEB-INF/varukorg-order-email-content.jsp").include(request, responseWrapper);
 					responseContent = responseWrapper.toString(); 
 					SendMail sm = new SendMail(mailsxmail);
-					if (StartupData.isHemsidaTestlage()) {
+                                        String orderMail;
+                                        orderMail = Const.getStartupData().getLagerEnhetList().get(vkfHandler.getLagernr()).getEpost();
+                                        if (orderMail==null || orderMail.length() < 5) orderMail = StartupData.getSxServOrderMail();
+
+                                        if (StartupData.isHemsidaTestlage()) {
 						sm.sendSimpleMail("ulf.hemma@gmail.com", "Inkommande testorder " + StartupData.getForetagNamn(), responseContent);
+                                        } else if ("true".equals(Const.getStartupData().getConfig("Hemsida-AutosparaOrder", "false")) && sd.isUserInloggad()) {
+                                                ArrayList<String> aArtnr = new ArrayList<>();
+                                                ArrayList<Double> aAntal = new ArrayList<>();
+                                                ArrayList<Double> aPris = new ArrayList<>();
+                                                for (VarukorgProdukt vkProdukt : vkfHandler.getRows()) {
+                                                    for (VarukorgArtikel a : vkProdukt.getVarukorgArtiklar()) {
+                                                        aArtnr.add(a.getArtnr());
+                                                        aAntal.add(a.getAntal()*a.getArt().getAntalSaljpack());
+                                                        aPris.add(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), false, false)/a.getArt().getAntalSaljpackForDivision());
+                                                    }
+                                                }
+//create or replace function  orderAdd(in_anvandare varchar, in_lagernr integer, in_kundnr varchar, in_marke varchar, in_artnr varchar[], in_antal real[], in_pris real[], in_rab real[])
+//returns integer as $$
+                                                Connection con = Const.getConnection(request);
+                                                
+                                                PreparedStatement ps  = Const.getConnection(request).prepareStatement("select orderAdd(?,?,?,?,?,?,?,?)");
+                                                ps.setString(1, "00");
+                                                ps.setInt(2, vkfHandler.getLagernr());
+                                                ps.setString(3, vkfHandler.getKundnr());
+                                                ps.setString(4, vkfHandler.getMarke());
+                                                ps.setArray(5, con.createArrayOf("varchar", aArtnr.toArray()));
+                                                ps.setArray(6, con.createArrayOf("float4", aAntal.toArray()));
+                                                ps.setArray(7, con.createArrayOf("float4", aPris.toArray()));
+                                                ps.setObject(8, null);
+                                                ResultSet rs = ps.executeQuery();
+                                                Integer savedOrderNr = null;
+                                                if (rs.next()) savedOrderNr = rs.getInt(1); else throw(new SQLException("Kan inte spara order. Får inget ordernummer från server.")); 
+						sm.sendSimpleMail(orderMail, "Automatisk order från "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), "Order nr " + savedOrderNr + " är mottagen från webbutiken. ");
 					} else {
-						String orderMail;
-						orderMail = Const.getStartupData().getLagerEnhetList().get(vkfHandler.getLagernr()).getEpost();
-						//orderMail = sd.getLager().getEpost();
-						if (orderMail==null || orderMail.length() < 5) orderMail = StartupData.getSxServOrderMail();
 						sm.sendSimpleMail(orderMail, "Inkommande order från "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), responseContent);
 						if (!orderMail.equals(StartupData.getSxServOrderMail())) {
 							sm.sendSimpleMail(StartupData.getSxServOrderMail(), "*KOPIA* på webborder sickad till annat lager "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), responseContent);
