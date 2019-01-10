@@ -139,7 +139,7 @@ public class VarukorgServlet extends HttpServlet {
                                                     for (VarukorgArtikel a : vkProdukt.getVarukorgArtiklar()) {
                                                         aArtnr.add(a.getArtnr());
                                                         aAntal.add(a.getAntal()*a.getArt().getAntalSaljpack());
-                                                        aPris.add(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), false, false)/a.getArt().getAntalSaljpackForDivision());
+                                                        aPris.add(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), false, false));
                                                     }
                                                 }
 //create or replace function  orderAdd(in_anvandare varchar, in_lagernr integer, in_kundnr varchar, in_marke varchar, in_artnr varchar[], in_antal real[], in_pris real[], in_rab real[])
