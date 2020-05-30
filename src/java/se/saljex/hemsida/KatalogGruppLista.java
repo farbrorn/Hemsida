@@ -6,10 +6,13 @@
 
 package se.saljex.hemsida;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
@@ -84,5 +87,13 @@ public class KatalogGruppLista {
 		
 		return khInfo;
 	}
+        
+        public void loadCache(Connection con) throws SQLException{
+            if (grupper==null) return;
+            for (Map.Entry<Integer, KatalogGrupp> e : grupper.entrySet()) {
+                e.getValue().getTopProdukter(con);
+                e.getValue().getTopRekommenderadeProdukter(con);
+            }
+        }
 	
 }

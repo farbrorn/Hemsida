@@ -15,6 +15,7 @@ import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
@@ -54,7 +55,7 @@ public class StartupData {
 	
 	public StartupData(	DataSource sxadm) {
 		this.sxadm=sxadm;
-	}
+        }
 
 
         public static String getKatalogProduktView() { 
@@ -431,5 +432,9 @@ public class StartupData {
 		if (kgl==null) kgl = SQLHandler.getKatalogGruppLista(sxadm.getConnection());
 		return kgl;
 	}
+        public void loadCache() throws SQLException {
+            if (kgl==null) getKatalogGruppLista(); 
+            kgl.loadCache(sxadm.getConnection());
+        }
 	
 }

@@ -30,6 +30,10 @@ public class MainListener implements ServletContextListener {
 			Const.setStartupData(startupData);
 			int dataLast = startupData.loadConfig();
 			Const.log("Antal inlästa poster " + dataLast);
+                        Const.log("Börjar läsa cach");
+                        startupData.loadCache();
+                        Const.log("Färdig läsa cach");
+                        
 		} catch (SQLException e) {
 			Const.log("Fel vid inläsning av data: " + e.toString());
 			e.printStackTrace();
