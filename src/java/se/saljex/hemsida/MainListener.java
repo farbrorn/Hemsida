@@ -7,6 +7,8 @@
 package se.saljex.hemsida;
 
 import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
@@ -30,9 +32,7 @@ public class MainListener implements ServletContextListener {
 			Const.setStartupData(startupData);
 			int dataLast = startupData.loadConfig();
 			Const.log("Antal inlästa poster " + dataLast);
-                        Const.log("Börjar läsa cach");
-                        startupData.loadCache();
-                        Const.log("Färdig läsa cach");
+                        startupData.loadCacheWithTimer(5000);
                         
 		} catch (SQLException e) {
 			Const.log("Fel vid inläsning av data: " + e.toString());
@@ -45,4 +45,6 @@ public class MainListener implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent sce) {
 		System.out.print("--------- Stänger Hemsida");
 	}
+        
 }
+

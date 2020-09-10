@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.sql.DataSource;
 import static se.saljex.hemsida.Const.getStartupData;
 import se.saljex.sxlibrary.SXUtil;
@@ -436,5 +438,29 @@ public class StartupData {
             if (kgl==null) getKatalogGruppLista(); 
             kgl.loadCache(sxadm.getConnection());
         }
-	
+        
+        public void loadCacheWithTimer(int delay) {
+            Timer timer = new Timer();
+            timer.schedule(new LoadCacheTimer(this), delay);
+        }
+
+        
+        
+   class LoadCacheTimer extends TimerTask {
+       StartupData startupData;
+        public LoadCacheTimer(StartupData startupData) {
+            this.startupData = startupData;
+        }
+       
+       @Override public void run() {
+            Const.log("Börjar läsa cach");
+            try {
+                startupData.loadCache();
+                Const.log("Färdig läsa cach");
+            } catch (SQLException e) {
+                Const.log("Fel vid läsning av cache: " + e.getMessage());
+            }
+       }
+   }
+        
 }

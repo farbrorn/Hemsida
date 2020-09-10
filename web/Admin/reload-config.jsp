@@ -19,6 +19,8 @@
             StartupData d = new StartupData(Const.getStartupData().getSxadm());
             d.loadConfig();
             Const.setStartupData(d);
+            d.loadCacheWithTimer(5000);
+            
         %>
     </body>
 </html>
