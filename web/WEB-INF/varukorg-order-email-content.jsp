@@ -3,6 +3,9 @@
     Created on : 2014-nov-30, 09:47:46
     Author     : Ulf
 --%>
+<%@page import="se.saljex.hemsida.LagerSaldo"%>
+<%@page import="se.saljex.hemsida.SQLHandler"%>
+<%@page import="se.saljex.sxlibrary.SXUtil"%>
 <%@page import="se.saljex.hemsida.Language"%>
 <%@page import="se.saljex.hemsida.StartupData"%>
 <%@page import="se.saljex.hemsida.LagerEnhet"%>
@@ -70,7 +73,7 @@
 <% } %>
 
     <table>
-        <tr><th></th><th>Art.nr.</th><th>Benämning</th><th>Antal</th><th>Enhet</th><th>Nettopris</th><th>Totalpris</th></tr>
+        <tr><th></th><th>Art.nr.</th><th>Benämning</th><th>Antal</th><th>Enhet</th><th>Lagersaldo</th><th>Nettopris</th><th>Totalpris</th></tr>
     <%// for (int cn = vkf.getRows().size()-1; cn >= 0; cn--) 
            for (VarukorgProdukt vkProdukt : vkf.getRows()) { %>
         <% //vkProdukt = vk.getVarukorgProdukter().get(cn); %>
@@ -80,10 +83,19 @@
         </tr>
         <% for (VarukorgArtikel a : vkProdukt.getVarukorgArtiklar()) { %>
             <tr>
+                <% LagerSaldo ls = SQLHandler.getLagerSaldo(Const.getConnection(request), a.getArt().getArtnr(), vkf.getLagernr());
+                    Double antal=SXUtil.noNull(a.getAntal())*a.getArt().getAntalSaljpack();  
+                    Double lagersaldo = SXUtil.noNull(ls.getTillgangliga());
+                    Double maxlager = SXUtil.noNull(ls.getMaxlager());
+                    boolean lagerbrist = antal.compareTo(lagersaldo) > 0;
+                    Double antalbest = SXUtil.noNull(ls.getBest());
+%>
                 <td><%= Const.toHtml(a.getArtnr()) %></td>
                 <td><%= Const.toHtml(a.getArt().getNamn()) %></td>
-                <td><%= a.getAntal()*a.getArt().getAntalSaljpack() %></td>
+                <td style="font-weight: bold"><%= antal %></td>
                 <td><%= Const.toHtml(a.getArt().getEnhet()) %></td>
+                <td><%= lagersaldo %></td>
+                <td style="color: red"><%= lagerbrist ? "Lagerbrist (maxlager=" + maxlager + ", beställda=" + antalbest +")" : "" %></td>
                 <td><%= Const.getFormatNumber(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris),2) %></td>
                 <td><%= Const.getFormatNumber(a.getArt().getNettoprisVidAntalSaljpack(a.getAntal(), inkMoms, isBruttopris) * a.getAntal() * a.getArt().getAntalSaljpack(),2) %></td>
             </tr>

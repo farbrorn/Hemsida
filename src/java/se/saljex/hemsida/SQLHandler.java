@@ -854,6 +854,7 @@ public class SQLHandler {
 			ls.setBest(rs.getDouble("l_best"));
 			ls.setIlager(rs.getDouble("l_ilager"));
 			ls.setIorder(rs.getDouble("l_iorder"));
+                        ls.setMaxlager(rs.getDouble("l_maxlager"));
 			ls.setLagernr(rs.getInt("lid_lagernr"));
 			ls.setLagernamn(rs.getString("lid_bnamn"));
 		} else {

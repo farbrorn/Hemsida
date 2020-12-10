@@ -119,7 +119,10 @@ public class VarukorgServlet extends HttpServlet {
 				
 				//Skicka e-post
 				boolean fatalError=false;
-				try {
+                                boolean autosparaOrder = "true".equals(Const.getStartupData().getConfig("Hemsida-AutosparaOrder", "false")) && sd.isUserInloggad();
+                                String autosparaOrderStatus = Const.getStartupData().getConfig("Hemsida-AutosparaOrderStatus", "Sparad");
+                                boolean autosparaSomAvvaktandeOrder = "Avvakt".equals(autosparaOrderStatus);
+                                try {
 					responseWrapper = getResponseWrapper(response);
 					//Skicka order till ordermottagning först
 					request.getRequestDispatcher("/WEB-INF/varukorg-order-email-content.jsp").include(request, responseWrapper);
@@ -131,7 +134,7 @@ public class VarukorgServlet extends HttpServlet {
 
                                         if (StartupData.isHemsidaTestlage()) {
 						sm.sendSimpleMail("ulf.hemma@gmail.com", "Inkommande testorder " + StartupData.getForetagNamn(), responseContent);
-                                        } else if ("true".equals(Const.getStartupData().getConfig("Hemsida-AutosparaOrder", "false")) && sd.isUserInloggad()) {
+                                        } else if (autosparaOrder) {
                                                 ArrayList<String> aArtnr = new ArrayList<>();
                                                 ArrayList<Double> aAntal = new ArrayList<>();
                                                 ArrayList<Double> aPris = new ArrayList<>();
@@ -158,7 +161,22 @@ public class VarukorgServlet extends HttpServlet {
                                                 ResultSet rs = ps.executeQuery();
                                                 Integer savedOrderNr = null;
                                                 if (rs.next()) savedOrderNr = rs.getInt(1); else throw(new SQLException("Kan inte spara order. Får inget ordernummer från server.")); 
-						sm.sendSimpleMail(orderMail, "Automatisk order från "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), "Order nr " + savedOrderNr + " är mottagen från webbutiken. ");
+                                                if (autosparaSomAvvaktandeOrder) {
+                                                    ps  = Const.getConnection(request).prepareStatement("update order1 set status='Avvakt' where ordernr=?");
+                                                    ps.setInt(1, savedOrderNr);
+                                                    ps.executeUpdate();
+                                                }
+                                                String sendContent=
+                                                        "<h1>Order nr " + savedOrderNr 
+                                                        + " är mottagen från webbutiken. <br><br>"
+                                                        + (autosparaSomAvvaktandeOrder ? "<p style\"color: red\">OBS! Ordern är sparad som avvaktande och måste aktiveras manuellt</p><br><br>" 
+                                                                : "<p>Obs! Order är sparad och så ingen registrering behöver göras.</p>")
+                                                        + "</h1>"
+                                                        + responseContent;						
+						sm.sendSimpleMail(orderMail, "Automatisk order från "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), sendContent);
+						if (!orderMail.equals(StartupData.getSxServOrderMail())) {
+							sm.sendSimpleMail(StartupData.getSxServOrderMail(), "*KOPIA* på automatisk webborder sickad till annat lager "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), sendContent);
+						}
 					} else {
 						sm.sendSimpleMail(orderMail, "Inkommande order från "  + StartupData.getForetagNamn() + " webbutik " + (new Date()).getTime(), responseContent);
 						if (!orderMail.equals(StartupData.getSxServOrderMail())) {

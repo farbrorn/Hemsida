@@ -119,5 +119,6 @@ public String fran() { return "från"; }
 public String Orderbekraftelse() { return "Orderbekräftelse"; }
 public String webborder() { return "webborder"; }
 public String TomVarukorg() { return "Töm varukorgen"; }
+public String BearbetarOrder() { return "Bearbetar order..."; }
 
 }

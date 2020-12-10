@@ -125,4 +125,5 @@ switch(s) {
 @Override public String Orderbekraftelse() { return "Orderbekreftelse"; }
 @Override public String webborder() { return "webbordre"; }
 @Override public String TomVarukorg() { return "Tøm handlekurven"; }
+@Override public String BearbetarOrder() { return "Behandler bestilling..."; }
 }

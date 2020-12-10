@@ -50,7 +50,7 @@
                             </div>
                             <div class="kbl-t-antal-kop">
                                 <div class="kbl-t-antal" style=""><%= lang.Antal() %>:
-                                    <input size="4" id="antalinput-<%= rowCn %>" value="<%= forvaldVariant.getAntalSaljPackIForpack() %>">
+                                    <input size="4" id="antalinput-<%= rowCn %>" value="1">
                                 </div> 
                                 <div class="kbl-t-kop a-btn" onclick="vk_add(<%= p.getKlasid() %>,'variant-<%= rowCn %>','antalinput-<%= rowCn %>');"><%= lang.Kop() %>
                                 </div>

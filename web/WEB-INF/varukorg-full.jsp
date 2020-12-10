@@ -200,7 +200,7 @@
                 </div>
          <% } %>
      <% } %>
-     <input type="button" value="<%= lang.SkickaOrder() %>" onclick="AJAXPost('<%= formName %>');<%= recaptchaSiteKey!=null ? "recaptchaonload();" :"" %>">
+     <input type="button" value="<%= lang.SkickaOrder() %>" onclick="this.disabled=true; AJAXPost('<%= formName %>');<%= recaptchaSiteKey!=null ? "recaptchaonload();" :"" %>   " onmousedown="this.value='dddd'; this.value='<%= lang.BearbetarOrder() %>';">
      <a href="/varukorg?<%= Const.PARAM_VARUKORG_AC %>=<%= Const.PARAM_VARUKORG_AC_EMPTY %>"> <%= lang.TomVarukorg()%> </a>
     
 </form>
