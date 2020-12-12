@@ -275,12 +275,13 @@ public class SQLHandler {
 	public static VarukorgRow getArtikelProdukt(Connection con, String artNr, Integer klasid, String kundnr, Integer lagernr) throws SQLException {
 		String q = "select " + V_SELECT_COLS 
 				+ " from vbutikart v  "
-				+ " where v.ak_klasid=? and v.nummer=? and v.k_nummer=? and v.lid_lagernr=? ";
+				+ " where (v.ak_klasid=? or 0=?) and v.nummer=? and v.k_nummer=? and v.lid_lagernr=? limit 1";
 		PreparedStatement ps = con.prepareStatement(q);
 		ps.setInt(1, klasid);
-		ps.setString(2, artNr);
-		ps.setString(3, kundnr);
-		ps.setInt(4, lagernr);
+                if (klasid==null) ps.setInt(2, 0); else ps.setInt(2, 1);
+		ps.setString(3, artNr);
+		ps.setString(4, kundnr);
+		ps.setInt(5, lagernr);
 		ResultSet rs = ps.executeQuery();
 		Artikel art=null;
 		VarukorgRow vk = null;
