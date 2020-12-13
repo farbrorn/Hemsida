@@ -56,7 +56,7 @@
                                 <input maxlength="4" size="4">
                             </div>
                             <div class="kop-stor a-btn" onclick="javascript">KÖP</div>
-                        </div>
+                         </div>
    */ %>
                         <div class="kid-share">
                             <jsp:include page="/WEB-INF/share-buttons.jsp" />

@@ -112,6 +112,10 @@
         <servlet-name>Prisfil</servlet-name>
         <servlet-class>se.saljex.hemsida.prisfil.Prisfil</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListorServlet</servlet-name>
+        <servlet-class>se.saljex.hemsida.ListorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>t1</servlet-name>
         <url-pattern>/t1</url-pattern>
@@ -195,6 +199,10 @@
     <servlet-mapping>
         <servlet-name>Prisfil</servlet-name>
         <url-pattern>/prisfil</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListorServlet</servlet-name>
+        <url-pattern>/listor</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

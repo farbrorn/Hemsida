@@ -1362,6 +1362,60 @@ width: 100%; margin: 0px 8px 24px 2px;  word-wrap:break-word; display: inline-bl
         }
             
             
+        .lst {
+            
+        }
+        .lst-grupp {
+            
+        }
+        .lst-grupp-header {
+            font-weight: bold;
+            margin-top: 14px;
+            margin-bottom: 4px;
+            font-size: 18px;
+        }
+        
+        .lst-row {            
+            min-height: 3em;
+        }
+        .lst-row-odd {
+            background: #eaebff;
+        }
+        .lst-row-img {
+            vertical-align: middle;
+            margin-bottom: 8px;
+        }
+        
+        .lst-row-artnr {
+            margin-left: 12px;
+            display: inline-block;
+            width: 80px;
+            vertical-align: middle;
+        }
+        .lst-row-namn {
+            display: inline-block;
+            width: 240px;
+            font-size: 120%;
+            vertical-align: middle;
+        }
+        .lst-row-antal {
+            display: inline-block;
+            width: 130px;
+            vertical-align: middle;
+        }
+        .lst-row-antal input {
+            font-size: 18px;
+            width: 3.1em;
+            font-weight: bold;
+        }        
+        .lst-row-kop {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .lst-kop-btn {
+            line-height: 2em;
+            width: 80px;
+        }
             
             @media all and (max-width: 1020px) {
                 .col-l {
