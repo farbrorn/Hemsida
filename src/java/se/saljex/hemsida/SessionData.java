@@ -30,7 +30,11 @@ public class SessionData {
 	public User login(Connection con, HttpServletRequest request, String anvandarnamn, String losen) {
 		inloggadUser=null;
 		try {
-			inloggadUser = SQLHandler.login(con, anvandarnamn, losen);
+                        if (Const.getInitData(request).getAdminUser()!=null) {
+                                inloggadUser = SQLHandler.adminLoginAsUser(con, anvandarnamn);
+                        } else {
+        			inloggadUser = SQLHandler.login(con, anvandarnamn, losen);
+                        }
 			if (inloggadUser!=null && varukorg!=null) varukorg.mergeSQLVarukorg(request);
 			setLager(request);
 		} catch (SQLException e) {}

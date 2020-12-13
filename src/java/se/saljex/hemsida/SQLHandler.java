@@ -677,16 +677,24 @@ public class SQLHandler {
 	}
 	
 	
+	public static User adminLoginAsUser(Connection con, String anvandarnamn) throws SQLException{
+            return login(con, anvandarnamn, "", true);
+        }
+        
 	public static User login(Connection con, String anvandarnamn, String losen) throws SQLException{
+            return login(con, anvandarnamn, losen, false);
+        }
+	public static User login(Connection con, String anvandarnamn, String losen, boolean adminLoginAsUser) throws SQLException{
 		User u = null;
 		if (anvandarnamn!=null && losen!=null) {
 			String q = 
 					"select kk.namn, kk.epost, kk.kontaktid, k.nummer, k.namn, k.saljare, kl.loginnamn, kl.defaultlagernr, kl.defaultinkmoms, kl.defaultfraktsatt " +
 					" from kund k join kundkontakt kk on kk.kundnr=k.nummer join kundlogin kl on kl.kontaktid=kk.kontaktid " +
-					" where kl.loginnamn=? and kl.loginlosen=?";
+					" where kl.loginnamn=? and (kl.loginlosen=? or 0=?)";
 			PreparedStatement ps = con.prepareStatement(q);
 			ps.setString(1, anvandarnamn);
 			ps.setString(2, losen);
+                        ps.setInt(3, adminLoginAsUser ? 0 : 1);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				u = new User();
