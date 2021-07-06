@@ -66,6 +66,7 @@
                         <% int rowCn = 0; %>            
                         <% for (Artikel pv : p.getVarianter()) { %>
                             <div class="t-variant-row kid-variant-odd">
+                                <div class="t-variant-fav" onclick="fav_add('<%= pv.getArtnr() %>'); this.innerHTML='&check;';">&starf;</div>
                                 <div class="t-variant-namn"><%= pv.getKatNamn() %> 
                                     <span class="t-variant-namn-small"> <%= lang.Artnr() %>: <span class="t-variant-artnr"><%= pv.getArtnr() %></span> 
                                     <% if(!Const.isEmpty(pv.getRsk())) { %>

@@ -708,7 +708,9 @@ public class SQLHandler {
 				u.setDefaultLagernr(rs.getInt(8));
 				u.setDefaultInkMoms(rs.getBoolean(9));
 				u.setDefaultFraktsatt(rs.getString(10));
-			}
+			} else {
+                            Const.log("Hittar inte användare " + anvandarnamn + " och angivet lösenord i kundlogin");
+                        }
 		}
 		return u;
 	}

@@ -120,5 +120,7 @@ public String Orderbekraftelse() { return "Orderbekräftelse"; }
 public String webborder() { return "webborder"; }
 public String TomVarukorg() { return "Töm varukorgen"; }
 public String BearbetarOrder() { return "Bearbetar order..."; }
+public String LaggListanIVarukorgen() { return "Lägg listan i varukorgen"; }
+public String MinaFavoriter() { return "Mina favoriter"; }
 
 }

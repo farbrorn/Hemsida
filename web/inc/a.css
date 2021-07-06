@@ -594,6 +594,16 @@
                 vertical-align: top;
                 display:inline-block;
             }
+            .t-variant-fav {
+                width: 14px;
+                vertical-align: top;
+                display:inline-block;
+                cursor: pointer;
+                font-size: 16px;
+                position: relative;
+                top: -4px;
+                color: green;
+            }
             .t-variant-namn-small {
                 font-size: 70%;
                 float: right;
@@ -723,6 +733,7 @@
             
             .kli-t-ilager {
                 font-size: 70%;
+                display: none;
             }
             .kli-odd {
                 
@@ -771,7 +782,7 @@
                 -max-width: 500px;
             }
             .kli-t-namn h2 {
-                text-transform: uppercase;
+            /*    text-transform: uppercase; */
                 -font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
             }
             .kli-t-variant-kop {
@@ -929,6 +940,7 @@
             }
             .kbl-t-ilager {
                 font-size: 70%;
+               display: none;
             }
 
             
@@ -1366,17 +1378,28 @@ width: 100%; margin: 0px 8px 24px 2px;  word-wrap:break-word; display: inline-bl
             
         }
         .lst-grupp {
-            
+            border: 1px solid black;
+            margin-top: 14px;
         }
         .lst-grupp-header {
+            padding: 4px;
             font-weight: bold;
-            margin-top: 14px;
-            margin-bottom: 4px;
+            padding-bottom: 4px;
+            padding-top: 4px;
             font-size: 18px;
+            background-color: lightyellow;
         }
-        
+        .lst-grupp-header-allbtn {
+            float: right;
+            margin-right: 2em;
+            font-size: initial;
+            font-weight: initial;
+            color: blue;
+            cursor: pointer;
+        }        
         .lst-row {            
             min-height: 3em;
+            padding: 4px;
         }
         .lst-row-odd {
             background: #eaebff;
@@ -1384,6 +1407,8 @@ width: 100%; margin: 0px 8px 24px 2px;  word-wrap:break-word; display: inline-bl
         .lst-row-img {
             vertical-align: middle;
             margin-bottom: 8px;
+            position: relative;
+            top: 4px;
         }
         
         .lst-row-artnr {
@@ -1408,6 +1433,17 @@ width: 100%; margin: 0px 8px 24px 2px;  word-wrap:break-word; display: inline-bl
             width: 3.1em;
             font-weight: bold;
         }        
+        .lst-row-del {
+            margin-left: 12px;
+            margin-right: 12px;
+            display: inline-block;
+            width: 14px;
+            vertical-align: middle;
+            font-size: 24px;
+            color: red;
+            float: right;
+            cursor: pointer;
+        }
         .lst-row-kop {
             display: inline-block;
             vertical-align: middle;

@@ -71,6 +71,13 @@
                 AJAX.send(null); 
                 location.reload(true);            
             }
+            function fav_add(artnr) {
+                ajaxRequest("<%= request.getContextPath() + "/listor" %>" + "?<%= Const.PARAM_ACTION + "=" + Const.PARAM_VARUKORG_AC_ADD + "&" + Const.PARAM_ARTNR + "="%>" + encodeURIComponent(artnr),null);
+            }
+            function fav_del(artnr) {
+                ajaxRequest("<%= request.getContextPath() + "/listor" %>" + "?<%= Const.PARAM_ACTION + "=" + Const.PARAM_VARUKORG_AC_REMOVE + "&" + Const.PARAM_ARTNR + "="%>" + encodeURIComponent(artnr),null);
+            }
+            
             function setInkmoms(e) {
                 var varde = e.options[e.selectedIndex].value;
                 var AJAX = getHttpRequest(); 

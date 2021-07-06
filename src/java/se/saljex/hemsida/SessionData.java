@@ -37,7 +37,9 @@ public class SessionData {
                         }
 			if (inloggadUser!=null && varukorg!=null) varukorg.mergeSQLVarukorg(request);
 			setLager(request);
-		} catch (SQLException e) {}
+		} catch (SQLException e) {
+                    Const.log("SQL Excception vid SessionData.login. " + e.toString()); e.printStackTrace();
+                }
 		return inloggadUser;
 	}
 	public User autoLogin(Connection con, HttpServletRequest request) {

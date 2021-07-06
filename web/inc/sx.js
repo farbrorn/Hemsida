@@ -76,7 +76,7 @@ function formatPris2(n, decPlaces, thouSeparator, decSeparator) {
             
             
 function callback(serverData, serverStatus, id) { 
-	if(serverStatus == 200){
+	if(serverStatus == 200 && id!=null){
    		document.getElementById(id).innerHTML = serverData;   
                 if (id=="content") renderAjaxContentOnLoaded();
 	} else {

@@ -126,4 +126,8 @@ switch(s) {
 @Override public String webborder() { return "webbordre"; }
 @Override public String TomVarukorg() { return "Tøm handlekurven"; }
 @Override public String BearbetarOrder() { return "Behandler bestilling..."; }
+@Override public String LaggListanIVarukorgen() { return "Legg listen i handlekurven"; }
+@Override public String MinaFavoriter() { return "Mine favoritter"; }
+
+
 }
